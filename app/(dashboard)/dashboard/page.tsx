@@ -1,5 +1,4 @@
 import { getPosts } from "@/services/get-posts";
-import { Tab } from "@/types/tab";
 import {
   Table,
   TableBody,
@@ -12,14 +11,8 @@ import { ModalPost } from "@/containers/routes/dashboard/modal-post";
 import Link from "next/link";
 import { ModalDeletePost } from "@/containers/routes/dashboard/modal-delete-post";
 
-interface PageProps {
-  searchParams: Promise<{ tab?: string }>;
-}
-
-export default async function Page(props: PageProps) {
-  const searchParams = await props.searchParams;
-  const tab = searchParams.tab ?? "all";
-  const postsData = await getPosts({ type: tab as Tab });
+export default async function Page() {
+  const postsData = await getPosts();
 
   return (
     <section>
@@ -27,7 +20,7 @@ export default async function Page(props: PageProps) {
         <TableHeader>
           <TableRow>
             <TableHead>عنوان</TableHead>
-            <TableHead>نوع</TableHead>
+            <TableHead>تگ ها</TableHead>
             <TableHead>عملیات</TableHead>
           </TableRow>
         </TableHeader>
@@ -37,9 +30,7 @@ export default async function Page(props: PageProps) {
               <TableCell>
                 <Link href={`/${post.slug}`}>{post.title}</Link>
               </TableCell>
-              <TableCell>
-                {post.type === "concept" ? "مفهوم" : "جستار"}
-              </TableCell>
+              <TableCell>{post.tags?.join(", ")}</TableCell>
               <TableCell>
                 <ModalPost post={post} mode="edit" />
                 <ModalDeletePost id={String(post._id)} />

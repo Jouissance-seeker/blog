@@ -39,8 +39,7 @@ const postSchema = new Schema<Post>(
   }
 );
 
-postSchema.index({ type: 1 });
+postSchema.index({ tags: 1 });
 postSchema.index({ createdAt: -1 });
 
 export const PostModel = models.Post || model<Post>("Post", postSchema);
-

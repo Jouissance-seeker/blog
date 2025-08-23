@@ -4,7 +4,6 @@ import { Metadata } from "next";
 import { Providers } from "../providers";
 import { Header } from "@/containers/layout/root/header";
 import { cn } from "@/utils/cn";
-import { getPosts } from "@/services/get-posts";
 import { ReactNode } from "react";
 
 const iranYekan = localFont({
@@ -64,11 +63,11 @@ interface RootLayoutProps {
 
 export default async function RootLayout(props: RootLayoutProps) {
   return (
-    <html lang="fa" dir="rtl" className="container mx-auto max-w-screen-lg">
-      <body className={cn(iranYekan.className, "mx-3 sm:mx-5")}>
+    <html lang="fa" dir="rtl" className="container mx-auto max-w-screen-lg min-h-dvh">
+      <body className={cn(iranYekan.className, "mx-3 sm:mx-5 h-full")}>
         <Providers>
           <Header />
-          <main className="flex flex-col">{props.children}</main>
+          <main className="flex flex-col h-full">{props.children}</main>
         </Providers>
       </body>
     </html>

@@ -31,7 +31,7 @@ const formSchema = z.object({
   quote: z.string().min(1),
   summary: z.string().min(1),
   content: z.string().min(1),
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).min(1),
 });
 
 interface ModalPostProps {
@@ -46,6 +46,9 @@ export function ModalPost(props: ModalPostProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      tags: [],
+    },
   });
 
   useEffect(() => {
@@ -57,7 +60,7 @@ export function ModalPost(props: ModalPostProps) {
         quote: props.post.quote,
         summary: props.post.summary,
         content: props.post.content,
-        tags: props.post.tags || [],
+        tags: props.post.tags,
       });
     }
   }, [open, props.post]);
@@ -129,12 +132,14 @@ export function ModalPost(props: ModalPostProps) {
                   <FormLabel>تگ ها</FormLabel>
                   <FormControl>
                     <MultipleSelector
-                      defaultOptions={['لکان / جستار', 'لکان / مفاهیم'].map(tag => ({
-                        label: tag,
-                        value: tag,
-                      }))}
+                      defaultOptions={["لکان / جستار", "لکان / مفاهیم"].map(
+                        (tag) => ({
+                          label: tag,
+                          value: tag,
+                        })
+                      )}
                       value={
-                        field.value.map((tag) => ({
+                        field.value?.map((tag) => ({
                           label: tag,
                           value: tag,
                         })) || []
