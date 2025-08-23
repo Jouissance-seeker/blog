@@ -29,7 +29,7 @@ export const editPost = async (params: Params): Promise<Post> => {
   const updatedPost = await PostModel.findByIdAndUpdate(
     params.post._id,
     {
-      type: params.post.type,
+      tags: params.post.tags,
       title: params.post.title,
       slug: params.post.slug,
       quote: params.post.quote,

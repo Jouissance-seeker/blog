@@ -15,8 +15,6 @@ import {
   DialogTrigger,
 } from "@/uis/dialog";
 import { Textarea } from "@/uis/textarea";
-import { Select, SelectValue, SelectTrigger, SelectItem } from "@/uis/select";
-import * as SelectPrimitive from "@radix-ui/react-select";
 import { addPost } from "@/services/add-post";
 import { editPost } from "@/services/edit-post";
 import { toast } from "sonner";
@@ -24,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Post } from "@/types/post";
 import { Pencil } from "lucide-react";
+import MultipleSelector from "@/uis/multiple-selector";
 
 const formSchema = z.object({
   _id: z.string().optional(),
@@ -32,7 +31,7 @@ const formSchema = z.object({
   quote: z.string().min(1),
   summary: z.string().min(1),
   content: z.string().min(1),
-  type: z.enum(["concept", "essay"]),
+  tags: z.array(z.string()),
 });
 
 interface ModalPostProps {
@@ -58,7 +57,7 @@ export function ModalPost(props: ModalPostProps) {
         quote: props.post.quote,
         summary: props.post.summary,
         content: props.post.content,
-        type: props.post.type as "concept" | "essay",
+        tags: props.post.tags || [],
       });
     }
   }, [open, props.post]);
@@ -124,33 +123,31 @@ export function ModalPost(props: ModalPostProps) {
             />
             <FormField
               control={form.control}
-              name="type"
+              name="tags"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>نوع</FormLabel>
+                  <FormLabel>تگ ها</FormLabel>
                   <FormControl>
-                    <Select
-                      dir="rtl"
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    >
-                      <SelectTrigger className="w-full py-4.5">
-                        <SelectValue placeholder="نوع" />
-                      </SelectTrigger>
-                      <SelectPrimitive.Content
-                        position="popper"
-                        side="bottom"
-                        align="end"
-                        sideOffset={4}
-                        avoidCollisions
-                        className="z-50 w-[var(--radix-select-trigger-width)] max-h-60 overflow-y-auto rounded-md border bg-popover shadow-md"
-                      >
-                        <SelectPrimitive.Viewport className="p-1">
-                          <SelectItem value="concept">مفهوم</SelectItem>
-                          <SelectItem value="essay">جستار</SelectItem>
-                        </SelectPrimitive.Viewport>
-                      </SelectPrimitive.Content>
-                    </Select>
+                    <MultipleSelector
+                      defaultOptions={['لکان / جستار', 'لکان / مفاهیم'].map(tag => ({
+                        label: tag,
+                        value: tag,
+                      }))}
+                      value={
+                        field.value.map((tag) => ({
+                          label: tag,
+                          value: tag,
+                        })) || []
+                      }
+                      onChange={(options) => {
+                        field.onChange(options.map((option) => option.value));
+                      }}
+                      emptyIndicator={
+                        <p className="text-center text-sm leading-10 text-gray-600 dark:text-gray-400">
+                          همه تگ ها انتخاب شده
+                        </p>
+                      }
+                    />
                   </FormControl>
                 </FormItem>
               )}

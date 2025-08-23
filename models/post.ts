@@ -3,10 +3,9 @@ import { Post } from "@/types/post";
 
 const postSchema = new Schema<Post>(
   {
-    type: {
-      type: String,
+    tags: {
+      type: [String],
       required: true,
-      enum: ["concept", "essay"],
     },
     title: {
       type: String,

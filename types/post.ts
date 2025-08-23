@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 
 export type Post = {
   _id?: Types.ObjectId | string;
-  type: "concept" | "essay";
+  tags: string[];
   title: string;
   slug: string;
   quote: string;
