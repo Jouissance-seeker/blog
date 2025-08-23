@@ -1,7 +1,6 @@
 import { Post } from "@/types/post";
 import { Card, CardContent, CardFooter, CardHeader } from "@/uis/card";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpLeft } from "lucide-react";
 
 interface PostCardProps {
@@ -24,7 +23,7 @@ export const PostCard = (props: PostCardProps) => {
         </p>
       </CardContent>
       <CardFooter className="border-t flex justify-between">
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Link
             href={`/`}
             className="border bg-card font-medium text-sm text-foreground transition-all duration-300 hover:bg-accent hover:text-accent-foreground !no-underline z-10 px-2.5 py-1.5  rounded-md"
@@ -40,7 +39,7 @@ export const PostCard = (props: PostCardProps) => {
         </div>
         <Link
           href={`/${props.post.slug}`}
-          className="border flex gap-1 items-center bg-card text-card-foreground group transition-all duration-300 hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
+          className="border hidden sm:flex gap-1 items-center bg-card text-card-foreground group transition-all duration-300 hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
         >
           <p className="font-medium text-sm text-foreground transition-all duration-300">
             مشاهده بیشتر

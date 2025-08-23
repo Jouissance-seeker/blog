@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/uis/table";
-import { ModalEditPost } from "@/containers/routes/dashboard/modal-edit-post";
+import { ModalPost } from "@/containers/routes/dashboard/modal-post";
 import Link from "next/link";
 import { ModalDeletePost } from "@/containers/routes/dashboard/modal-delete-post";
 
@@ -37,9 +37,11 @@ export default async function Page(props: PageProps) {
               <TableCell>
                 <Link href={`/${post.slug}`}>{post.title}</Link>
               </TableCell>
-              <TableCell>{post.type === "concept" ? "مفهوم" : "جستار"}</TableCell>
               <TableCell>
-                <ModalEditPost post={post} />
+                {post.type === "concept" ? "مفهوم" : "جستار"}
+              </TableCell>
+              <TableCell>
+                <ModalPost post={post} mode="edit" />
                 <ModalDeletePost id={String(post._id)} />
               </TableCell>
             </TableRow>

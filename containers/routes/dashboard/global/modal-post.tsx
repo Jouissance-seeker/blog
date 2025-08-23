@@ -18,11 +18,15 @@ import { Textarea } from "@/uis/textarea";
 import { Select, SelectValue, SelectTrigger, SelectItem } from "@/uis/select";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { addPost } from "@/services/add-post";
+import { editPost } from "@/services/edit-post";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Post } from "@/types/post";
+import { Pencil } from "lucide-react";
 
 const formSchema = z.object({
+  _id: z.string().optional(),
   slug: z.string().min(1).regex(/^\S+$/),
   title: z.string().min(1),
   quote: z.string().min(1),
@@ -31,39 +35,79 @@ const formSchema = z.object({
   type: z.enum(["concept", "essay"]),
 });
 
-export function ModalAddPost() {
+interface ModalPostProps {
+  post?: Post;
+  children?: React.ReactNode;
+  mode?: "add" | "edit";
+}
+
+export function ModalPost(props: ModalPostProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const isEditMode = props.mode === "edit" || !!props.post;
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+
+  useEffect(() => {
+    if (open && props.post) {
+      form.reset({
+        _id: props.post._id?.toString(),
+        slug: props.post.slug,
+        title: props.post.title,
+        quote: props.post.quote,
+        summary: props.post.summary,
+        content: props.post.content,
+        type: props.post.type as "concept" | "essay",
+      });
+    }
+  }, [open, props.post]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await addPost({ post: values });
-    toast.success("پست با موفقیت افزوده شد");
+    if (isEditMode) {
+      await editPost({ post: values as any });
+      toast.success("پست با موفقیت ویرایش شد");
+    } else {
+      await addPost({ post: values });
+      toast.success("پست با موفقیت افزوده شد");
+    }
     setOpen(false);
     router.push("/dashboard");
   }
+
+  const defaultTrigger = isEditMode ? (
+    <Button
+      size={"icon"}
+      variant={"ghost"}
+      className="text-blue-500 hover:text-blue-500 hover:bg-blue-500/10"
+    >
+      <Pencil />
+    </Button>
+  ) : (
+    <Button size={"lg"} className="py-6 px-8">
+      افزودن
+    </Button>
+  );
 
   return (
     <Dialog
       open={open}
       onOpenChange={(newOpen) => {
         setOpen(newOpen);
-        form.reset();
+        if (!newOpen) {
+          form.reset();
+        }
       }}
     >
-      <DialogTrigger asChild>
-        <Button size={"lg"} className="py-6 px-8">
-          افزودن
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{props.children || defaultTrigger}</DialogTrigger>
       <DialogContent
         showCloseButton={true}
         className="h-fit p-4 w-md sm:w-lg md:w-xl lg:w-2xl"
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>افزودن پست</DialogTitle>
+          <DialogTitle>{isEditMode ? "ویرایش پست" : "افزودن پست"}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -161,7 +205,7 @@ export function ModalAddPost() {
               )}
             />
             <Button type="submit" className="w-full !py-7">
-              افزودن
+              {isEditMode ? "ویرایش" : "افزودن"}
             </Button>
           </form>
         </Form>

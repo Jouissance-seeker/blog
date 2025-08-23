@@ -1,32 +1,32 @@
 "use client";
 
+import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/uis/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/uis/form";
 import { Input } from "@/uis/input";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
+  DialogHeader,
   DialogTrigger,
 } from "@/uis/dialog";
 import { Textarea } from "@/uis/textarea";
 import { Select, SelectValue, SelectTrigger, SelectItem } from "@/uis/select";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { toast } from "sonner";
-import { Pencil } from "lucide-react";
-import { Post } from "@/types/post";
+import { addPost } from "@/services/add-post";
 import { editPost } from "@/services/edit-post";
-import { useState } from "react";
-import { useEffect } from "react";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Post } from "@/types/post";
+import { Pencil } from "lucide-react";
 
 const formSchema = z.object({
-  _id: z.string(),
+  _id: z.string().optional(),
   slug: z.string().min(1).regex(/^\S+$/),
   title: z.string().min(1),
   quote: z.string().min(1),
@@ -35,59 +35,78 @@ const formSchema = z.object({
   type: z.enum(["concept", "essay"]),
 });
 
-interface ModalEditPostProps {
-  post: Post;
+interface ModalPostProps {
+  post?: Post;
+  mode: "add" | "edit";
 }
 
-export function ModalEditPost(props: ModalEditPostProps) {
+export function ModalPost(props: ModalPostProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const isEditMode = props.mode === "edit" || !!props.post;
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+
   useEffect(() => {
-    form.reset({
-      _id: props.post._id?.toString(),
-      slug: props.post.slug,
-      title: props.post.title,
-      quote: props.post.quote,
-      summary: props.post.summary,
-      content: props.post.content,
-      type: props.post.type as "concept" | "essay",
-    });
-  }, [open]);
+    if (open && props.post) {
+      form.reset({
+        _id: props.post._id?.toString(),
+        slug: props.post.slug,
+        title: props.post.title,
+        quote: props.post.quote,
+        summary: props.post.summary,
+        content: props.post.content,
+        type: props.post.type as "concept" | "essay",
+      });
+    }
+  }, [open, props.post]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await editPost({ post: values });
-    toast.success("پست با موفقیت ویرایش شد");
+    if (isEditMode) {
+      await editPost({ post: values as any });
+      toast.success("پست با موفقیت ویرایش شد");
+    } else {
+      await addPost({ post: values });
+      toast.success("پست با موفقیت افزوده شد");
+    }
     setOpen(false);
     router.push("/dashboard");
   }
+
+  const defaultTrigger = isEditMode ? (
+    <Button
+      size={"icon"}
+      variant={"ghost"}
+      className="text-blue-500 hover:text-blue-500 hover:bg-blue-500/10"
+    >
+      <Pencil />
+    </Button>
+  ) : (
+    <Button size={"lg"} className="py-6 px-8">
+      افزودن
+    </Button>
+  );
 
   return (
     <Dialog
       open={open}
       onOpenChange={(newOpen) => {
         setOpen(newOpen);
-        form.reset();
+        if (!newOpen) {
+          form.reset();
+        }
       }}
     >
-      <DialogTrigger asChild>
-        <Button
-          size={"icon"}
-          variant={"ghost"}
-          className="text-blue-500 hover:text-blue-500 hover:bg-blue-500/10"
-        >
-          <Pencil />
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{defaultTrigger}</DialogTrigger>
       <DialogContent
         showCloseButton={true}
         className="h-fit p-4 w-md sm:w-lg md:w-xl lg:w-2xl"
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>ویرایش پست</DialogTitle>
+          <DialogTitle>{isEditMode ? "ویرایش پست" : "افزودن پست"}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -185,7 +204,7 @@ export function ModalEditPost(props: ModalEditPostProps) {
               )}
             />
             <Button type="submit" className="w-full !py-7">
-              ویرایش
+              {isEditMode ? "ویرایش" : "افزودن"}
             </Button>
           </form>
         </Form>

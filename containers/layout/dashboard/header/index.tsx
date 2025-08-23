@@ -3,7 +3,7 @@
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { usePathname } from "next/navigation";
 import { Home } from "@/components/home";
-import { ModalAddPost } from "./modal-add-post";
+import { ModalPost } from "../../../routes/dashboard/modal-post";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -13,7 +13,7 @@ export const Header = () => {
   return (
     <header className="flex flex-col gap-4 py-4 sticky top-0 border-b z-10 bg-background">
       <div className="flex justify-between items-center">
-        <ModalAddPost />
+        <ModalPost mode="add" />
         <div className="flex gap-3">
           <ThemeSwitcher />
           <Home />
