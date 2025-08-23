@@ -55,7 +55,7 @@ const iranYekan = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "روانکاوی لکانی",
+  title: "jouissance seeker",
 };
 
 interface RootLayoutProps {
@@ -63,13 +63,11 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout(props: RootLayoutProps) {
-  const postsData = await getPosts({ type: "all" });
-
   return (
     <html lang="fa" dir="rtl" className="container mx-auto max-w-screen-lg">
       <body className={cn(iranYekan.className, "mx-3 sm:mx-5")}>
         <Providers>
-          <Header postsData={postsData} />
+          <Header />
           <main className="flex flex-col">{props.children}</main>
         </Providers>
       </body>

@@ -54,7 +54,7 @@ const iranYekan = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "روانکاوی لکانی",
+  title: "jouissance seeker",
 };
 
 interface DashboardLayoutProps {
