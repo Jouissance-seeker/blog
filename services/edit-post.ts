@@ -9,6 +9,11 @@ interface Params {
   post: Post;
 }
 
+// Function to clean ** characters from content
+const cleanContent = (content: string): string => {
+  return content.replace(/\*\*/g, "");
+};
+
 export const editPost = async (params: Params): Promise<Post> => {
   await connectDB();
   if (!params.post._id) {
@@ -26,6 +31,10 @@ export const editPost = async (params: Params): Promise<Post> => {
       throw new Error("پستی با این اسلاگ وجود دارد");
     }
   }
+
+  // Clean content before updating
+  const cleanedContent = cleanContent(params.post.content);
+
   const updatedPost = await PostModel.findByIdAndUpdate(
     params.post._id,
     {
@@ -34,7 +43,7 @@ export const editPost = async (params: Params): Promise<Post> => {
       slug: params.post.slug,
       quote: params.post.quote,
       summary: params.post.summary,
-      content: params.post.content,
+      content: cleanedContent,
     },
     { new: true, lean: true }
   ).lean<Post>();
