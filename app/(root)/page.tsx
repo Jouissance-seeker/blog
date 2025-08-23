@@ -8,9 +8,9 @@ export default async function Page() {
   return (
     <section className="py-5 flex items-center flex-col gap-6">
       <div className="flex flex-col gap-4">
-        {fetchPosts.map((post) => (
+        {fetchPosts.map((post, index) => (
           <AnimatedSection key={post._id?.toString()}>
-            <PostCard post={post} />
+            <PostCard post={post} index={fetchPosts.length - index - 1} />
           </AnimatedSection>
         ))}
       </div>

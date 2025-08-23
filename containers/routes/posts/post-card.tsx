@@ -5,16 +5,20 @@ import { ArrowUpLeft } from "lucide-react";
 
 interface PostCardProps {
   post: Post;
+  index: number;
 }
 
 export const PostCard = (props: PostCardProps) => {
   return (
     <Card className="grid group relative grid-rows-[auto_auto_1fr_auto] gap-1 rounded-2xl overflow-hidden">
       <CardHeader className="flex justify-between gap-3">
-        <div className="flex items-center gap-3">
+        <div className="flex justify-between w-full items-center gap-3">
           <h2 className="text-lg font-bold">
             <Link href={`/${props.post.slug}`}>{props.post.title}</Link>
           </h2>
+          <div className="border size-7.5 flex items-center justify-center rounded-sm text-smp pt-1">
+            {props.index + 1}
+          </div>
         </div>
       </CardHeader>
       <CardContent>
