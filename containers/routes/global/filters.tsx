@@ -1,88 +1,105 @@
 "use client";
 
-import { useQueryState } from "nuqs";
 import { Search as SearchIcon } from "lucide-react";
 import { Checkbox } from "@/uis/checkbox";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
+
+interface FilterProps {
+  value: string;
+  onChange: (value: string) => void;
+}
 
 export const Filters = () => {
-  const [queryTitle] = useQueryState("title", { defaultValue: "" });
-  const [queryAuthor] = useQueryState("author", { defaultValue: "" });
-  const [queryType] = useQueryState("type", { defaultValue: "" });
+  const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-
+  const [queryTitle, setQueryTitle] = useState(searchParams.get("title") ?? "");
+  const [queryAuthor, setQueryAuthor] = useState(
+    searchParams.get("author") ?? ""
+  );
+  const [queryType, setQueryType] = useState(searchParams.get("type") ?? "");
+  const updateURL = useCallback(
+    (newParams: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams);
+      Object.entries(newParams).forEach(([key, value]) => {
+        if (value) {
+          params.set(key, value);
+        } else {
+          params.delete(key);
+        }
+      });
+      const queryString = params.toString();
+      const newURL = queryString ? `${pathname}?${queryString}` : pathname;
+      router.push(newURL);
+    },
+    [searchParams, pathname, router]
+  );
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      const params = new URLSearchParams();
-      if (queryTitle) params.set("title", queryTitle);
-      if (queryAuthor) params.set("author", queryAuthor);
-      if (queryType) params.set("type", queryType);
-
-      const queryString = params.toString();
-      router.push(queryString ? `${pathname}?${queryString}` : pathname);
+      updateURL({
+        title: queryTitle,
+        author: queryAuthor,
+        type: queryType,
+      });
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [queryTitle, queryAuthor, queryType, router]);
+  }, [queryTitle, queryAuthor, queryType, updateURL]);
 
   return (
     <aside>
       <div className="sticky top-25.5 flex flex-col gap-4 bg-card">
-        <Title />
-        <Author />
-        <Type />
+        <Title value={queryTitle} onChange={setQueryTitle} />
+        <Author value={queryAuthor} onChange={setQueryAuthor} />
+        <Type value={queryType} onChange={setQueryType} />
       </div>
     </aside>
   );
 };
 
-const Title = () => {
-  const [queryTitle, setQueryTitle] = useQueryState("title", {
-    defaultValue: "",
-  });
+const Title = ({ value, onChange }: FilterProps) => (
+  <div className="flex h-fit gap-1 bg-card focus-within:border-primary transition-all border p-2.5 rounded-lg">
+    <SearchIcon className="size-5 text-muted-foreground" />
+    <input
+      className="text-sm placeholder:text-muted-foreground text-muted-foreground focus:outline-none flex-1 bg-transparent"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder="عنوان را وارد کنید ..."
+    />
+  </div>
+);
 
-  return (
-    <div className="flex h-fit gap-1 bg-card focus-within:border-primary transition-all border p-2.5 rounded-lg">
-      <SearchIcon className="size-5 text-muted-foreground" />
-      <input
-        className="text-sm placeholder:text-muted-foreground text-muted-foreground focus:outline-none flex-1 bg-transparent"
-        value={queryTitle}
-        onChange={(e) => setQueryTitle(e.target.value)}
-        placeholder="عنوان را وارد کنید ..."
-      />
-    </div>
-  );
-};
-
-const Author = () => {
-  const [queryAuthor, setQueryAuthor] = useQueryState("author", {
-    defaultValue: "",
-  });
+const Author = ({ value, onChange }: FilterProps) => {
   const authors = ["لکان", "یونگ"];
 
-  const isValueSelected = (value: string, queryString: string): boolean => {
-    if (!queryString) return false;
-    const values = queryString.split(",").map((v) => v.trim());
-    return values.includes(value);
-  };
+  const isValueSelected = useCallback(
+    (authorValue: string) => {
+      if (!value) return false;
+      const values = value.split(",").map((v) => v.trim());
+      return values.includes(authorValue);
+    },
+    [value]
+  );
 
-  const handleCheckbox = (authorValue: string, checked: boolean) => {
-    const currentValues = queryAuthor
-      ? queryAuthor
-          .split(",")
-          .map((v) => v.trim())
-          .filter((v) => v)
-      : [];
+  const handleCheckbox = useCallback(
+    (authorValue: string, checked: boolean) => {
+      const currentValues = value
+        ? value
+            .split(",")
+            .map((v) => v.trim())
+            .filter(Boolean)
+        : [];
 
-    if (checked && !currentValues.includes(authorValue)) {
-      setQueryAuthor([...currentValues, authorValue].join(","));
-    } else if (!checked) {
-      const newValues = currentValues.filter((v) => v !== authorValue);
-      setQueryAuthor(newValues.length > 0 ? newValues.join(",") : "");
-    }
-  };
+      if (checked && !currentValues.includes(authorValue)) {
+        onChange([...currentValues, authorValue].join(","));
+      } else if (!checked) {
+        const newValues = currentValues.filter((v) => v !== authorValue);
+        onChange(newValues.length > 0 ? newValues.join(",") : "");
+      }
+    },
+    [value, onChange]
+  );
 
   return (
     <div className="flex flex-col border rounded-lg bg-card">
@@ -97,15 +114,12 @@ const Author = () => {
                 onCheckedChange={(checked) =>
                   handleCheckbox(author, checked as boolean)
                 }
-                checked={isValueSelected(author, queryAuthor)}
+                checked={isValueSelected(author)}
               />
               <label
                 className="text-sm text-muted-foreground cursor-pointer select-none"
                 onClick={() => {
-                  const isCurrentlyChecked = isValueSelected(
-                    author,
-                    queryAuthor
-                  );
+                  const isCurrentlyChecked = isValueSelected(author);
                   handleCheckbox(author, !isCurrentlyChecked);
                 }}
               >
@@ -119,31 +133,36 @@ const Author = () => {
   );
 };
 
-const Type = () => {
-  const [queryType, setQueryType] = useQueryState("type", { defaultValue: "" });
+const Type = ({ value, onChange }: FilterProps) => {
   const types = ["مفاهیم", "جستار"];
 
-  const isValueSelected = (value: string, queryString: string): boolean => {
-    if (!queryString) return false;
-    const values = queryString.split(",").map((v) => v.trim());
-    return values.includes(value);
-  };
+  const isValueSelected = useCallback(
+    (typeValue: string) => {
+      if (!value) return false;
+      const values = value.split(",").map((v) => v.trim());
+      return values.includes(typeValue);
+    },
+    [value]
+  );
 
-  const handleCheckbox = (typeValue: string, checked: boolean) => {
-    const currentValues = queryType
-      ? queryType
-          .split(",")
-          .map((v) => v.trim())
-          .filter((v) => v)
-      : [];
+  const handleCheckbox = useCallback(
+    (typeValue: string, checked: boolean) => {
+      const currentValues = value
+        ? value
+            .split(",")
+            .map((v) => v.trim())
+            .filter(Boolean)
+        : [];
 
-    if (checked && !currentValues.includes(typeValue)) {
-      setQueryType([...currentValues, typeValue].join(","));
-    } else if (!checked) {
-      const newValues = currentValues.filter((v) => v !== typeValue);
-      setQueryType(newValues.length > 0 ? newValues.join(",") : "");
-    }
-  };
+      if (checked && !currentValues.includes(typeValue)) {
+        onChange([...currentValues, typeValue].join(","));
+      } else if (!checked) {
+        const newValues = currentValues.filter((v) => v !== typeValue);
+        onChange(newValues.length > 0 ? newValues.join(",") : "");
+      }
+    },
+    [value, onChange]
+  );
 
   return (
     <div className="flex flex-col border rounded-lg bg-card">
@@ -158,12 +177,12 @@ const Type = () => {
                 onCheckedChange={(checked) =>
                   handleCheckbox(type, checked as boolean)
                 }
-                checked={isValueSelected(type, queryType)}
+                checked={isValueSelected(type)}
               />
               <label
                 className="text-sm text-muted-foreground cursor-pointer select-none"
                 onClick={() => {
-                  const isCurrentlyChecked = isValueSelected(type, queryType);
+                  const isCurrentlyChecked = isValueSelected(type);
                   handleCheckbox(type, !isCurrentlyChecked);
                 }}
               >
