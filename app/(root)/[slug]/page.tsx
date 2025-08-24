@@ -43,15 +43,17 @@ export default async function Page(props: PageProps) {
         </div>
       </div>
       <div className="prose dark:prose-invert max-w-full w-full text-justify mb-16">
-        <AnimatedSection>
-          <blockquote>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: marked(fetchPost.quote),
-              }}
-            />
-          </blockquote>
-        </AnimatedSection>
+        {fetchPost.quote && (
+          <AnimatedSection>
+            <blockquote>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: marked(fetchPost.quote),
+                }}
+              />
+            </blockquote>
+          </AnimatedSection>
+        )}
         <AnimatedSection>
           <h3>چکیده</h3>
           <p>{fetchPost.summary}</p>

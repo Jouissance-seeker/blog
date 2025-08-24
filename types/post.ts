@@ -5,7 +5,7 @@ export type Post = {
   tags: string[];
   title: string;
   slug: string;
-  quote: string;
+  quote?: string;
   summary: string;
   content: string;
   createdAt?: Date;

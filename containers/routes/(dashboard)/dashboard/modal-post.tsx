@@ -28,7 +28,7 @@ const formSchema = z.object({
   _id: z.string().optional(),
   slug: z.string().min(1).regex(/^\S+$/),
   title: z.string().min(1),
-  quote: z.string().min(1),
+  quote: z.string().optional(),
   summary: z.string().min(1),
   content: z.string().min(1),
   tags: z.array(z.string()).min(1),
@@ -66,11 +66,17 @@ export function ModalPost(props: ModalPostProps) {
   }, [open, props.post]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const postData = {
+      ...values,
+      ...(values.quote &&
+        values.quote.trim() !== '' && { quote: values.quote.trim() }),
+    };
+
     if (isEditMode) {
-      await editPost({ post: values });
+      await editPost({ post: postData as any });
       toast.success('پست با موفقیت ویرایش شد');
     } else {
-      await addPost({ post: values });
+      await addPost({ post: postData });
       toast.success('پست با موفقیت افزوده شد');
     }
     setOpen(false);

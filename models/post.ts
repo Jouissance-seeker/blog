@@ -21,7 +21,7 @@ const postSchema = new Schema<Post>(
     },
     quote: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     summary: {
