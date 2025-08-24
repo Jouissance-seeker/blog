@@ -104,7 +104,7 @@ const Author = ({ value, onChange }: FilterProps) => {
   return (
     <div className="flex flex-col border rounded-lg bg-card">
       <div className="p-2 border-b">
-        <span className="text-smp font-medium">شخصیت</span>
+        <span className="text-smp font-medium">اندیشمندان</span>
       </div>
       <div className="flex h-fit gap-1 p-2.5">
         <ul className="flex flex-col gap-1">
