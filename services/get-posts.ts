@@ -10,28 +10,47 @@ interface GetPostsParams {
   type: string;
 }
 
+const createTagFilter = (value: string) => ({
+  tags: { $regex: value, $options: "i" },
+});
+
 const createCombinationFilter = (author: string, type: string) => ({
   tags: { $regex: `${author} / ${type}`, $options: "i" },
 });
 
-export const getPosts = async (params: GetPostsParams): Promise<Post[]> => {
-  await connectDB();
-  const authors = params.author
+const processQueryParam = (param: string) =>
+  param
     .split(",")
-    .filter(Boolean)
-    .map((s) => s.trim());
-  const types = params.type
-    .split(",")
-    .filter(Boolean)
+    .filter((s) => s.trim())
     .map((s) => s.trim());
 
-  const tagFilters = authors.flatMap((author) =>
-    types.map((type) => createCombinationFilter(author, type))
-  );
-  const filter = {
-    title: { $regex: params.title, $options: "i" },
-    $or: tagFilters,
-  };
+export const getPosts = async (params: GetPostsParams): Promise<Post[]> => {
+  await connectDB();
+
+  const authors = processQueryParam(params.author);
+  const types = processQueryParam(params.type);
+
+  const tagFilters =
+    authors.length > 0 && types.length > 0
+      ? authors.flatMap((author) =>
+          types.map((type) => createCombinationFilter(author, type))
+        )
+      : authors.length > 0
+      ? authors.map(createTagFilter)
+      : types.length > 0
+      ? types.map(createTagFilter)
+      : [];
+
+  const filter: any = {};
+
+  if (params.title?.trim()) {
+    filter.title = { $regex: params.title, $options: "i" };
+  }
+
+  if (tagFilters.length > 0) {
+    filter.$or = tagFilters;
+  }
+
   const posts = await PostModel.find(filter)
     .sort({ createdAt: -1 })
     .lean<Post[]>();
