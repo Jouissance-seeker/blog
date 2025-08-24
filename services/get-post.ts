@@ -16,10 +16,10 @@ export const getPost = async (params: Params): Promise<Post> => {
   await connectDB();
 
   const authorNames = params.authors.split('-');
-  const persianAuthors = authorNames.map((author) => 
-    authors.find((a) => a.en === author)?.fa
-  ).filter(Boolean);
-  
+  const persianAuthors = authorNames
+    .map((author) => authors.find((a) => a.en === author)?.fa)
+    .filter(Boolean);
+
   const persianCategory = category.find((c) => c.en === params.category)?.fa;
 
   const post = await PostModel.findOne({

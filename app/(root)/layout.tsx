@@ -63,7 +63,11 @@ interface RootLayoutProps {
 
 export default async function RootLayout(props: RootLayoutProps) {
   return (
-    <html lang="fa" dir="rtl" className="container mx-auto min-h-dvh">
+    <html
+      lang="fa"
+      dir="rtl"
+      className="container mx-auto max-w-screen-lg min-h-dvh"
+    >
       <body className={cn(iranYekan.className, 'mx-3 sm:mx-5 h-full')}>
         <Providers>
           <Header />
