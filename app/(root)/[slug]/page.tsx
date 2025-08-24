@@ -29,19 +29,6 @@ export default async function Page(props: PageProps) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-between w-full items-center py-4 border-b sticky top-[85px] bg-background z-20">
-        <h1 className="text-xl font-bold">{fetchPost.title}</h1>
-        <div className="hidden md:block">
-          {fetchPost.tags?.map((tag, index) => (
-            <div
-              key={index}
-              className="border text-sm bg-card text-card-foreground duration-300 py-2 px-4 rounded-md"
-            >
-              {tag}
-            </div>
-          ))}
-        </div>
-      </div>
       <div className="prose dark:prose-invert max-w-full w-full text-justify mb-16">
         {fetchPost.quote && (
           <AnimatedSection>

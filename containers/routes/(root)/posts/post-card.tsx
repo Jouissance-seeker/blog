@@ -27,16 +27,6 @@ export const PostCard = (props: PostCardProps) => {
         </p>
       </CardContent>
       <CardFooter className="border-t flex items-start justify-between p-2.5">
-        <div className="flex gap-2 flex-wrap">
-          {props.post.tags?.map((tag) => (
-            <div
-              key={tag}
-              className="border text-sm bg-card text-card-foreground py-1.5 px-3 rounded-md"
-            >
-              {tag}
-            </div>
-          ))}
-        </div>
         <Link
           href={`/${props.post.slug}`}
           className="border group/link h-fit whitespace-nowrap flex gap-1 items-center bg-card text-card-foreground group hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
