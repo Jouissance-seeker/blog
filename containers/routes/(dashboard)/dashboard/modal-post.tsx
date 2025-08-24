@@ -23,7 +23,13 @@ import { useState, useEffect } from 'react';
 import { Post } from '@/types/post';
 import { Pencil } from 'lucide-react';
 import MultipleSelector from '@/uis/multiple-selector';
-import { Select, SelectTrigger, SelectItem, SelectContent } from '@/uis/select';
+import {
+  Select,
+  SelectTrigger,
+  SelectItem,
+  SelectContent,
+  SelectValue,
+} from '@/uis/select';
 
 const formSchema = z.object({
   _id: z.string().optional(),
@@ -150,20 +156,10 @@ export function ModalPost(props: ModalPostProps) {
                   <FormLabel>اندیشمندان</FormLabel>
                   <FormControl>
                     <MultipleSelector
-                      defaultOptions={[
-                        {
-                          label: 'لکان',
-                          value: 'lacan',
-                        },
-                        {
-                          label: 'یونگ',
-                          value: 'jung',
-                        },
-                        {
-                          label: 'کانت',
-                          value: 'kant',
-                        },
-                      ]}
+                      defaultOptions={['لکان', 'یونگ', 'کانت'].map((tag) => ({
+                        label: tag,
+                        value: tag,
+                      }))}
                       value={
                         field.value?.map((tag) => ({
                           label: tag,
@@ -191,10 +187,20 @@ export function ModalPost(props: ModalPostProps) {
                   <FormLabel>دسته بندی</FormLabel>
                   <FormControl>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger />
-                      <SelectContent>
-                        <SelectItem value="essay">جستار</SelectItem>
-                        <SelectItem value="concept">مفاهیم</SelectItem>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent
+                        avoidCollisions={true}
+                        position="popper"
+                        sideOffset={4}
+                        className="bg-background"
+                      >
+                        {['جستار', 'مفاهیم'].map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </FormControl>

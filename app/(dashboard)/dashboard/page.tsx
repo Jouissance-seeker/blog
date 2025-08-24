@@ -53,7 +53,7 @@ export default async function Page(props: PageProps) {
                 <TableCell>
                   <Link href={`/${post.slug}`}>{post.title}</Link>
                 </TableCell>
-                <TableCell>{post.tags?.join(', ')}</TableCell>
+                <TableCell>{post.authors?.join(', ')}</TableCell>
                 <TableCell>
                   <ModalPost post={post} mode="edit" />
                   <ModalDeletePost id={String(post._id)} />
