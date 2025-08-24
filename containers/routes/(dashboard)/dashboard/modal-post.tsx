@@ -67,7 +67,7 @@ export function ModalPost(props: ModalPostProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (isEditMode) {
-      await editPost({ post: values as any });
+      await editPost({ post: values });
       toast.success('پست با موفقیت ویرایش شد');
     } else {
       await addPost({ post: values });
@@ -177,7 +177,7 @@ export function ModalPost(props: ModalPostProps) {
               name="quote"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>نقل قول</FormLabel>
+                  <FormLabel>نقل قول (اختیاری)</FormLabel>
                   <FormControl>
                     <Textarea {...field} />
                   </FormControl>

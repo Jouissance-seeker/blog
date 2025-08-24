@@ -16,7 +16,7 @@ export const Header = () => {
               <AvatarFallback>HS</AvatarFallback>
             </Avatar>
             <div>
-              <p className="font-bold text-mdp">حمید شاهسونی</p>
+              <p className="font-bold">حمید شاهسونی</p>
               <p className="text-sm text-muted-foreground">پژوهشگر روانکاوی</p>
             </div>
           </Link>

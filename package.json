@@ -7,8 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
     "test-db": "npx tsx scripts/test-db.ts"
   },
   "dependencies": {
