@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/uis/button";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/uis/form";
-import { Input } from "@/uis/input";
+import * as React from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/uis/button';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/uis/form';
+import { Input } from '@/uis/input';
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogHeader,
   DialogTrigger,
-} from "@/uis/dialog";
-import { Textarea } from "@/uis/textarea";
-import { addPost } from "@/services/add-post";
-import { editPost } from "@/services/edit-post";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import { Post } from "@/types/post";
-import { Pencil } from "lucide-react";
-import MultipleSelector from "@/uis/multiple-selector";
+} from '@/uis/dialog';
+import { Textarea } from '@/uis/textarea';
+import { addPost } from '@/services/add-post';
+import { editPost } from '@/services/edit-post';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { Post } from '@/types/post';
+import { Pencil } from 'lucide-react';
+import MultipleSelector from '@/uis/multiple-selector';
 
 const formSchema = z.object({
   _id: z.string().optional(),
@@ -36,13 +36,13 @@ const formSchema = z.object({
 
 interface ModalPostProps {
   post?: Post;
-  mode: "add" | "edit";
+  mode: 'add' | 'edit';
 }
 
 export function ModalPost(props: ModalPostProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const isEditMode = props.mode === "edit" || !!props.post;
+  const isEditMode = props.mode === 'edit' || !!props.post;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,25 +68,25 @@ export function ModalPost(props: ModalPostProps) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (isEditMode) {
       await editPost({ post: values as any });
-      toast.success("پست با موفقیت ویرایش شد");
+      toast.success('پست با موفقیت ویرایش شد');
     } else {
       await addPost({ post: values });
-      toast.success("پست با موفقیت افزوده شد");
+      toast.success('پست با موفقیت افزوده شد');
     }
     setOpen(false);
-    router.push("/dashboard");
+    router.push('/dashboard');
   }
 
   const defaultTrigger = isEditMode ? (
     <Button
-      size={"icon"}
-      variant={"ghost"}
+      size={'icon'}
+      variant={'ghost'}
       className="text-blue-500 hover:text-blue-500 hover:bg-blue-500/10"
     >
       <Pencil />
     </Button>
   ) : (
-    <Button size={"lg"} className="py-6 px-8">
+    <Button size={'lg'} className="py-6 px-8">
       افزودن
     </Button>
   );
@@ -108,7 +108,7 @@ export function ModalPost(props: ModalPostProps) {
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>{isEditMode ? "ویرایش پست" : "افزودن پست"}</DialogTitle>
+          <DialogTitle>{isEditMode ? 'ویرایش پست' : 'افزودن پست'}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -133,10 +133,10 @@ export function ModalPost(props: ModalPostProps) {
                   <FormControl>
                     <MultipleSelector
                       defaultOptions={[
-                        "لکان / جستار",
-                        "لکان / مفاهیم",
-                        "یونگ / مفاهیم",
-                        "کانت / مفاهیم ",
+                        'لکان / جستار',
+                        'لکان / مفاهیم',
+                        'یونگ / مفاهیم',
+                        'کانت / مفاهیم ',
                       ].map((tag) => ({
                         label: tag,
                         value: tag,
@@ -209,7 +209,7 @@ export function ModalPost(props: ModalPostProps) {
               )}
             />
             <Button type="submit" className="w-full !py-7">
-              {isEditMode ? "ویرایش" : "افزودن"}
+              {isEditMode ? 'ویرایش' : 'افزودن'}
             </Button>
           </form>
         </Form>

@@ -1,4 +1,4 @@
-import { getPosts } from "@/services/get-posts";
+import { getPosts } from '@/services/get-posts';
 import {
   Table,
   TableBody,
@@ -6,12 +6,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/uis/table";
-import { ModalPost } from "@/containers/routes/(dashboard)/dashboard/modal-post";
-import Link from "next/link";
-import { ModalDeletePost } from "@/containers/routes/(dashboard)/dashboard/modal-delete-post";
-import { Filters } from "@/containers/routes/global/filters";
-import { ResultEmpty } from "@/containers/routes/global/result-empty";
+} from '@/uis/table';
+import { ModalPost } from '@/containers/routes/(dashboard)/dashboard/modal-post';
+import Link from 'next/link';
+import { ModalDeletePost } from '@/containers/routes/(dashboard)/dashboard/modal-delete-post';
+import { Filters } from '@/containers/routes/global/filters';
+import { ResultEmpty } from '@/containers/routes/global/result-empty';
 
 interface PageProps {
   searchParams: Promise<{
@@ -23,9 +23,9 @@ interface PageProps {
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
-  const queryTitle = searchParams?.title ?? "";
-  const queryAuthor = searchParams?.author ?? "";
-  const queryType = searchParams?.type ?? "";
+  const queryTitle = searchParams?.title ?? '';
+  const queryAuthor = searchParams?.author ?? '';
+  const queryType = searchParams?.type ?? '';
 
   const fetchPosts = await getPosts({
     title: queryTitle,
@@ -53,7 +53,7 @@ export default async function Page(props: PageProps) {
                 <TableCell>
                   <Link href={`/${post.slug}`}>{post.title}</Link>
                 </TableCell>
-                <TableCell>{post.tags?.join(", ")}</TableCell>
+                <TableCell>{post.tags?.join(', ')}</TableCell>
                 <TableCell>
                   <ModalPost post={post} mode="edit" />
                   <ModalDeletePost id={String(post._id)} />

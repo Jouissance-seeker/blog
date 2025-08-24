@@ -1,20 +1,24 @@
-"use client";
+'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/uis/avatar";
-import { ThemeSwitcher } from "../../../../components/theme-switcher";
-import Link from "next/link";
-import { Home } from "@/components/home";
+import { Avatar, AvatarFallback, AvatarImage } from '@/uis/avatar';
+import { ThemeSwitcher } from '../../../../components/theme-switcher';
+import Link from 'next/link';
+import { Home } from '@/components/home';
 
 export const Header = () => {
   return (
     <header className="flex flex-col gap-4 border-b py-4 sticky top-0 bg-background z-20">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
-          <Link href="/">
+          <Link href="/" className="flex gap-2 items-center">
             <Avatar className="size-13 border">
               <AvatarImage src="/images/logo.jpg" className="dark:invert" />
               <AvatarFallback>HS</AvatarFallback>
             </Avatar>
+            <div>
+              <p className="font-bold text-mdp">حمید شاهسونی</p>
+              <p className="text-sm text-muted-foreground">پژوهشگر روانکاوی</p>
+            </div>
           </Link>
         </div>
         <div className="gap-2 flex items-center">

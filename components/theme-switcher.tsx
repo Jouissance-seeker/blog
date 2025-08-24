@@ -1,6 +1,6 @@
-import { useTheme } from "@/hooks/theme";
-import { Button } from "@/uis/button";
-import { Sun, Moon } from "lucide-react";
+import { useTheme } from '@/hooks/theme';
+import { Button } from '@/uis/button';
+import { Sun, Moon } from 'lucide-react';
 
 export const ThemeSwitcher = () => {
   const { theme, setTheme } = useTheme();
@@ -8,9 +8,9 @@ export const ThemeSwitcher = () => {
     <Button
       size="icon"
       className="size-11"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
-      {theme === "dark" ? (
+      {theme === 'dark' ? (
         <Sun className="size-6" />
       ) : (
         <Moon className="size-6" />

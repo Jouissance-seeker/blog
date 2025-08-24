@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { PropsWithChildren } from "react";
-import { usePathname } from "next/navigation";
+import { motion } from 'framer-motion';
+import { PropsWithChildren } from 'react';
+import { usePathname } from 'next/navigation';
 
 export const AnimatedSection = (props: PropsWithChildren) => {
   const pathname = usePathname();
@@ -12,12 +12,12 @@ export const AnimatedSection = (props: PropsWithChildren) => {
       key={pathname}
       initial={{
         opacity: 0,
-        filter: "blur(10px)",
+        filter: 'blur(10px)',
         y: 20,
       }}
       whileInView={{
         opacity: 1,
-        filter: "blur(0px)",
+        filter: 'blur(0px)',
         y: 0,
       }}
       viewport={{ once: false, amount: 0.1 }}

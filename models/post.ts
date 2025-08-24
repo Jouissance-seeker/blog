@@ -1,5 +1,5 @@
-import { Schema, model, models } from "mongoose";
-import { Post } from "@/types/post";
+import { Schema, model, models } from 'mongoose';
+import { Post } from '@/types/post';
 
 const postSchema = new Schema<Post>(
   {
@@ -36,10 +36,10 @@ const postSchema = new Schema<Post>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 postSchema.index({ tags: 1 });
 postSchema.index({ createdAt: -1 });
 
-export const PostModel = models.Post || model<Post>("Post", postSchema);
+export const PostModel = models.Post || model<Post>('Post', postSchema);

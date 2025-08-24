@@ -1,26 +1,21 @@
-"use server";
+'use server';
 
-import connectDB from "@/lib/mongodb";
-import { PostModel } from "@/models/post";
-import { Post } from "@/types/post";
-import { Types } from "mongoose";
+import connectDB from '@/lib/mongodb';
+import { PostModel } from '@/models/post';
+import { Post } from '@/types/post';
+import { Types } from 'mongoose';
 
 interface Params {
   post: Post;
 }
 
-// Function to clean ** characters from content
-const cleanContent = (content: string): string => {
-  return content.replace(/\*\*/g, "");
-};
-
 export const editPost = async (params: Params): Promise<Post> => {
   await connectDB();
   if (!params.post._id) {
-    throw new Error("آی دی پست یافت نشد");
+    throw new Error('آی دی پست یافت نشد');
   }
   if (!Types.ObjectId.isValid(params.post._id.toString())) {
-    throw new Error("آی دی پست نامعتبر است");
+    throw new Error('آی دی پست نامعتبر است');
   }
   if (params.post.slug) {
     const existingPost = await PostModel.findOne({
@@ -28,12 +23,9 @@ export const editPost = async (params: Params): Promise<Post> => {
       _id: { $ne: params.post._id },
     });
     if (existingPost) {
-      throw new Error("پستی با این اسلاگ وجود دارد");
+      throw new Error('پستی با این اسلاگ وجود دارد');
     }
   }
-
-  // Clean content before updating
-  const cleanedContent = cleanContent(params.post.content);
 
   const updatedPost = await PostModel.findByIdAndUpdate(
     params.post._id,
@@ -43,12 +35,12 @@ export const editPost = async (params: Params): Promise<Post> => {
       slug: params.post.slug,
       quote: params.post.quote,
       summary: params.post.summary,
-      content: cleanedContent,
+      content: params.post.content,
     },
-    { new: true, lean: true }
+    { new: true, lean: true },
   ).lean<Post>();
   if (!updatedPost) {
-    throw new Error("پست یافت نشد");
+    throw new Error('پست یافت نشد');
   }
   return {
     ...updatedPost,

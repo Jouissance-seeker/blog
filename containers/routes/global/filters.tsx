@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Search as SearchIcon } from "lucide-react";
-import { Checkbox } from "@/uis/checkbox";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, useCallback } from "react";
+import { Search as SearchIcon } from 'lucide-react';
+import { Checkbox } from '@/uis/checkbox';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState, useCallback } from 'react';
 
 interface FilterProps {
   value: string;
@@ -14,11 +14,11 @@ export const Filters = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const [queryTitle, setQueryTitle] = useState(searchParams.get("title") ?? "");
+  const [queryTitle, setQueryTitle] = useState(searchParams.get('title') ?? '');
   const [queryAuthor, setQueryAuthor] = useState(
-    searchParams.get("author") ?? ""
+    searchParams.get('author') ?? '',
   );
-  const [queryType, setQueryType] = useState(searchParams.get("type") ?? "");
+  const [queryType, setQueryType] = useState(searchParams.get('type') ?? '');
   const updateURL = useCallback(
     (newParams: Record<string, string>) => {
       const params = new URLSearchParams(searchParams);
@@ -33,7 +33,7 @@ export const Filters = () => {
       const newURL = queryString ? `${pathname}?${queryString}` : pathname;
       router.push(newURL);
     },
-    [searchParams, pathname, router]
+    [searchParams, pathname, router],
   );
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -71,34 +71,34 @@ const Title = ({ value, onChange }: FilterProps) => (
 );
 
 const Author = ({ value, onChange }: FilterProps) => {
-  const authors = ["لکان", "یونگ", "کانت"];
+  const authors = ['لکان', 'یونگ', 'کانت'];
 
   const isValueSelected = useCallback(
     (authorValue: string) => {
       if (!value) return false;
-      const values = value.split(",").map((v) => v.trim());
+      const values = value.split(',').map((v) => v.trim());
       return values.includes(authorValue);
     },
-    [value]
+    [value],
   );
 
   const handleCheckbox = useCallback(
     (authorValue: string, checked: boolean) => {
       const currentValues = value
         ? value
-            .split(",")
+            .split(',')
             .map((v) => v.trim())
             .filter(Boolean)
         : [];
 
       if (checked && !currentValues.includes(authorValue)) {
-        onChange([...currentValues, authorValue].join(","));
+        onChange([...currentValues, authorValue].join(','));
       } else if (!checked) {
         const newValues = currentValues.filter((v) => v !== authorValue);
-        onChange(newValues.length > 0 ? newValues.join(",") : "");
+        onChange(newValues.length > 0 ? newValues.join(',') : '');
       }
     },
-    [value, onChange]
+    [value, onChange],
   );
 
   return (
@@ -134,34 +134,34 @@ const Author = ({ value, onChange }: FilterProps) => {
 };
 
 const Type = ({ value, onChange }: FilterProps) => {
-  const types = ["مفاهیم", "جستار"];
+  const types = ['مفاهیم', 'جستار'];
 
   const isValueSelected = useCallback(
     (typeValue: string) => {
       if (!value) return false;
-      const values = value.split(",").map((v) => v.trim());
+      const values = value.split(',').map((v) => v.trim());
       return values.includes(typeValue);
     },
-    [value]
+    [value],
   );
 
   const handleCheckbox = useCallback(
     (typeValue: string, checked: boolean) => {
       const currentValues = value
         ? value
-            .split(",")
+            .split(',')
             .map((v) => v.trim())
             .filter(Boolean)
         : [];
 
       if (checked && !currentValues.includes(typeValue)) {
-        onChange([...currentValues, typeValue].join(","));
+        onChange([...currentValues, typeValue].join(','));
       } else if (!checked) {
         const newValues = currentValues.filter((v) => v !== typeValue);
-        onChange(newValues.length > 0 ? newValues.join(",") : "");
+        onChange(newValues.length > 0 ? newValues.join(',') : '');
       }
     },
-    [value, onChange]
+    [value, onChange],
   );
 
   return (

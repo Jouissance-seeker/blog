@@ -1,5 +1,5 @@
-import { AnimatedSection } from "@/containers/routes/(root)/posts/animated-section";
-import { marked } from "marked";
+import { AnimatedSection } from '@/containers/routes/(root)/posts/animated-section';
+import { marked } from 'marked';
 
 export const AnimatedMarkdown = ({ content }: { content: string }) => {
   const tokens = marked.lexer(content);
@@ -11,7 +11,7 @@ export const AnimatedMarkdown = ({ content }: { content: string }) => {
           dangerouslySetInnerHTML: { __html: htmlContent },
         };
         if (
-          ["heading", "paragraph", "list", "blockquote"].includes(token.type)
+          ['heading', 'paragraph', 'list', 'blockquote'].includes(token.type)
         ) {
           return (
             <AnimatedSection key={index}>

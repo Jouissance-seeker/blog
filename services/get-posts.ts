@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import connectDB from "@/lib/mongodb";
-import { PostModel } from "@/models/post";
-import { Post } from "@/types/post";
+import connectDB from '@/lib/mongodb';
+import { PostModel } from '@/models/post';
+import { Post } from '@/types/post';
 
 interface GetPostsParams {
   title: string;
@@ -11,16 +11,16 @@ interface GetPostsParams {
 }
 
 const createTagFilter = (value: string) => ({
-  tags: { $regex: value, $options: "i" },
+  tags: { $regex: value, $options: 'i' },
 });
 
 const createCombinationFilter = (author: string, type: string) => ({
-  tags: { $regex: `${author} / ${type}`, $options: "i" },
+  tags: { $regex: `${author} / ${type}`, $options: 'i' },
 });
 
 const processQueryParam = (param: string) =>
   param
-    .split(",")
+    .split(',')
     .filter((s) => s.trim())
     .map((s) => s.trim());
 
@@ -33,18 +33,18 @@ export const getPosts = async (params: GetPostsParams): Promise<Post[]> => {
   const tagFilters =
     authors.length > 0 && types.length > 0
       ? authors.flatMap((author) =>
-          types.map((type) => createCombinationFilter(author, type))
+          types.map((type) => createCombinationFilter(author, type)),
         )
       : authors.length > 0
-      ? authors.map(createTagFilter)
-      : types.length > 0
-      ? types.map(createTagFilter)
-      : [];
+        ? authors.map(createTagFilter)
+        : types.length > 0
+          ? types.map(createTagFilter)
+          : [];
 
   const filter: any = {};
 
   if (params.title?.trim()) {
-    filter.title = { $regex: params.title, $options: "i" };
+    filter.title = { $regex: params.title, $options: 'i' };
   }
 
   if (tagFilters.length > 0) {

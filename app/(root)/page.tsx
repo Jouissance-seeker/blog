@@ -1,8 +1,8 @@
-import { getPosts } from "@/services/get-posts";
-import { PostCard } from "@/containers/routes/(root)/posts/post-card";
-import { AnimatedSection } from "@/containers/routes/(root)/posts/animated-section";
-import { Filters } from "@/containers/routes/global/filters";
-import { ResultEmpty } from "@/containers/routes/global/result-empty";
+import { getPosts } from '@/services/get-posts';
+import { PostCard } from '@/containers/routes/(root)/posts/post-card';
+import { AnimatedSection } from '@/containers/routes/(root)/posts/animated-section';
+import { Filters } from '@/containers/routes/global/filters';
+import { ResultEmpty } from '@/containers/routes/global/result-empty';
 
 interface PageProps {
   searchParams: Promise<{
@@ -14,9 +14,9 @@ interface PageProps {
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
-  const queryTitle = (searchParams?.title as string) ?? "";
-  const queryAuthor = (searchParams?.author as string) ?? "";
-  const queryType = (searchParams?.type as string) ?? "";
+  const queryTitle = (searchParams?.title as string) ?? '';
+  const queryAuthor = (searchParams?.author as string) ?? '';
+  const queryType = (searchParams?.type as string) ?? '';
   const fetchPosts = await getPosts({
     title: queryTitle,
     author: queryAuthor,
