@@ -13,7 +13,7 @@ export const PostCard = (props: PostCardProps) => {
     <Card className="grid group relative grid-rows-[auto_auto_1fr_auto] gap-1 rounded-2xl overflow-hidden">
       <CardHeader className="flex justify-between gap-3">
         <div className="flex justify-between w-full items-center gap-3">
-          <h2 className="text-lg font-bold">
+          <h2 className="font-bold">
             <Link href={`/${props.post.slug}`}>{props.post.title}</Link>
           </h2>
           <div className="border hidden size-7.5 sm:flex items-center justify-center rounded-sm text-smp pt-1">

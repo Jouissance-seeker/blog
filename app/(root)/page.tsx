@@ -7,15 +7,15 @@ export default async function Page() {
   const fetchPosts = await getPosts();
 
   return (
-    <section className="py-5 grid grid-cols-1 sm:grid-cols-[250px_1fr] gap-4">
+    <div className="py-5 grid grid-cols-1 sm:grid-cols-[250px_1fr] gap-4">
       <Filters />
-      <div className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4">
         {fetchPosts.map((post, index) => (
           <AnimatedSection key={post._id?.toString()}>
             <PostCard post={post} index={fetchPosts.length - index - 1} />
           </AnimatedSection>
         ))}
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
