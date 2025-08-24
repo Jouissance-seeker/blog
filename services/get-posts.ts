@@ -6,17 +6,10 @@ import { Post } from '@/types/post';
 
 interface GetPostsParams {
   title: string;
-  author: string;
-  type: string;
+  authors: string[];
+  category: string;
+  slug?: string;
 }
-
-const createTagFilter = (value: string) => ({
-  tags: { $regex: value, $options: 'i' },
-});
-
-const createCombinationFilter = (author: string, type: string) => ({
-  tags: { $regex: `${author} / ${type}`, $options: 'i' },
-});
 
 const processQueryParam = (param: string) =>
   param
@@ -27,19 +20,8 @@ const processQueryParam = (param: string) =>
 export const getPosts = async (params: GetPostsParams): Promise<Post[]> => {
   await connectDB();
 
-  const authors = processQueryParam(params.author);
-  const types = processQueryParam(params.type);
-
-  const tagFilters =
-    authors.length > 0 && types.length > 0
-      ? authors.flatMap((author) =>
-          types.map((type) => createCombinationFilter(author, type)),
-        )
-      : authors.length > 0
-        ? authors.map(createTagFilter)
-        : types.length > 0
-          ? types.map(createTagFilter)
-          : [];
+  const authors = processQueryParam(params.authors.join(','));
+  const categories = processQueryParam(params.category);
 
   const filter: any = {};
 
@@ -47,8 +29,18 @@ export const getPosts = async (params: GetPostsParams): Promise<Post[]> => {
     filter.title = { $regex: params.title, $options: 'i' };
   }
 
-  if (tagFilters.length > 0) {
-    filter.$or = tagFilters;
+  if (authors.length > 0) {
+    filter.authors = { $in: authors };
+  }
+
+  if (categories.length > 0) {
+    filter.category = {
+      $in: categories.map((category) => new RegExp(category, 'i')),
+    };
+  }
+
+  if (params.slug?.trim()) {
+    filter.slug = { $regex: params.slug, $options: 'i' };
   }
 
   const posts = await PostModel.find(filter)

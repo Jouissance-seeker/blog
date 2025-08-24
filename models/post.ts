@@ -3,21 +3,28 @@ import { Post } from '@/types/post';
 
 const postSchema = new Schema<Post>(
   {
-    tags: {
-      type: [String],
-      required: true,
-    },
-    title: {
+    authors: [
+      {
+        type: String,
+        required: true,
+        trim: true,
+      },
+    ],
+    category: {
       type: String,
       required: true,
       trim: true,
     },
     slug: {
       type: String,
-      required: true,
-      unique: true,
+      required: false,
+      default: '',
       trim: true,
-      lowercase: true,
+    },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
     },
     quote: {
       type: String,
@@ -39,7 +46,8 @@ const postSchema = new Schema<Post>(
   },
 );
 
-postSchema.index({ tags: 1 });
+postSchema.index({ authors: 1 });
+postSchema.index({ category: 1 });
 postSchema.index({ createdAt: -1 });
 
 export const PostModel = models.Post || model<Post>('Post', postSchema);

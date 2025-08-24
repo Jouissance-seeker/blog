@@ -30,10 +30,11 @@ import {
   SelectContent,
   SelectValue,
 } from '@/uis/select';
+import { category } from '@/constants/category';
 
 const formSchema = z.object({
   _id: z.string().optional(),
-  slug: z.string().min(1).regex(/^\S+$/),
+  slug: z.string().min(1),
   title: z.string().min(1),
   authors: z.array(z.string()).min(1),
   category: z.string().min(1),
@@ -62,14 +63,14 @@ export function ModalPost(props: ModalPostProps) {
         _id: props.post._id?.toString(),
         slug: props.post.slug,
         title: props.post.title,
-        quote: props.post.quote,
+        quote: props.post.quote || '',
         summary: props.post.summary,
         content: props.post.content,
         authors: props.post.authors,
         category: props.post.category,
       });
     }
-  }, [open, props.post]);
+  }, [open, props.post, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const postData = {
@@ -126,24 +127,24 @@ export function ModalPost(props: ModalPostProps) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="title"
+              name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>عنوان</FormLabel>
+                  <FormLabel>اسلاگ</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input dir="ltr" {...field} />
                   </FormControl>
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="slug"
+              name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>شناسه</FormLabel>
+                  <FormLabel>عنوان</FormLabel>
                   <FormControl>
-                    <Input dir="ltr" {...field} />
+                    <Input {...field} />
                   </FormControl>
                 </FormItem>
               )}
@@ -196,9 +197,9 @@ export function ModalPost(props: ModalPostProps) {
                         sideOffset={4}
                         className="bg-background"
                       >
-                        {['جستار', 'مفاهیم'].map((category) => (
-                          <SelectItem key={category} value={category}>
-                            {category}
+                        {category.map((category) => (
+                          <SelectItem key={category.fa} value={category.fa}>
+                            {category.fa}
                           </SelectItem>
                         ))}
                       </SelectContent>

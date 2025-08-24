@@ -4,6 +4,7 @@ import { Search as SearchIcon } from 'lucide-react';
 import { Checkbox } from '@/uis/checkbox';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
+import { category } from '@/constants/category';
 
 interface FilterProps {
   value: string;
@@ -15,10 +16,12 @@ export const Filters = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [queryTitle, setQueryTitle] = useState(searchParams.get('title') ?? '');
-  const [queryAuthor, setQueryAuthor] = useState(
-    searchParams.get('author') ?? '',
+  const [queryAuthors, setQueryAuthors] = useState(
+    searchParams.get('authors') ?? '',
   );
-  const [queryType, setQueryType] = useState(searchParams.get('type') ?? '');
+  const [queryCategory, setQueryCategory] = useState(
+    searchParams.get('category') ?? '',
+  );
   const updateURL = useCallback(
     (newParams: Record<string, string>) => {
       const params = new URLSearchParams(searchParams);
@@ -39,20 +42,20 @@ export const Filters = () => {
     const timeoutId = setTimeout(() => {
       updateURL({
         title: queryTitle,
-        author: queryAuthor,
-        type: queryType,
+        authors: queryAuthors,
+        category: queryCategory,
       });
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [queryTitle, queryAuthor, queryType, updateURL]);
+  }, [queryTitle, queryAuthors, queryCategory, updateURL]);
 
   return (
     <aside>
       <div className="sticky top-25.5 flex flex-col gap-4 bg-card">
         <Title value={queryTitle} onChange={setQueryTitle} />
-        <Author value={queryAuthor} onChange={setQueryAuthor} />
-        <Type value={queryType} onChange={setQueryType} />
+        <Author value={queryAuthors} onChange={setQueryAuthors} />
+        <Category value={queryCategory} onChange={setQueryCategory} />
       </div>
     </aside>
   );
@@ -133,20 +136,18 @@ const Author = ({ value, onChange }: FilterProps) => {
   );
 };
 
-const Type = ({ value, onChange }: FilterProps) => {
-  const types = ['مفاهیم', 'جستار'];
-
+const Category = ({ value, onChange }: FilterProps) => {
   const isValueSelected = useCallback(
-    (typeValue: string) => {
+    (categoryValue: string) => {
       if (!value) return false;
       const values = value.split(',').map((v) => v.trim());
-      return values.includes(typeValue);
+      return values.includes(categoryValue);
     },
     [value],
   );
 
   const handleCheckbox = useCallback(
-    (typeValue: string, checked: boolean) => {
+    (categoryValue: string, checked: boolean) => {
       const currentValues = value
         ? value
             .split(',')
@@ -154,10 +155,10 @@ const Type = ({ value, onChange }: FilterProps) => {
             .filter(Boolean)
         : [];
 
-      if (checked && !currentValues.includes(typeValue)) {
-        onChange([...currentValues, typeValue].join(','));
+      if (checked && !currentValues.includes(categoryValue)) {
+        onChange([...currentValues, categoryValue].join(','));
       } else if (!checked) {
-        const newValues = currentValues.filter((v) => v !== typeValue);
+        const newValues = currentValues.filter((v) => v !== categoryValue);
         onChange(newValues.length > 0 ? newValues.join(',') : '');
       }
     },
@@ -171,22 +172,22 @@ const Type = ({ value, onChange }: FilterProps) => {
       </div>
       <div className="flex h-fit gap-1 p-2.5">
         <ul className="flex flex-col gap-1">
-          {types.map((type) => (
-            <li key={type} className="flex items-center gap-2">
+          {category.map((category) => (
+            <li key={category.fa} className="flex items-center gap-2">
               <Checkbox
                 onCheckedChange={(checked) =>
-                  handleCheckbox(type, checked as boolean)
+                  handleCheckbox(category.fa, checked as boolean)
                 }
-                checked={isValueSelected(type)}
+                checked={isValueSelected(category.fa)}
               />
               <label
                 className="text-sm text-muted-foreground cursor-pointer select-none"
                 onClick={() => {
-                  const isCurrentlyChecked = isValueSelected(type);
-                  handleCheckbox(type, !isCurrentlyChecked);
+                  const isCurrentlyChecked = isValueSelected(category.fa);
+                  handleCheckbox(category.fa, !isCurrentlyChecked);
                 }}
               >
-                {type}
+                {category.fa}
               </label>
             </li>
           ))}

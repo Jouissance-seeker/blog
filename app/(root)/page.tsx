@@ -7,20 +7,18 @@ import { ResultEmpty } from '@/containers/routes/global/result-empty';
 interface PageProps {
   searchParams: Promise<{
     title?: string;
-    author?: string;
-    type?: string;
+    authors?: string[];
+    category?: string;
+    slug?: string;
   }>;
 }
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
-  const queryTitle = (searchParams?.title as string) ?? '';
-  const queryAuthor = (searchParams?.author as string) ?? '';
-  const queryType = (searchParams?.type as string) ?? '';
   const fetchPosts = await getPosts({
-    title: queryTitle,
-    author: queryAuthor,
-    type: queryType,
+    title: searchParams.title ?? '',
+    authors: searchParams.authors ?? [],
+    category: searchParams.category ?? '',
   });
 
   return (

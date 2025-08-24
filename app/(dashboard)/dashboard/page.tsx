@@ -12,25 +12,29 @@ import Link from 'next/link';
 import { ModalDeletePost } from '@/containers/routes/(dashboard)/dashboard/modal-delete-post';
 import { Filters } from '@/containers/routes/global/filters';
 import { ResultEmpty } from '@/containers/routes/global/result-empty';
+import { generateCardLink } from '@/utils/generate-card-link';
 
 interface PageProps {
   searchParams: Promise<{
     title?: string;
-    author?: string;
-    type?: string;
+    authors?: string;
+    category?: string;
+    slug?: string;
   }>;
 }
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   const queryTitle = searchParams?.title ?? '';
-  const queryAuthor = searchParams?.author ?? '';
-  const queryType = searchParams?.type ?? '';
+  const queryAuthors = searchParams?.authors ?? '';
+  const queryCategory = searchParams?.category ?? '';
+  const querySlug = searchParams?.slug ?? '';
 
   const fetchPosts = await getPosts({
     title: queryTitle,
-    author: queryAuthor,
-    type: queryType,
+    authors: queryAuthors ? queryAuthors.split(',').map((s) => s.trim()) : [],
+    category: queryCategory,
+    slug: querySlug,
   });
 
   return (
@@ -43,7 +47,9 @@ export default async function Page(props: PageProps) {
           <TableHeader>
             <TableRow>
               <TableHead>عنوان</TableHead>
-              <TableHead>تگ ها</TableHead>
+              <TableHead>اسلاگ</TableHead>
+              <TableHead>اندیشمندان</TableHead>
+              <TableHead>دسته بندی</TableHead>
               <TableHead>عملیات</TableHead>
             </TableRow>
           </TableHeader>
@@ -51,9 +57,11 @@ export default async function Page(props: PageProps) {
             {fetchPosts.map((post) => (
               <TableRow key={post._id?.toString()}>
                 <TableCell>
-                  <Link href={`/${post.slug}`}>{post.title}</Link>
+                  <Link href={generateCardLink(post)}>{post.title}</Link>
                 </TableCell>
-                <TableCell>{post.authors?.join(', ')}</TableCell>
+                <TableCell>{post.slug}</TableCell>
+                <TableCell>{post.authors?.join(' - ')}</TableCell>
+                <TableCell>{post.category}</TableCell>
                 <TableCell>
                   <ModalPost post={post} mode="edit" />
                   <ModalDeletePost id={String(post._id)} />

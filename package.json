@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test-db": "npx tsx scripts/test-db.ts"
+    "test-db": "npx tsx scripts/test-db.ts",
+    "update-posts": "npx tsx scripts/update-posts.ts",
+    "cleanup-db": "npx tsx scripts/cleanup-database.ts",
+    "convert-authors": "npx tsx scripts/convert-all-authors.ts",
+    "fix-authors": "npx tsx scripts/fix-authors.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
