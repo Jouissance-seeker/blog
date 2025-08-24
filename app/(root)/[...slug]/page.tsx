@@ -1,27 +1,8 @@
-import { getPosts } from '@/services/get-posts';
 import { marked } from 'marked';
 import { AnimatedMarkdown } from '@/containers/routes/(root)/post/animated-markdown';
 import { AnimatedSection } from '@/containers/routes/(root)/posts/animated-section';
-import { generateCardLink } from '@/utils/generate-card-link';
 import { notFound } from 'next/navigation';
 import { getPost } from '@/services/get-post';
-
-export const dynamic = 'force-dynamic';
-
-export async function generateStaticParams() {
-  const fetchPosts = await getPosts({
-    title: '',
-    authors: [],
-    category: '',
-  });
-
-  return fetchPosts.map((post) => {
-    const urlParts = generateCardLink(post).split('/').filter(Boolean);
-    return {
-      slug: urlParts,
-    };
-  });
-}
 
 interface PageProps {
   params: Promise<{
