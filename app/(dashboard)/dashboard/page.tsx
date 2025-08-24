@@ -11,6 +11,7 @@ import { ModalPost } from "@/containers/routes/(dashboard)/dashboard/modal-post"
 import Link from "next/link";
 import { ModalDeletePost } from "@/containers/routes/(dashboard)/dashboard/modal-delete-post";
 import { Filters } from "@/containers/routes/global/filters";
+import { ResultEmpty } from "@/containers/routes/global/result-empty";
 
 interface PageProps {
   searchParams: {
@@ -31,10 +32,13 @@ export default async function Page(props: PageProps) {
     author: queryAuthor,
     type: queryType,
   });
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-[250px_1fr] gap-5 my-5">
       <Filters />
-      <section>
+      {fetchPosts.length === 0 ? (
+        <ResultEmpty />
+      ) : (
         <Table>
           <TableHeader>
             <TableRow>
@@ -58,7 +62,7 @@ export default async function Page(props: PageProps) {
             ))}
           </TableBody>
         </Table>
-      </section>
+      )}
     </div>
   );
 }
