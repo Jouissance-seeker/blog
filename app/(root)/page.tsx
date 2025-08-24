@@ -12,9 +12,10 @@ interface PageProps {
 }
 
 export default async function Page(props: PageProps) {
-  const queryTitle = (props.searchParams?.title as string) ?? "";
-  const queryAuthor = (props.searchParams?.author as string) ?? "";
-  const queryType = (props.searchParams?.type as string) ?? "";
+  const searchParams = await props.searchParams;
+  const queryTitle = (searchParams?.title as string) ?? "";
+  const queryAuthor = (searchParams?.author as string) ?? "";
+  const queryType = (searchParams?.type as string) ?? "";
 
   const fetchPosts = await getPosts({
     title: queryTitle,
@@ -28,7 +29,7 @@ export default async function Page(props: PageProps) {
       <section className="flex flex-col gap-4">
         {fetchPosts.map((post, index) => (
           <AnimatedSection key={post._id?.toString()}>
-            <PostCard post={post} index={fetchPosts.length - index - 1} />
+            <PostCard post={post} number={fetchPosts.length - index - 1} />
           </AnimatedSection>
         ))}
       </section>

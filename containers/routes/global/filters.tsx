@@ -3,7 +3,7 @@
 import { useQueryState } from "nuqs";
 import { Search as SearchIcon } from "lucide-react";
 import { Checkbox } from "@/uis/checkbox";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export const Filters = () => {
@@ -11,6 +11,7 @@ export const Filters = () => {
   const [queryAuthor] = useQueryState("author", { defaultValue: "" });
   const [queryType] = useQueryState("type", { defaultValue: "" });
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -20,7 +21,7 @@ export const Filters = () => {
       if (queryType) params.set("type", queryType);
 
       const queryString = params.toString();
-      router.push(queryString ? `/?${queryString}` : "/");
+      router.push(queryString ? `${pathname}?${queryString}` : pathname);
     }, 500);
 
     return () => clearTimeout(timeoutId);

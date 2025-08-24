@@ -5,7 +5,7 @@ import { ArrowUpLeft } from "lucide-react";
 
 interface PostCardProps {
   post: Post;
-  index: number;
+  number: number;
 }
 
 export const PostCard = (props: PostCardProps) => {
@@ -17,7 +17,7 @@ export const PostCard = (props: PostCardProps) => {
             <Link href={`/${props.post.slug}`}>{props.post.title}</Link>
           </h2>
           <div className="border size-7.5 flex items-center justify-center rounded-sm text-smp pt-1">
-            {props.index + 1}
+            {props.number + 1}
           </div>
         </div>
       </CardHeader>
@@ -29,7 +29,7 @@ export const PostCard = (props: PostCardProps) => {
       <CardFooter className="border-t flex justify-between p-2.5">
         <div className="flex gap-2 flex-wrap">
           {props.post.tags?.map((tag) => (
-            <div className="border text-sm bg-card text-card-foreground transition-all duration-300 py-1.5 px-3 rounded-md">
+            <div key={tag} className="border text-sm bg-card text-card-foreground transition-all duration-300 py-1.5 px-3 rounded-md">
               {tag}
             </div>
           ))}
