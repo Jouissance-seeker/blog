@@ -60,7 +60,7 @@ export const Textarea = React.forwardRef<
   (
     {
       maxHeight = Number.MAX_SAFE_INTEGER,
-      minHeight = 52,
+      minHeight = 38,
       className,
       onChange,
       value,

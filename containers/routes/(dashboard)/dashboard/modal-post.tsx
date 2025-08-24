@@ -23,15 +23,17 @@ import { useState, useEffect } from 'react';
 import { Post } from '@/types/post';
 import { Pencil } from 'lucide-react';
 import MultipleSelector from '@/uis/multiple-selector';
+import { Select, SelectTrigger, SelectItem, SelectContent } from '@/uis/select';
 
 const formSchema = z.object({
   _id: z.string().optional(),
   slug: z.string().min(1).regex(/^\S+$/),
   title: z.string().min(1),
+  authors: z.array(z.string()).min(1),
+  category: z.string().min(1),
   quote: z.string().optional(),
   summary: z.string().min(1),
   content: z.string().min(1),
-  tags: z.array(z.string()).min(1),
 });
 
 interface ModalPostProps {
@@ -46,9 +48,6 @@ export function ModalPost(props: ModalPostProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      tags: [],
-    },
   });
 
   useEffect(() => {
@@ -60,7 +59,8 @@ export function ModalPost(props: ModalPostProps) {
         quote: props.post.quote,
         summary: props.post.summary,
         content: props.post.content,
-        tags: props.post.tags,
+        authors: props.post.authors,
+        category: props.post.category,
       });
     }
   }, [open, props.post]);
@@ -120,6 +120,18 @@ export function ModalPost(props: ModalPostProps) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>عنوان</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="slug"
               render={({ field }) => (
                 <FormItem>
@@ -132,21 +144,26 @@ export function ModalPost(props: ModalPostProps) {
             />
             <FormField
               control={form.control}
-              name="tags"
+              name="authors"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>تگ ها</FormLabel>
+                  <FormLabel>اندیشمندان</FormLabel>
                   <FormControl>
                     <MultipleSelector
                       defaultOptions={[
-                        'لکان / جستار',
-                        'لکان / مفاهیم',
-                        'یونگ / مفاهیم',
-                        'کانت / مفاهیم ',
-                      ].map((tag) => ({
-                        label: tag,
-                        value: tag,
-                      }))}
+                        {
+                          label: 'لکان',
+                          value: 'lacan',
+                        },
+                        {
+                          label: 'یونگ',
+                          value: 'jung',
+                        },
+                        {
+                          label: 'کانت',
+                          value: 'kant',
+                        },
+                      ]}
                       value={
                         field.value?.map((tag) => ({
                           label: tag,
@@ -158,7 +175,7 @@ export function ModalPost(props: ModalPostProps) {
                       }}
                       emptyIndicator={
                         <p className="text-center text-sm leading-10 text-gray-600 dark:text-gray-400">
-                          همه تگ ها انتخاب شده
+                          همه اندیشمندان انتخاب شده
                         </p>
                       }
                     />
@@ -168,12 +185,18 @@ export function ModalPost(props: ModalPostProps) {
             />
             <FormField
               control={form.control}
-              name="title"
+              name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>عنوان</FormLabel>
+                  <FormLabel>دسته بندی</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger />
+                      <SelectContent>
+                        <SelectItem value="essay">جستار</SelectItem>
+                        <SelectItem value="concept">مفاهیم</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                 </FormItem>
               )}

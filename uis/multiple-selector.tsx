@@ -142,12 +142,6 @@ function isOptionsExist(groupOption: GroupOption, targetOption: Option[]) {
   return false;
 }
 
-/**
- * The `CommandEmpty` of shadcn/ui will cause the cmdk empty not rendering correctly.
- * So we create one and copy the `Empty` implementation from `cmdk`.
- *
- * @reference: https://github.com/hsuanyi-chou/shadcn-ui-expansions/issues/34#issuecomment-1949561607
- **/
 const CommandEmpty = forwardRef<
   HTMLDivElement,
   React.ComponentProps<typeof CommandPrimitive.Empty>
@@ -160,7 +154,6 @@ const CommandEmpty = forwardRef<
     <div
       ref={forwardedRef}
       className={cn('py-6 text-center text-sm', className)}
-      cmdk-empty=""
       role="presentation"
       {...props}
     />
@@ -321,7 +314,6 @@ const MultipleSelector = React.forwardRef<
       };
 
       void exec();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus]);
 
     useEffect(() => {
@@ -347,7 +339,6 @@ const MultipleSelector = React.forwardRef<
       };
 
       void exec();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus]);
 
     const CreatableItem = () => {
@@ -446,12 +437,12 @@ const MultipleSelector = React.forwardRef<
           commandProps?.shouldFilter !== undefined
             ? commandProps.shouldFilter
             : !onSearch
-        } // When onSearch is provided, we don't want to filter the options. You can still override it.
+        }
         filter={commandFilter()}
       >
         <div
           className={cn(
-            'flex items-start justify-between rounded-md border border-input px-2.5 py-2 text-base ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 md:text-sm',
+            'flex items-start justify-between rounded-md border border-input px-2.5 py-2 text-base md:text-sm',
             {
               'cursor-text': !disabled && selected.length !== 0,
             },
@@ -535,7 +526,7 @@ const MultipleSelector = React.forwardRef<
           </div>
           <ChevronDownIcon
             className={cn(
-              'size-5 text-muted-foreground/50',
+              'size-4 text-muted-foreground/50',
               (hideClearAllButton ||
                 disabled ||
                 selected.length >= 1 ||

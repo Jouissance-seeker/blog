@@ -134,9 +134,11 @@ export default [
       // A11y
       'jsx-a11y/alt-text': 'warn',
       'jsx-a11y/anchor-is-valid': 'warn',
+      'jsx-a11y/click-events-have-key-events': 'off',
+      'jsx-a11y/no-static-element-interactions': 'off',
 
       // Shorthand
-      'object-shorthand': ['error', 'always'],
+      'object-shorthand': 'off',
     },
   },
   {
