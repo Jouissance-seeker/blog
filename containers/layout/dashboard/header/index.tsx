@@ -3,7 +3,7 @@
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { usePathname } from "next/navigation";
 import { Home } from "@/components/home";
-import { ModalPost } from "../../../routes/dashboard/modal-post";
+import { ModalPost } from "../../../routes/(dashboard)/dashboard/modal-post";
 
 export const Header = () => {
   const pathname = usePathname();

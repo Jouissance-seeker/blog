@@ -1,10 +1,26 @@
 import { getPosts } from "@/services/get-posts";
-import { PostCard } from "@/containers/routes/posts/post-card";
-import { AnimatedSection } from "@/containers/routes/posts/animated-section";
-import { Filters } from "@/containers/routes/posts/filters";
+import { PostCard } from "@/containers/routes/(root)/posts/post-card";
+import { AnimatedSection } from "@/containers/routes/(root)/posts/animated-section";
+import { Filters } from "@/containers/routes/global/filters";
 
-export default async function Page() {
-  const fetchPosts = await getPosts();
+interface PageProps {
+  searchParams: {
+    title?: string;
+    author?: string;
+    type?: string;
+  };
+}
+
+export default async function Page(props: PageProps) {
+  const queryTitle = (props.searchParams?.title as string) ?? "";
+  const queryAuthor = (props.searchParams?.author as string) ?? "";
+  const queryType = (props.searchParams?.type as string) ?? "";
+
+  const fetchPosts = await getPosts({
+    title: queryTitle,
+    author: queryAuthor,
+    type: queryType,
+  });
 
   return (
     <div className="py-5 grid grid-cols-1 sm:grid-cols-[250px_1fr] gap-4">

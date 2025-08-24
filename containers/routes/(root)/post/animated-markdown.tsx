@@ -1,4 +1,4 @@
-import { AnimatedSection } from "@/containers/routes/posts/animated-section";
+import { AnimatedSection } from "@/containers/routes/(root)/posts/animated-section";
 import { marked } from "marked";
 
 export const AnimatedMarkdown = ({ content }: { content: string }) => {

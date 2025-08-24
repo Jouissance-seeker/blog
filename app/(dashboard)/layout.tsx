@@ -64,6 +64,7 @@ interface DashboardLayoutProps {
 export default function DashboardLayout(props: DashboardLayoutProps) {
   // only run on development
   if (process.env.NODE_ENV === "production") {
+    console.log("production");
     redirect("/");
   }
 

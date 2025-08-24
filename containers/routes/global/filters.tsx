@@ -3,12 +3,33 @@
 import { useQueryState } from "nuqs";
 import { Search as SearchIcon } from "lucide-react";
 import { Checkbox } from "@/uis/checkbox";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export const Filters = () => {
+  const [queryTitle] = useQueryState("title", { defaultValue: "" });
+  const [queryAuthor] = useQueryState("author", { defaultValue: "" });
+  const [queryType] = useQueryState("type", { defaultValue: "" });
+  const router = useRouter();
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const params = new URLSearchParams();
+      if (queryTitle) params.set("title", queryTitle);
+      if (queryAuthor) params.set("author", queryAuthor);
+      if (queryType) params.set("type", queryType);
+
+      const queryString = params.toString();
+      router.push(queryString ? `/?${queryString}` : "/");
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [queryTitle, queryAuthor, queryType, router]);
+
   return (
     <aside>
       <div className="sticky top-25.5 flex flex-col gap-4 bg-card">
-        <Search />
+        <Title />
         <Author />
         <Type />
       </div>
@@ -16,8 +37,8 @@ export const Filters = () => {
   );
 };
 
-const Search = () => {
-  const [querySearch, setQuerySearch] = useQueryState("q", {
+const Title = () => {
+  const [queryTitle, setQueryTitle] = useQueryState("title", {
     defaultValue: "",
   });
 
@@ -26,8 +47,8 @@ const Search = () => {
       <SearchIcon className="size-5 text-muted-foreground" />
       <input
         className="text-sm placeholder:text-muted-foreground text-muted-foreground focus:outline-none flex-1 bg-transparent"
-        value={querySearch}
-        onChange={(e) => setQuerySearch(e.target.value)}
+        value={queryTitle}
+        onChange={(e) => setQueryTitle(e.target.value)}
         placeholder="عنوان را وارد کنید ..."
       />
     </div>
@@ -38,21 +59,27 @@ const Author = () => {
   const [queryAuthor, setQueryAuthor] = useQueryState("author", {
     defaultValue: "",
   });
-
   const authors = ["لکان"];
 
+  const isValueSelected = (value: string, queryString: string): boolean => {
+    if (!queryString) return false;
+    const values = queryString.split(",").map((v) => v.trim());
+    return values.includes(value);
+  };
+
   const handleCheckbox = (authorValue: string, checked: boolean) => {
-    if (checked) {
-      const newValue = queryAuthor
-        ? `${queryAuthor},${authorValue}`
-        : authorValue;
-      setQueryAuthor(newValue);
-    } else {
-      const newValue = queryAuthor
-        .replace(authorValue, "")
-        .replace(/^,+|,+$/g, "")
-        .replace(/,+/g, ",");
-      setQueryAuthor(newValue);
+    const currentValues = queryAuthor
+      ? queryAuthor
+          .split(",")
+          .map((v) => v.trim())
+          .filter((v) => v)
+      : [];
+
+    if (checked && !currentValues.includes(authorValue)) {
+      setQueryAuthor([...currentValues, authorValue].join(","));
+    } else if (!checked) {
+      const newValues = currentValues.filter((v) => v !== authorValue);
+      setQueryAuthor(newValues.length > 0 ? newValues.join(",") : "");
     }
   };
 
@@ -69,12 +96,15 @@ const Author = () => {
                 onCheckedChange={(checked) =>
                   handleCheckbox(author, checked as boolean)
                 }
-                checked={queryAuthor.includes(author)}
+                checked={isValueSelected(author, queryAuthor)}
               />
               <label
                 className="text-sm text-muted-foreground cursor-pointer select-none"
                 onClick={() => {
-                  const isCurrentlyChecked = queryAuthor.includes(author);
+                  const isCurrentlyChecked = isValueSelected(
+                    author,
+                    queryAuthor
+                  );
                   handleCheckbox(author, !isCurrentlyChecked);
                 }}
               >
@@ -89,22 +119,28 @@ const Author = () => {
 };
 
 const Type = () => {
-  const [queryType, setQueryType] = useQueryState("type", {
-    defaultValue: "",
-  });
+  const [queryType, setQueryType] = useQueryState("type", { defaultValue: "" });
+  const types = ["مفاهیم", "جستار"];
 
-  const types = ["مفهوم", "جستار"];
+  const isValueSelected = (value: string, queryString: string): boolean => {
+    if (!queryString) return false;
+    const values = queryString.split(",").map((v) => v.trim());
+    return values.includes(value);
+  };
 
   const handleCheckbox = (typeValue: string, checked: boolean) => {
-    if (checked) {
-      const newValue = queryType ? `${queryType},${typeValue}` : typeValue;
-      setQueryType(newValue);
-    } else {
-      const newValue = queryType
-        .replace(typeValue, "")
-        .replace(/^,+|,+$/g, "")
-        .replace(/,+/g, ",");
-      setQueryType(newValue);
+    const currentValues = queryType
+      ? queryType
+          .split(",")
+          .map((v) => v.trim())
+          .filter((v) => v)
+      : [];
+
+    if (checked && !currentValues.includes(typeValue)) {
+      setQueryType([...currentValues, typeValue].join(","));
+    } else if (!checked) {
+      const newValues = currentValues.filter((v) => v !== typeValue);
+      setQueryType(newValues.length > 0 ? newValues.join(",") : "");
     }
   };
 
@@ -121,12 +157,12 @@ const Type = () => {
                 onCheckedChange={(checked) =>
                   handleCheckbox(type, checked as boolean)
                 }
-                checked={queryType.includes(type)}
+                checked={isValueSelected(type, queryType)}
               />
               <label
                 className="text-sm text-muted-foreground cursor-pointer select-none"
                 onClick={() => {
-                  const isCurrentlyChecked = queryType.includes(type);
+                  const isCurrentlyChecked = isValueSelected(type, queryType);
                   handleCheckbox(type, !isCurrentlyChecked);
                 }}
               >
