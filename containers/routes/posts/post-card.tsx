@@ -16,7 +16,7 @@ export const PostCard = (props: PostCardProps) => {
           <h2 className="text-lg font-bold">
             <Link href={`/${props.post.slug}`}>{props.post.title}</Link>
           </h2>
-          <div className="border size-7.5 flex items-center justify-center rounded-sm text-smp pt-1">
+          <div className="border hidden size-7.5 sm:flex items-center justify-center rounded-sm text-smp pt-1">
             {props.index + 1}
           </div>
         </div>

@@ -1,12 +1,14 @@
 import { getPosts } from "@/services/get-posts";
 import { PostCard } from "@/containers/routes/posts/post-card";
 import { AnimatedSection } from "@/containers/routes/posts/animated-section";
+import { Filters } from "@/containers/routes/posts/filters";
 
 export default async function Page() {
   const fetchPosts = await getPosts();
 
   return (
-    <section className="py-5 flex items-center flex-col gap-6">
+    <section className="py-5 grid grid-cols-1 sm:grid-cols-[250px_1fr] gap-4">
+      <Filters />
       <div className="flex flex-col gap-4">
         {fetchPosts.map((post, index) => (
           <AnimatedSection key={post._id?.toString()}>
