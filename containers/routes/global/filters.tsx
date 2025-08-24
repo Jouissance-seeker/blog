@@ -59,7 +59,7 @@ export const Filters = () => {
 };
 
 const Title = ({ value, onChange }: FilterProps) => (
-  <div className="flex h-fit gap-1 bg-card focus-within:border-primary transition-all border p-2.5 rounded-lg">
+  <div className="flex h-fit gap-1 bg-card focus-within:border-primary border p-2.5 rounded-lg">
     <SearchIcon className="size-5 text-muted-foreground" />
     <input
       className="text-sm placeholder:text-muted-foreground text-muted-foreground focus:outline-none flex-1 bg-transparent"
@@ -71,7 +71,7 @@ const Title = ({ value, onChange }: FilterProps) => (
 );
 
 const Author = ({ value, onChange }: FilterProps) => {
-  const authors = ["لکان", "یونگ"];
+  const authors = ["لکان", "یونگ", "کانت"];
 
   const isValueSelected = useCallback(
     (authorValue: string) => {

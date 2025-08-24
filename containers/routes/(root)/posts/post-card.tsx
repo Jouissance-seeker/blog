@@ -29,19 +29,19 @@ export const PostCard = (props: PostCardProps) => {
       <CardFooter className="border-t flex justify-between p-2.5">
         <div className="flex gap-2 flex-wrap">
           {props.post.tags?.map((tag) => (
-            <div key={tag} className="border text-sm bg-card text-card-foreground transition-all duration-300 py-1.5 px-3 rounded-md">
+            <div key={tag} className="border text-sm bg-card text-card-foreground py-1.5 px-3 rounded-md">
               {tag}
             </div>
           ))}
         </div>
         <Link
           href={`/${props.post.slug}`}
-          className="border group/link flex gap-1 items-center bg-card text-card-foreground group transition-all duration-300 hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
+          className="border group/link h-fit flex gap-1 items-center bg-card text-card-foreground group transition-colors hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
         >
-          <p className="text-sm text-foreground transition-all duration-300">
+          <p className="text-sm text-foreground">
             مشاهده بیشتر
           </p>
-          <ArrowUpLeft className="size-4 text-foreground transition-all duration-300 group-hover/link:-rotate-45" />
+          <ArrowUpLeft className="size-4 text-foreground transition-transform duration-300 group-hover/link:-rotate-45" />
         </Link>
       </CardFooter>
     </Card>

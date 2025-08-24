@@ -33,7 +33,7 @@ export default async function Page(props: PageProps) {
         <h1 className="text-xl font-bold">{fetchPost.title}</h1>
         <div className="hidden md:block">
           {fetchPost.tags?.map((tag) => (
-            <div className="border text-sm bg-card text-card-foreground transition-all duration-300 py-2 px-4 rounded-md">
+            <div className="border text-sm bg-card text-card-foreground duration-300 py-2 px-4 rounded-md">
               {tag}
             </div>
           ))}

@@ -132,12 +132,15 @@ export function ModalPost(props: ModalPostProps) {
                   <FormLabel>تگ ها</FormLabel>
                   <FormControl>
                     <MultipleSelector
-                      defaultOptions={["لکان / جستار", "لکان / مفاهیم", "یونگ / جستار", "یونگ / مفاهیم"].map(
-                        (tag) => ({
-                          label: tag,
-                          value: tag,
-                        })
-                      )}
+                      defaultOptions={[
+                        "لکان / جستار",
+                        "لکان / مفاهیم",
+                        "یونگ / مفاهیم",
+                        "کانت / مفاهیم ",
+                      ].map((tag) => ({
+                        label: tag,
+                        value: tag,
+                      }))}
                       value={
                         field.value?.map((tag) => ({
                           label: tag,
