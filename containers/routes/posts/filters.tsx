@@ -17,7 +17,7 @@ export const Filters = () => {
 };
 
 const Search = () => {
-  const [queryQ, setQueryQ] = useQueryState("q", {
+  const [querySearch, setQuerySearch] = useQueryState("q", {
     defaultValue: "",
   });
 
@@ -26,8 +26,8 @@ const Search = () => {
       <SearchIcon className="size-5 text-muted-foreground" />
       <input
         className="text-sm placeholder:text-muted-foreground text-muted-foreground focus:outline-none flex-1 bg-transparent"
-        value={queryQ}
-        onChange={(e) => setQueryQ(e.target.value)}
+        value={querySearch}
+        onChange={(e) => setQuerySearch(e.target.value)}
         placeholder="عنوان را وارد کنید ..."
       />
     </div>
