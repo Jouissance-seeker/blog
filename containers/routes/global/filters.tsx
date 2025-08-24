@@ -42,7 +42,7 @@ export const Filters = () => {
         author: queryAuthor,
         type: queryType,
       });
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(timeoutId);
   }, [queryTitle, queryAuthor, queryType, updateURL]);

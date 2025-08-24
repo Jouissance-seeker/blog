@@ -36,7 +36,7 @@ export const PostCard = (props: PostCardProps) => {
         </div>
         <Link
           href={`/${props.post.slug}`}
-          className="border group/link h-fit flex gap-1 items-center bg-card text-card-foreground group transition-colors hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
+          className="border group/link h-fit flex gap-1 items-center bg-card text-card-foreground group hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
         >
           <p className="text-sm text-foreground">
             مشاهده بیشتر
