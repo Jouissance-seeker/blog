@@ -11,12 +11,15 @@ interface Params {
 
 export const editPost = async (params: Params): Promise<Post> => {
   await connectDB();
+
   if (!params.post._id) {
     throw new Error('آی دی پست یافت نشد');
   }
+
   if (!Types.ObjectId.isValid(params.post._id.toString())) {
     throw new Error('آی دی پست نامعتبر است');
   }
+
   if (params.post.slug) {
     const existingPost = await PostModel.findOne({
       slug: params.post.slug,
@@ -40,9 +43,11 @@ export const editPost = async (params: Params): Promise<Post> => {
     },
     { new: true, lean: true },
   ).lean<Post>();
+
   if (!updatedPost) {
     throw new Error('پست یافت نشد');
   }
+
   return {
     ...updatedPost,
     _id: updatedPost._id?.toString(),

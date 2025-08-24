@@ -10,6 +10,7 @@ interface Params {
 
 export const addPost = async (params: Params): Promise<Post> => {
   await connectDB();
+
   const existingPost = await PostModel.findOne({ slug: params.post.slug });
   if (existingPost) {
     throw new Error('پستی با این اسلاگ وجود دارد');
@@ -17,6 +18,7 @@ export const addPost = async (params: Params): Promise<Post> => {
 
   const newPost = new PostModel(params.post);
   await newPost.save();
+
   return {
     ...newPost.toObject(),
     _id: newPost._id?.toString(),

@@ -6,7 +6,7 @@ import { Post } from '@/types/post';
 
 interface GetPostsParams {
   title: string;
-  authors: string[];
+  authors: string | string[];
   category: string;
   slug?: string;
 }
@@ -20,7 +20,9 @@ const processQueryParam = (param: string) =>
 export const getPosts = async (params: GetPostsParams): Promise<Post[]> => {
   await connectDB();
 
-  const authors = processQueryParam(params.authors.join(','));
+  const authors = Array.isArray(params.authors)
+    ? params.authors
+    : processQueryParam(params.authors || '');
   const categories = processQueryParam(params.category);
 
   const filter: any = {};
