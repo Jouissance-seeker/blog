@@ -60,7 +60,7 @@ const Author = () => {
   const [queryAuthor, setQueryAuthor] = useQueryState("author", {
     defaultValue: "",
   });
-  const authors = ["لکان"];
+  const authors = ["لکان", "یونگ"];
 
   const isValueSelected = (value: string, queryString: string): boolean => {
     if (!queryString) return false;

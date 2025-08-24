@@ -69,7 +69,7 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
   }
 
   return (
-    <html lang="fa" dir="rtl" className="container mx-auto max-w-screen-lg">
+    <html lang="fa" dir="rtl" className="container mx-auto max-w-screen-xl">
       <body className={cn(iranYekan.className, "mx-2 sm:mx-5")}>
         <Providers>
           <Header />
