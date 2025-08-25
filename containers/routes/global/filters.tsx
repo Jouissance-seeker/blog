@@ -31,7 +31,7 @@ export const Filters = () => {
 
   return (
     <aside>
-      <div className="sticky top-24 flex flex-col gap-4 bg-card">
+      <div className="sticky top-24 flex flex-col gap-4">
         <Title
           value={getParam('title')}
           onChange={(value) => updateQuery('title', value)}

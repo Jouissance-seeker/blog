@@ -92,7 +92,7 @@ export default async function Page(props: PageProps) {
                         : 'bg-red-100 text-red-800',
                     )}
                   >
-                    {post.isActive === 'yes' ? 'فعال' : 'غیرفعال'}
+                    {post.isActive === 'yes' ? 'بله' : 'خیر'}
                   </span>
                 </TableCell>
                 <TableCell>

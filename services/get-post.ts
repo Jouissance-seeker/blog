@@ -19,7 +19,6 @@ export const getPost = async (params: Params): Promise<Post> => {
     authors: { $all: authorNames },
     category: params.category,
     slug: params.slug,
-    isActive: 'yes',
   }).lean<Post>();
 
   if (!post) {
