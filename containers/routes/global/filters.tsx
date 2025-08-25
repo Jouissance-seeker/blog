@@ -6,22 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState, useEffect, useMemo } from 'react';
 import { category } from '@/constants/category';
 import { authors } from '@/constants/authors';
-
-const useDebounce = (value: string, delay: number) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-};
+import { useDebounce } from '@/hooks/debounce';
 
 export const Filters = () => {
   const router = useRouter();
@@ -79,13 +64,13 @@ export const Filters = () => {
     setTitleState(value);
   };
 
-  const handleAuthorsChange = (value: string) => {
+  const handleAuthorsChange = useCallback((value: string) => {
     setAuthorsState(value);
-  };
+  }, []);
 
-  const handleCategoryChange = (value: string) => {
+  const handleCategoryChange = useCallback((value: string) => {
     setCategoryState(value);
-  };
+  }, []);
 
   return (
     <aside>
