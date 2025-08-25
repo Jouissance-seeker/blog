@@ -40,6 +40,11 @@ const postSchema = new Schema<Post>(
       type: String,
       required: true,
     },
+    isActive: {
+      type: String,
+      enum: ['yes', 'no'],
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -40,6 +40,7 @@ export const editPost = async (params: Params): Promise<Post> => {
       quote: params.post.quote,
       summary: params.post.summary,
       content: params.post.content,
+      isActive: params.post.isActive,
     },
     { new: true, lean: true },
   ).lean<Post>();

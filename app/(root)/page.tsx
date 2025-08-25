@@ -19,6 +19,7 @@ export default async function Page(props: PageProps) {
     title: searchParams.title ?? '',
     authors: searchParams.authors ?? [],
     category: searchParams.category ?? '',
+    isAll: false,
   });
 
   return (

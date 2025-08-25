@@ -42,6 +42,7 @@ const formSchema = z.object({
   quote: z.string().optional(),
   summary: z.string().min(1),
   content: z.string().min(1),
+  isActive: z.enum(['yes', 'no']),
 });
 
 interface ModalPostProps {
@@ -193,7 +194,7 @@ export function ModalPost(props: ModalPostProps) {
                   <FormControl>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger>
-                        <SelectValue placeholder="دسته بندی را انتخاب کنید">
+                        <SelectValue>
                           {field.value
                             ? (() => {
                                 const cat = category.find(
@@ -213,6 +214,45 @@ export function ModalPost(props: ModalPostProps) {
                         {category.map((cat) => (
                           <SelectItem key={cat.en} value={cat.en}>
                             {cat.fa}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isActive"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>نمایش</FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger>
+                        <SelectValue>
+                          {field.value === 'yes' ? 'بله' : 'خیر'}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent
+                        avoidCollisions={true}
+                        position="popper"
+                        sideOffset={4}
+                        className="bg-background"
+                      >
+                        {[
+                          {
+                            label: 'بله',
+                            value: 'yes',
+                          },
+                          {
+                            label: 'خیر',
+                            value: 'no',
+                          },
+                        ].map((item) => (
+                          <SelectItem key={item.value} value={item.value}>
+                            {item.label}
                           </SelectItem>
                         ))}
                       </SelectContent>

@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test-db": "npx tsx scripts/test-db.ts",
-    "update-db": "npx tsx scripts/update-db-simple.ts"
+    "update-db": "npx tsx scripts/update-db-simple.ts",
+    "update-posts-isactive": "npx tsx scripts/update-posts-isactive.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

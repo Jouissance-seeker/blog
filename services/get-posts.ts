@@ -9,6 +9,7 @@ interface GetPostsParams {
   authors: string[];
   category: string;
   slug?: string;
+  isAll?: boolean;
 }
 
 const processQueryParam = (param: string) =>
@@ -43,6 +44,10 @@ export const getPosts = async (params: GetPostsParams): Promise<Post[]> => {
 
   if (params.slug?.trim()) {
     filter.slug = { $regex: params.slug, $options: 'i' };
+  }
+
+  if (!params.isAll) {
+    filter.isActive = 'yes';
   }
 
   const posts = await PostModel.find(filter)

@@ -19,6 +19,7 @@ interface PageProps {
     authors?: string;
     category?: string;
     slug?: string;
+    isActive?: string;
   }>;
 }
 
@@ -34,6 +35,7 @@ export default async function Page(props: PageProps) {
     authors: queryAuthors ? queryAuthors.split(',').map((s) => s.trim()) : [],
     category: queryCategory,
     slug: querySlug,
+    isAll: true,
   });
 
   return (
@@ -49,6 +51,7 @@ export default async function Page(props: PageProps) {
               <TableHead>اسلاگ</TableHead>
               <TableHead>اندیشمندان</TableHead>
               <TableHead>دسته بندی</TableHead>
+              <TableHead>نمایش</TableHead>
               <TableHead>عملیات</TableHead>
             </TableRow>
           </TableHeader>
@@ -65,6 +68,17 @@ export default async function Page(props: PageProps) {
                 <TableCell>{post.slug}</TableCell>
                 <TableCell>{post.authors?.join(' - ')}</TableCell>
                 <TableCell>{post.category}</TableCell>
+                <TableCell>
+                  <span
+                    className={`px-2 py-1 rounded text-xs ${
+                      post.isActive === 'yes'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}
+                  >
+                    {post.isActive === 'yes' ? 'بله' : 'خیر'}
+                  </span>
+                </TableCell>
                 <TableCell>
                   <ModalPost post={post} mode="edit" />
                   <ModalDeletePost id={String(post._id)} />

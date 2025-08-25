@@ -9,6 +9,7 @@ export type Post = {
   quote?: string;
   summary: string;
   content: string;
+  isActive: 'yes' | 'no';
   createdAt?: Date;
   updatedAt?: Date;
 };
