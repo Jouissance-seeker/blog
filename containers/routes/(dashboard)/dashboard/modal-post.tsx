@@ -18,7 +18,7 @@ import { Textarea } from '@/uis/textarea';
 import { addPost } from '@/services/add-post';
 import { editPost } from '@/services/edit-post';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Post } from '@/types/post';
 import { Pencil } from 'lucide-react';
@@ -53,6 +53,7 @@ interface ModalPostProps {
 export function ModalPost(props: ModalPostProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const isEditMode = props.mode === 'edit' || !!props.post;
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -81,7 +82,6 @@ export function ModalPost(props: ModalPostProps) {
       ...(values.quote &&
         values.quote.trim() !== '' && { quote: values.quote.trim() }),
     };
-
     if (isEditMode) {
       await editPost({ post: postData as any });
       toast.success('پست با موفقیت ویرایش شد');
@@ -90,7 +90,11 @@ export function ModalPost(props: ModalPostProps) {
       toast.success('پست با موفقیت افزوده شد');
     }
     setOpen(false);
-    router.push('/dashboard');
+    const currentParams = searchParams.toString();
+    const dashboardUrl = currentParams
+      ? `/dashboard?${currentParams}`
+      : '/dashboard';
+    router.push(dashboardUrl);
   }
 
   const defaultTrigger = isEditMode ? (
