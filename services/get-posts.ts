@@ -6,7 +6,7 @@ import { Post } from '@/types/post';
 
 interface GetPostsParams {
   title: string;
-  authors: string | string[];
+  authors: string[];
   category: string;
   slug?: string;
 }

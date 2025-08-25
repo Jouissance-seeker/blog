@@ -3,7 +3,7 @@
 import { Search as SearchIcon } from 'lucide-react';
 import { Checkbox } from '@/uis/checkbox';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { category } from '@/constants/category';
 import { authors } from '@/constants/authors';
 
@@ -12,44 +12,93 @@ interface FilterProps {
   onChange: (value: string) => void;
 }
 
+const getParam = (sp: URLSearchParams, key: string) => sp.get(key) ?? '';
+
 export const Filters = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const [queryTitle, setQueryTitle] = useState(searchParams.get('title') ?? '');
+
+  const [queryTitle, setQueryTitle] = useState(getParam(searchParams, 'title'));
   const [queryAuthors, setQueryAuthors] = useState(
-    searchParams.get('authors') ?? '',
+    getParam(searchParams, 'authors'),
   );
   const [queryCategory, setQueryCategory] = useState(
-    searchParams.get('category') ?? '',
+    getParam(searchParams, 'category'),
   );
-  const updateURL = useCallback(
-    (newParams: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams);
-      Object.entries(newParams).forEach(([key, value]) => {
-        if (value) {
-          params.set(key, value);
-        } else {
-          params.delete(key);
-        }
+
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const buildNextURL = useCallback(
+    (current: URLSearchParams, updates: Record<string, string>) => {
+      const params = new URLSearchParams(current);
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value && value.trim()) params.set(key, value.trim());
+        else params.delete(key);
       });
-      const queryString = params.toString();
-      const newURL = queryString ? `${pathname}?${queryString}` : pathname;
-      router.push(newURL);
+      const qs = params.toString();
+      return qs ? `${pathname}?${qs}` : pathname;
     },
-    [searchParams, pathname, router],
+    [pathname],
   );
+
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      updateURL({
+    const title = getParam(searchParams, 'title');
+    const authorsParam = getParam(searchParams, 'authors');
+    const categoryParam = getParam(searchParams, 'category');
+
+    setQueryTitle(title);
+    setQueryAuthors(authorsParam);
+    setQueryCategory(categoryParam);
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+      debounceRef.current = null;
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const current = new URLSearchParams(searchParams);
+    const sameAsURL =
+      getParam(current, 'title') === queryTitle &&
+      getParam(current, 'authors') === queryAuthors &&
+      getParam(current, 'category') === queryCategory;
+
+    if (sameAsURL) return;
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      const nextURL = buildNextURL(current, {
         title: queryTitle,
         authors: queryAuthors,
         category: queryCategory,
       });
+
+      const currentURL = current.toString().length
+        ? `${pathname}?${current.toString()}`
+        : pathname;
+
+      if (nextURL !== currentURL) {
+        router.replace(nextURL);
+      }
+      debounceRef.current = null;
     }, 300);
 
-    return () => clearTimeout(timeoutId);
-  }, [queryTitle, queryAuthors, queryCategory, updateURL]);
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+        debounceRef.current = null;
+      }
+    };
+  }, [
+    queryTitle,
+    queryAuthors,
+    queryCategory,
+    searchParams,
+    buildNextURL,
+    pathname,
+    router,
+  ]);
 
   return (
     <aside>
@@ -78,7 +127,10 @@ const Author = ({ value, onChange }: FilterProps) => {
   const isValueSelected = useCallback(
     (authorValue: string) => {
       if (!value) return false;
-      const values = value.split(',').map((v) => v.trim());
+      const values = value
+        .split(',')
+        .map((v) => v.trim())
+        .filter(Boolean);
       return values.includes(authorValue);
     },
     [value],
@@ -96,8 +148,8 @@ const Author = ({ value, onChange }: FilterProps) => {
       if (checked && !currentValues.includes(authorValue)) {
         onChange([...currentValues, authorValue].join(','));
       } else if (!checked) {
-        const newValues = currentValues.filter((v) => v !== authorValue);
-        onChange(newValues.length > 0 ? newValues.join(',') : '');
+        const next = currentValues.filter((v) => v !== authorValue);
+        onChange(next.length ? next.join(',') : '');
       }
     },
     [value, onChange],
@@ -139,7 +191,10 @@ const Category = ({ value, onChange }: FilterProps) => {
   const isValueSelected = useCallback(
     (categoryValue: string) => {
       if (!value) return false;
-      const values = value.split(',').map((v) => v.trim());
+      const values = value
+        .split(',')
+        .map((v) => v.trim())
+        .filter(Boolean);
       return values.includes(categoryValue);
     },
     [value],
@@ -157,8 +212,8 @@ const Category = ({ value, onChange }: FilterProps) => {
       if (checked && !currentValues.includes(categoryValue)) {
         onChange([...currentValues, categoryValue].join(','));
       } else if (!checked) {
-        const newValues = currentValues.filter((v) => v !== categoryValue);
-        onChange(newValues.length > 0 ? newValues.join(',') : '');
+        const next = currentValues.filter((v) => v !== categoryValue);
+        onChange(next.length ? next.join(',') : '');
       }
     },
     [value, onChange],
@@ -172,18 +227,18 @@ const Category = ({ value, onChange }: FilterProps) => {
       <div className="flex h-fit gap-1 p-2.5">
         <ul className="flex flex-col gap-1">
           {category.map((category) => (
-            <li key={category.fa} className="flex items-center gap-2">
+            <li key={category.en} className="flex items-center gap-2">
               <Checkbox
                 onCheckedChange={(checked) =>
-                  handleCheckbox(category.fa, checked as boolean)
+                  handleCheckbox(category.en, checked as boolean)
                 }
-                checked={isValueSelected(category.fa)}
+                checked={isValueSelected(category.en)}
               />
               <label
                 className="text-sm text-muted-foreground cursor-pointer select-none"
                 onClick={() => {
-                  const isCurrentlyChecked = isValueSelected(category.fa);
-                  handleCheckbox(category.fa, !isCurrentlyChecked);
+                  const isCurrentlyChecked = isValueSelected(category.en);
+                  handleCheckbox(category.en, !isCurrentlyChecked);
                 }}
               >
                 {category.fa}
