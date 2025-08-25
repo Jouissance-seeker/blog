@@ -3,6 +3,7 @@ import { AnimatedMarkdown } from '@/containers/routes/(root)/post/animated-markd
 import { AnimatedSection } from '@/containers/routes/(root)/posts/animated-section';
 import { notFound } from 'next/navigation';
 import { getPost } from '@/services/get-post';
+import { Tags } from '@/containers/routes/(root)/global/tags';
 
 interface PageProps {
   params: Promise<{
@@ -28,6 +29,10 @@ export default async function Page(props: PageProps) {
   }
   return (
     <div className="flex flex-col items-center">
+      <div className="flex justify-between gap-2 w-full items-center py-4 border-b sticky top-[85px] bg-background z-20">
+        <h1 className="text-xl font-bold">{fetchPost.title}</h1>
+        <Tags data={fetchPost} />
+      </div>
       <div className="prose dark:prose-invert max-w-full w-full text-justify mb-16">
         {fetchPost.quote && (
           <AnimatedSection>
