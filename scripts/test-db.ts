@@ -3,14 +3,14 @@ import { join } from 'path';
 import mongoose from 'mongoose';
 import connectDB from '../lib/mongodb';
 
-config({ path: join(process.cwd(), '.env.local') });
+config({ path: join(process.cwd(), '.env') });
 
 async function testConnection() {
   console.log('🔍 Testing MongoDB connection...\n');
   try {
     if (!process.env.MONGODB_URI) {
       console.log('❌ MONGODB_URI environment variable is not set');
-      console.log('📝 Please create .env.local file with:');
+      console.log('📝 Please create .env file with:');
       console.log(
         '   MONGODB_URI=mongodb://localhost:27017/lacanian-psychoanalysis',
       );

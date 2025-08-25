@@ -82,7 +82,7 @@ export const Filters = () => {
         router.replace(nextURL);
       }
       debounceRef.current = null;
-    }, 300);
+    }, 500);
 
     return () => {
       if (debounceRef.current) {
