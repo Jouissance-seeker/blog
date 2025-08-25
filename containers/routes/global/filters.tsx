@@ -5,6 +5,7 @@ import { Checkbox } from '@/uis/checkbox';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
 import { category } from '@/constants/category';
+import { authors } from '@/constants/authors';
 
 interface FilterProps {
   value: string;
@@ -74,8 +75,6 @@ const Title = ({ value, onChange }: FilterProps) => (
 );
 
 const Author = ({ value, onChange }: FilterProps) => {
-  const authors = ['لکان', 'یونگ', 'کانت'];
-
   const isValueSelected = useCallback(
     (authorValue: string) => {
       if (!value) return false;
@@ -112,21 +111,21 @@ const Author = ({ value, onChange }: FilterProps) => {
       <div className="flex h-fit gap-1 p-2.5">
         <ul className="flex flex-col gap-1">
           {authors.map((author) => (
-            <li key={author} className="flex items-center gap-2">
+            <li key={author.en} className="flex items-center gap-2">
               <Checkbox
                 onCheckedChange={(checked) =>
-                  handleCheckbox(author, checked as boolean)
+                  handleCheckbox(author.en, checked as boolean)
                 }
-                checked={isValueSelected(author)}
+                checked={isValueSelected(author.en)}
               />
               <label
                 className="text-sm text-muted-foreground cursor-pointer select-none"
                 onClick={() => {
-                  const isCurrentlyChecked = isValueSelected(author);
-                  handleCheckbox(author, !isCurrentlyChecked);
+                  const isCurrentlyChecked = isValueSelected(author.en);
+                  handleCheckbox(author.en, !isCurrentlyChecked);
                 }}
               >
-                {author}
+                {author.fa}
               </label>
             </li>
           ))}

@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/uis/card';
 import Link from 'next/link';
 import { ArrowUpLeft } from 'lucide-react';
 import { generateCardLink } from '@/utils/generate-card-link';
+import { Tags } from '../global/tags';
 
 interface PostCardProps {
   post: Post;
@@ -28,6 +29,7 @@ export const PostCard = (props: PostCardProps) => {
         </p>
       </CardContent>
       <CardFooter className="border-t flex items-start justify-between p-2.5">
+        <Tags data={props.post} />
         <Link
           href={generateCardLink(props.post)}
           className="border group/link h-fit whitespace-nowrap flex gap-1 items-center bg-card text-card-foreground group hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
