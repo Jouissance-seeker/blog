@@ -1,7 +1,6 @@
 'use client';
 
 import { Post } from '@/types/post';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { authors } from '@/constants/authors';
 import { category } from '@/constants/category';
 
