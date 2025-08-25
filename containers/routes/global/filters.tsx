@@ -2,30 +2,48 @@
 
 import { Search as SearchIcon } from 'lucide-react';
 import { Checkbox } from '@/uis/checkbox';
-import { useQueryState } from 'nuqs';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 import { category } from '@/constants/category';
 import { authors } from '@/constants/authors';
 
 export const Filters = () => {
-  const [title, setTitle] = useQueryState('title', {
-    defaultValue: '',
-    throttleMs: 300,
-  });
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const [authorsValue, setAuthorsValue] = useQueryState('authors', {
-    defaultValue: '',
-  });
+  const updateQuery = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      if (value && value.trim()) {
+        params.set(name, value.trim());
+      } else {
+        params.delete(name);
+      }
+      const qs = params.toString();
+      const url = qs ? `${pathname}?${qs}` : pathname;
+      router.push(url, { scroll: false });
+    },
+    [searchParams, pathname, router],
+  );
 
-  const [categoryValue, setCategoryValue] = useQueryState('category', {
-    defaultValue: '',
-  });
+  const getParam = (key: string) => searchParams.get(key) ?? '';
 
   return (
     <aside>
       <div className="sticky top-24 flex flex-col gap-4 bg-card">
-        <Title value={title} onChange={setTitle} />
-        <Author value={authorsValue} onChange={setAuthorsValue} />
-        <Category value={categoryValue} onChange={setCategoryValue} />
+        <Title
+          value={getParam('title')}
+          onChange={(value) => updateQuery('title', value)}
+        />
+        <Author
+          value={getParam('authors')}
+          onChange={(value) => updateQuery('authors', value)}
+        />
+        <Category
+          value={getParam('category')}
+          onChange={(value) => updateQuery('category', value)}
+        />
       </div>
     </aside>
   );
