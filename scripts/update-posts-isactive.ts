@@ -1,5 +1,8 @@
 import connectDB from '../lib/mongodb';
 import { PostModel } from '../models/post';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 async function updatePostsIsActive() {
   try {

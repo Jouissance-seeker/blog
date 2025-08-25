@@ -12,6 +12,9 @@ import Link from 'next/link';
 import { ModalDeletePost } from '@/containers/routes/(dashboard)/dashboard/modal-delete-post';
 import { Filters } from '@/containers/routes/global/filters';
 import { ResultEmpty } from '@/containers/routes/global/result-empty';
+import { authors } from '@/constants/authors';
+import { category } from '@/constants/category';
+import { cn } from '@/utils/cn';
 
 interface PageProps {
   searchParams: Promise<{
@@ -66,17 +69,30 @@ export default async function Page(props: PageProps) {
                   </Link>
                 </TableCell>
                 <TableCell>{post.slug}</TableCell>
-                <TableCell>{post.authors?.join(' - ')}</TableCell>
-                <TableCell>{post.category}</TableCell>
+                <TableCell>
+                  {post.authors
+                    ?.map((author) => {
+                      const authorData = authors.find((a) => a.en === author);
+                      return authorData ? authorData.fa : author;
+                    })
+                    .join(' - ')}
+                </TableCell>
+                <TableCell>
+                  {(() => {
+                    const cat = category.find((c) => c.en === post.category);
+                    return cat ? cat.fa : post.category;
+                  })()}
+                </TableCell>
                 <TableCell>
                   <span
-                    className={`px-2 py-1 rounded text-xs ${
+                    className={cn(
+                      'px-2 py-1 rounded text-xs',
                       post.isActive === 'yes'
                         ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}
+                        : 'bg-red-100 text-red-800',
+                    )}
                   >
-                    {post.isActive === 'yes' ? 'بله' : 'خیر'}
+                    {post.isActive === 'yes' ? 'فعال' : 'غیرفعال'}
                   </span>
                 </TableCell>
                 <TableCell>

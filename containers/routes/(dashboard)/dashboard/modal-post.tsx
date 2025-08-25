@@ -70,6 +70,7 @@ export function ModalPost(props: ModalPostProps) {
         content: props.post.content,
         authors: props.post.authors,
         category: props.post.category,
+        isActive: props.post.isActive,
       });
     }
   }, [open, props.post, form]);
