@@ -3,47 +3,96 @@
 import { Search as SearchIcon } from 'lucide-react';
 import { Checkbox } from '@/uis/checkbox';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 import { category } from '@/constants/category';
 import { authors } from '@/constants/authors';
+
+const useDebounce = (value: string, delay: number) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 
 export const Filters = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const updateQuery = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      if (value && value.trim()) {
-        params.set(name, value.trim());
-      } else {
-        params.delete(name);
-      }
-      const qs = params.toString();
+  const [titleState, setTitleState] = useState(searchParams.get('title') ?? '');
+  const [authorsState, setAuthorsState] = useState(
+    searchParams.get('authors') ?? '',
+  );
+  const [categoryState, setCategoryState] = useState(
+    searchParams.get('category') ?? '',
+  );
+
+  const debouncedTitle = useDebounce(titleState, 1000);
+
+  const updateURL = useCallback(
+    (params: Record<string, string>) => {
+      const urlParams = new URLSearchParams(searchParams);
+
+      Object.entries(params).forEach(([key, value]) => {
+        if (value && value.trim()) {
+          urlParams.set(key, value.trim());
+        } else {
+          urlParams.delete(key);
+        }
+      });
+
+      const qs = urlParams.toString();
       const url = qs ? `${pathname}?${qs}` : pathname;
       router.push(url, { scroll: false });
     },
     [searchParams, pathname, router],
   );
 
-  const getParam = (key: string) => searchParams.get(key) ?? '';
+  useEffect(() => {
+    updateURL({
+      title: debouncedTitle,
+      authors: authorsState,
+      category: categoryState,
+    });
+  }, [debouncedTitle, authorsState, categoryState, updateURL]);
+
+  useEffect(() => {
+    const urlTitle = searchParams.get('title') ?? '';
+    const urlAuthors = searchParams.get('authors') ?? '';
+    const urlCategory = searchParams.get('category') ?? '';
+
+    if (titleState !== urlTitle) setTitleState(urlTitle);
+    if (authorsState !== urlAuthors) setAuthorsState(urlAuthors);
+    if (categoryState !== urlCategory) setCategoryState(urlCategory);
+  }, [searchParams]);
+
+  const handleTitleChange = (value: string) => {
+    setTitleState(value);
+  };
+
+  const handleAuthorsChange = (value: string) => {
+    setAuthorsState(value);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setCategoryState(value);
+  };
 
   return (
     <aside>
       <div className="sticky top-24 flex flex-col gap-4">
-        <Title
-          value={getParam('title')}
-          onChange={(value) => updateQuery('title', value)}
-        />
-        <Author
-          value={getParam('authors')}
-          onChange={(value) => updateQuery('authors', value)}
-        />
-        <Category
-          value={getParam('category')}
-          onChange={(value) => updateQuery('category', value)}
-        />
+        <TitleFilter value={titleState} onChange={handleTitleChange} />
+        <AuthorFilter value={authorsState} onChange={handleAuthorsChange} />
+        <CategoryFilter value={categoryState} onChange={handleCategoryChange} />
       </div>
     </aside>
   );
@@ -54,7 +103,7 @@ interface FilterProps {
   onChange: (value: string) => void;
 }
 
-const Title = ({ value, onChange }: FilterProps) => (
+const TitleFilter = ({ value, onChange }: FilterProps) => (
   <div className="flex h-fit gap-1 bg-card focus-within:border-primary border p-2.5 rounded-lg">
     <SearchIcon className="size-5 text-muted-foreground" />
     <input
@@ -66,37 +115,45 @@ const Title = ({ value, onChange }: FilterProps) => (
   </div>
 );
 
-const Author = ({ value, onChange }: FilterProps) => {
-  const isChecked = (authorValue: string) => {
-    if (!value) return false;
+const AuthorFilter = ({ value, onChange }: FilterProps) => {
+  const selectedAuthors = useMemo(() => {
+    if (!value) return [];
     return value
       .split(',')
       .map((v) => v.trim())
-      .includes(authorValue);
-  };
+      .filter(Boolean);
+  }, [value]);
 
-  const handleChange = (authorValue: string, checked: boolean) => {
-    const current = value
-      ? value
-          .split(',')
-          .map((v) => v.trim())
-          .filter(Boolean)
-      : [];
+  const isChecked = useCallback(
+    (authorValue: string) => {
+      return selectedAuthors.includes(authorValue);
+    },
+    [selectedAuthors],
+  );
 
-    if (checked) {
-      if (!current.includes(authorValue)) {
-        onChange([...current, authorValue].join(','));
+  const handleChange = useCallback(
+    (authorValue: string, checked: boolean) => {
+      let newAuthors: string[];
+
+      if (checked) {
+        if (!selectedAuthors.includes(authorValue)) {
+          newAuthors = [...selectedAuthors, authorValue];
+        } else {
+          return;
+        }
+      } else {
+        newAuthors = selectedAuthors.filter((v) => v !== authorValue);
       }
-    } else {
-      const next = current.filter((v) => v !== authorValue);
-      onChange(next.join(','));
-    }
-  };
+
+      onChange(newAuthors.join(','));
+    },
+    [selectedAuthors, onChange],
+  );
 
   return (
     <div className="flex flex-col border rounded-lg bg-card">
       <div className="p-2 border-b">
-        <span className="text-smp font-medium">اندیشمندان</span>
+        <span className="text-sm font-medium">اندیشمندان</span>
       </div>
       <div className="flex h-fit gap-1 p-2.5">
         <ul className="flex flex-col gap-1">
@@ -123,37 +180,45 @@ const Author = ({ value, onChange }: FilterProps) => {
   );
 };
 
-const Category = ({ value, onChange }: FilterProps) => {
-  const isChecked = (categoryValue: string) => {
-    if (!value) return false;
+const CategoryFilter = ({ value, onChange }: FilterProps) => {
+  const selectedCategories = useMemo(() => {
+    if (!value) return [];
     return value
       .split(',')
       .map((v) => v.trim())
-      .includes(categoryValue);
-  };
+      .filter(Boolean);
+  }, [value]);
 
-  const handleChange = (categoryValue: string, checked: boolean) => {
-    const current = value
-      ? value
-          .split(',')
-          .map((v) => v.trim())
-          .filter(Boolean)
-      : [];
+  const isChecked = useCallback(
+    (categoryValue: string) => {
+      return selectedCategories.includes(categoryValue);
+    },
+    [selectedCategories],
+  );
 
-    if (checked) {
-      if (!current.includes(categoryValue)) {
-        onChange([...current, categoryValue].join(','));
+  const handleChange = useCallback(
+    (categoryValue: string, checked: boolean) => {
+      let newCategories: string[];
+
+      if (checked) {
+        if (!selectedCategories.includes(categoryValue)) {
+          newCategories = [...selectedCategories, categoryValue];
+        } else {
+          return;
+        }
+      } else {
+        newCategories = selectedCategories.filter((v) => v !== categoryValue);
       }
-    } else {
-      const next = current.filter((v) => v !== categoryValue);
-      onChange(next.join(','));
-    }
-  };
+
+      onChange(newCategories.join(','));
+    },
+    [selectedCategories, onChange],
+  );
 
   return (
     <div className="flex flex-col border rounded-lg bg-card">
       <div className="p-2 border-b">
-        <span className="text-smp font-medium">دسته بندی</span>
+        <span className="text-sm font-medium">دسته بندی</span>
       </div>
       <div className="flex h-fit gap-1 p-2.5">
         <ul className="flex flex-col gap-1">
