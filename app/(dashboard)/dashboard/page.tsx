@@ -12,7 +12,6 @@ import Link from 'next/link';
 import { ModalDeletePost } from '@/containers/routes/(dashboard)/dashboard/modal-delete-post';
 import { Filters } from '@/containers/routes/global/filters';
 import { ResultEmpty } from '@/containers/routes/global/result-empty';
-import { generateCardLink } from '@/utils/generate-card-link';
 
 interface PageProps {
   searchParams: Promise<{
@@ -57,7 +56,11 @@ export default async function Page(props: PageProps) {
             {fetchPosts.map((post) => (
               <TableRow key={post._id?.toString()}>
                 <TableCell>
-                  <Link href={generateCardLink(post)}>{post.title}</Link>
+                  <Link
+                    href={`/${post.authors.join('-')}/${post.category}/${post.slug}`}
+                  >
+                    {post.title}
+                  </Link>
                 </TableCell>
                 <TableCell>{post.slug}</TableCell>
                 <TableCell>{post.authors?.join(' - ')}</TableCell>

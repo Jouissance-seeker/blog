@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from '@/uis/select';
 import { category } from '@/constants/category';
+import { authors } from '@/constants/authors';
 
 const formSchema = z.object({
   _id: z.string().optional(),
@@ -157,21 +158,15 @@ export function ModalPost(props: ModalPostProps) {
                   <FormLabel>اندیشمندان</FormLabel>
                   <FormControl>
                     <MultipleSelector
-                      defaultOptions={[
-                        { label: 'لکان', value: 'lacan' },
-                        { label: 'یونگ', value: 'jung' },
-                        { label: 'کانت', value: 'kant' },
-                      ]}
+                      defaultOptions={authors.map((author) => ({
+                        label: author.fa,
+                        value: author.en,
+                      }))}
                       value={
                         field.value?.map((tag) => {
-                          // تبدیل مقادیر انگلیسی به فارسی برای نمایش
-                          const authorMapping: Record<string, string> = {
-                            'lacan': 'لکان',
-                            'jung': 'یونگ',
-                            'kant': 'کانت',
-                          };
+                          const author = authors.find((a) => a.en === tag);
                           return {
-                            label: authorMapping[tag] || tag,
+                            label: author ? author.fa : tag,
                             value: tag,
                           };
                         }) || []
@@ -198,7 +193,16 @@ export function ModalPost(props: ModalPostProps) {
                   <FormControl>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue placeholder="دسته بندی را انتخاب کنید">
+                          {field.value
+                            ? (() => {
+                                const cat = category.find(
+                                  (c) => c.en === field.value,
+                                );
+                                return cat ? cat.fa : field.value;
+                              })()
+                            : ''}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent
                         avoidCollisions={true}
@@ -206,9 +210,9 @@ export function ModalPost(props: ModalPostProps) {
                         sideOffset={4}
                         className="bg-background"
                       >
-                        {category.map((category) => (
-                          <SelectItem key={category.fa} value={category.fa}>
-                            {category.fa}
+                        {category.map((cat) => (
+                          <SelectItem key={cat.en} value={cat.en}>
+                            {cat.fa}
                           </SelectItem>
                         ))}
                       </SelectContent>

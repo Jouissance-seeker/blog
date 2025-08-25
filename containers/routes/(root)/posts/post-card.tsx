@@ -2,7 +2,6 @@ import { Post } from '@/types/post';
 import { Card, CardContent, CardFooter, CardHeader } from '@/uis/card';
 import Link from 'next/link';
 import { ArrowUpLeft } from 'lucide-react';
-import { generateCardLink } from '@/utils/generate-card-link';
 import { Tags } from '../global/tags';
 
 interface PostCardProps {
@@ -16,7 +15,11 @@ export const PostCard = (props: PostCardProps) => {
       <CardHeader className="flex p-2.5 justify-between gap-3 border-b">
         <div className="flex justify-between w-full items-center gap-3">
           <h2 className="font-bold">
-            <Link href={generateCardLink(props.post)}>{props.post.title}</Link>
+            <Link
+              href={`/${props.post.authors.join('-')}/${props.post.category}/${props.post.slug}`}
+            >
+              {props.post.title}
+            </Link>
           </h2>
           <div className="border size-7.5 flex items-center justify-center rounded-sm text-smp pt-1">
             {props.number + 1}
@@ -31,7 +34,7 @@ export const PostCard = (props: PostCardProps) => {
       <CardFooter className="border-t flex items-start justify-between p-2.5">
         <Tags data={props.post} />
         <Link
-          href={generateCardLink(props.post)}
+          href={`/${props.post.authors.join('-')}/${props.post.category}/${props.post.slug}`}
           className="border group/link h-fit whitespace-nowrap flex gap-1 items-center bg-card text-card-foreground group hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
         >
           <p className="text-sm text-foreground">مشاهده بیشتر</p>
