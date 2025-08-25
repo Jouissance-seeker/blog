@@ -157,15 +157,24 @@ export function ModalPost(props: ModalPostProps) {
                   <FormLabel>اندیشمندان</FormLabel>
                   <FormControl>
                     <MultipleSelector
-                      defaultOptions={['لکان', 'یونگ', 'کانت'].map((tag) => ({
-                        label: tag,
-                        value: tag,
-                      }))}
+                      defaultOptions={[
+                        { label: 'لکان', value: 'lacan' },
+                        { label: 'یونگ', value: 'jung' },
+                        { label: 'کانت', value: 'kant' },
+                      ]}
                       value={
-                        field.value?.map((tag) => ({
-                          label: tag,
-                          value: tag,
-                        })) || []
+                        field.value?.map((tag) => {
+                          // تبدیل مقادیر انگلیسی به فارسی برای نمایش
+                          const authorMapping: Record<string, string> = {
+                            'lacan': 'لکان',
+                            'jung': 'یونگ',
+                            'kant': 'کانت',
+                          };
+                          return {
+                            label: authorMapping[tag] || tag,
+                            value: tag,
+                          };
+                        }) || []
                       }
                       onChange={(options) => {
                         field.onChange(options.map((option) => option.value));
