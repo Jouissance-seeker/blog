@@ -67,7 +67,7 @@ export const PostList = ({ initialPosts }: PostListProps) => {
   }
 
   return (
-    <Table>
+    <Table className="bg-background">
       <TableHeader>
         <TableRow>
           <TableHead>عنوان</TableHead>
