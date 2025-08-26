@@ -1,6 +1,6 @@
-import { getPosts } from '@/services/get-posts';
+import { getPosts } from '@/services/post/get-posts';
 import { Filters } from '@/containers/routes/global/filters';
-import { PostList } from '@/containers/routes/(root)/posts/post-list';
+import { PostList } from '@/containers/routes/post/post-list';
 
 export const dynamic = 'force-static';
 

@@ -1,51 +1,47 @@
-import { marked } from 'marked';
+import { getConcepts } from '@/services/concept/get-concepts';
+import { getConcept } from '@/services/concept/get-concept';
 import { notFound } from 'next/navigation';
-import { Tag } from '@/containers/routes/global/tag';
-import { getPosts } from '@/services/post/get-posts';
-import { getPost } from '@/services/post/get-post';
 import { AnimatedSection } from '@/containers/routes/global/animated-section';
+import { Tag } from '@/containers/routes/global/tag';
 import { AnimatedMarkdown } from '@/containers/routes/global/animated-markdown';
-
-export const dynamic = 'force-static';
-
-interface PageProps {
-  params: Promise<{
-    slug: string[];
-  }>;
-}
+import { marked } from 'marked';
 
 export async function generateStaticParams() {
-  const posts = await getPosts();
-  return posts.map((post) => ({
-    slug: [post.authors.join('-'), post.category, post.slug],
+  const concepts = await getConcepts();
+  return concepts.map((concept) => ({
+    slug: [
+      Array.isArray(concept.authors)
+        ? concept.authors.join('-')
+        : String(concept.authors || ''),
+      String(concept.slug || ''),
+    ],
   }));
 }
 
-export default async function Page(props: PageProps) {
-  const params = await props.params;
-  const fetchPost = await getPost({
-    authors: params.slug[0],
-    category: params.slug[1],
-    slug: params.slug[2],
-  });
+interface PageProps {
+  params: { slug: string[] };
+}
 
-  if (!fetchPost) {
+export default async function EssayPage({ params }: PageProps) {
+  const fetchConcept = await getConcept(params.slug);
+
+  if (!fetchConcept) {
     notFound();
   }
 
   return (
     <div className="flex flex-col items-center">
       <div className="flex justify-between gap-2 w-full items-center px-2.5 py-3 rounded-xl border sticky top-[97px] bg-background z-20">
-        <h1 className="text-xl font-bold">{fetchPost.title}</h1>
-        <Tag data={fetchPost} />
+        <h1 className="text-xl font-bold">{fetchConcept.title}</h1>
+        <Tag data={fetchConcept} />
       </div>
       <div className="prose dark:prose-invert max-w-full w-full text-justify my-7.5 bg-background border rounded-xl px-3">
-        {fetchPost.quote && (
+        {fetchConcept.quote && (
           <AnimatedSection>
             <blockquote>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: marked(fetchPost.quote),
+                  __html: marked(fetchConcept.quote),
                 }}
               />
             </blockquote>
@@ -53,9 +49,9 @@ export default async function Page(props: PageProps) {
         )}
         <AnimatedSection>
           <h3>چکیده</h3>
-          <p>{fetchPost.summary}</p>
+          <p>{fetchConcept.summary}</p>
         </AnimatedSection>
-        <AnimatedMarkdown content={fetchPost.content} />
+        <AnimatedMarkdown content={fetchConcept.content} />
       </div>
     </div>
   );

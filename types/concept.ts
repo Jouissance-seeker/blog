@@ -1,0 +1,14 @@
+import { Types } from 'mongoose';
+
+export type Concept = {
+  _id?: Types.ObjectId | string;
+  authors: string[];
+  slug: string;
+  title: string;
+  quote?: string;
+  summary: string;
+  content: string;
+  isActive: 'yes' | 'no';
+  createdAt?: Date;
+  updatedAt?: Date;
+};

@@ -1,0 +1,19 @@
+import { ConceptList } from '@/containers/routes/dashboard/concepts/concept-list';
+import { Filters } from '@/containers/routes/global/filters';
+import { ResultEmpty } from '@/containers/routes/global/result-empty';
+import { getConcepts } from '@/services/concept/get-concepts';
+
+export default async function DashboardConceptsPage() {
+  const concepts = await getConcepts();
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-[250px_1fr] gap-5 my-5">
+      <Filters />
+      {concepts.length === 0 ? (
+        <ResultEmpty />
+      ) : (
+        <ConceptList initialConcepts={concepts} />
+      )}
+    </div>
+  );
+}

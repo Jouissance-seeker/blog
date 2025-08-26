@@ -1,0 +1,30 @@
+'use server';
+
+import connectDB from '@/lib/mongodb';
+import { PostModel } from '@/models/post';
+import { Post } from '@/types/post';
+
+interface Params {
+  authors: string;
+  category: string;
+  slug: string;
+}
+
+export const getPost = async (params: Params): Promise<Post> => {
+  await connectDB();
+  const authorNames = params.authors.split('-');
+  const post = await PostModel.findOne({
+    authors: { $all: authorNames },
+    category: params.category,
+    slug: params.slug,
+  }).lean<Post>();
+
+  if (!post) {
+    throw new Error('یافت نشد');
+  }
+
+  return {
+    ...post,
+    _id: post._id?.toString(),
+  };
+};
