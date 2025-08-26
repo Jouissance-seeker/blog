@@ -4,6 +4,15 @@ import { notFound } from 'next/navigation';
 import { AnimatedSection } from '@/containers/routes/global/animated-section';
 import { AnimatedMarkdown } from '@/containers/routes/global/animated-markdown';
 import { marked } from 'marked';
+import {
+  BreadcrumbItem,
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbLink,
+} from '@/uis/breadcrumb';
+import Link from 'next/link';
 
 export const dynamic = 'force-static';
 
@@ -33,9 +42,25 @@ export default async function EssayPage({ params }: PageProps) {
 
   return (
     <>
-      <div className="flex justify-between gap-2 w-fit items-center px-2.5 py-3 rounded-xl border bg-background z-20">
-        <h1 className="text-lg font-bold">{fetchEssay.title}</h1>
-      </div>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">خانه</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/essays">جستار ها</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{fetchEssay.title}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <div className="prose dark:prose-invert max-w-full w-full text-justify bg-background border rounded-xl px-3">
         {fetchEssay.quote && (
           <AnimatedSection>
