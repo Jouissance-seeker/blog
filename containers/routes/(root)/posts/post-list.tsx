@@ -14,7 +14,7 @@ export const PostList = ({ initialPosts }: PostListProps) => {
   const [title] = useQueryState('title', { defaultValue: '' });
   const [authors] = useQueryState('authors', { defaultValue: '' });
   const [category] = useQueryState('category', { defaultValue: '' });
-  let filteredPosts = [...initialPosts];
+  let filteredPosts = initialPosts.filter((post) => post.isActive == 'yes');
   if (title.trim()) {
     filteredPosts = filteredPosts.filter(
       (post) =>
