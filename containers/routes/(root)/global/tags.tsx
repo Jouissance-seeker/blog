@@ -11,7 +11,6 @@ interface TagsProps {
 }
 
 export const Tags = ({ data }: TagsProps) => {
-  const [, setTitle] = useQueryState('title', { defaultValue: '' });
   const [, setAuthors] = useQueryState('authors', { defaultValue: '' });
   const [, setCategory] = useQueryState('category', { defaultValue: '' });
   const pathname = usePathname();
@@ -25,7 +24,6 @@ export const Tags = ({ data }: TagsProps) => {
     .join(' - ');
   const handleClick = async () => {
     if (pathname === '/') {
-      await setTitle('');
       await setAuthors(data.authors.join(','));
       await setCategory(data.category);
     } else {

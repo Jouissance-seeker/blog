@@ -11,7 +11,6 @@ interface PostListProps {
 }
 
 export const PostList = ({ initialPosts }: PostListProps) => {
-  const [title] = useQueryState('title', { defaultValue: '' });
   const [authors] = useQueryState('authors', { defaultValue: '' });
   const [category] = useQueryState('category', { defaultValue: '' });
   let filteredPosts = initialPosts
@@ -21,11 +20,6 @@ export const PostList = ({ initialPosts }: PostListProps) => {
         new Date(b.createdAt || 0).getTime() -
         new Date(a.createdAt || 0).getTime(),
     );
-  if (title.trim()) {
-    filteredPosts = filteredPosts.filter((post) =>
-      post.title?.toLowerCase().includes(title.toLowerCase()),
-    );
-  }
   if (authors.trim()) {
     const authorList = authors
       .split(',')

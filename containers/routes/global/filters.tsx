@@ -1,6 +1,5 @@
 'use client';
 
-import { Search as SearchIcon } from 'lucide-react';
 import { Checkbox } from '@/uis/checkbox';
 import { useCallback, useMemo } from 'react';
 import { useQueryState } from 'nuqs';
@@ -8,18 +7,12 @@ import { category } from '@/constants/category';
 import { authors } from '@/constants/authors';
 
 export const Filters = () => {
-  const [titleState, setTitleState] = useQueryState('title', {
-    defaultValue: '',
-  });
   const [authorsState, setAuthorsState] = useQueryState('authors', {
     defaultValue: '',
   });
   const [categoryState, setCategoryState] = useQueryState('category', {
     defaultValue: '',
   });
-  const handleTitleChange = (value: string) => {
-    setTitleState(value);
-  };
   const handleAuthorsChange = useCallback((value: string) => {
     setAuthorsState(value);
   }, []);
@@ -30,7 +23,6 @@ export const Filters = () => {
   return (
     <aside>
       <div className="sticky top-25 flex flex-col gap-4">
-        <TitleFilter value={titleState} onChange={handleTitleChange} />
         <AuthorFilter value={authorsState} onChange={handleAuthorsChange} />
         <CategoryFilter value={categoryState} onChange={handleCategoryChange} />
       </div>
@@ -42,18 +34,6 @@ interface FilterProps {
   value: string;
   onChange: (value: string) => void;
 }
-
-const TitleFilter = ({ value, onChange }: FilterProps) => (
-  <div className="flex h-fit gap-1 bg-card focus-within:border-primary border p-2.5 rounded-lg">
-    <SearchIcon className="size-5 text-muted-foreground" />
-    <input
-      className="text-sm placeholder:text-muted-foreground py-0.5 text-muted-foreground focus:outline-none flex-1 bg-transparent"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder="عنوان را وارد کنید ..."
-    />
-  </div>
-);
 
 const AuthorFilter = ({ value, onChange }: FilterProps) => {
   const selectedAuthors = useMemo(() => {
