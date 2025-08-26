@@ -2,8 +2,11 @@ import { marked } from 'marked';
 import { AnimatedMarkdown } from '@/containers/routes/(root)/post/animated-markdown';
 import { AnimatedSection } from '@/containers/routes/(root)/posts/animated-section';
 import { notFound } from 'next/navigation';
-import { getPost } from '@/services/get-post';
 import { Tags } from '@/containers/routes/(root)/global/tags';
+import { getPosts } from '@/services/get-posts';
+import { getPost } from '@/services/get-post';
+
+export const dynamic = 'force-static';
 
 interface PageProps {
   params: Promise<{
@@ -11,22 +14,25 @@ interface PageProps {
   }>;
 }
 
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    slug: [post.authors.join('-'), post.category, post.slug],
+  }));
+}
+
 export default async function Page(props: PageProps) {
   const params = await props.params;
-
-  if (params.slug.length !== 3) {
-    notFound();
-  }
-
   const fetchPost = await getPost({
-    authors: params.slug[0] ?? '',
-    category: params.slug[1] ?? '',
-    slug: params.slug[2] ?? '',
+    authors: params.slug[0],
+    category: params.slug[1],
+    slug: params.slug[2],
   });
 
   if (!fetchPost) {
     notFound();
   }
+
   return (
     <div className="flex flex-col items-center">
       <div className="flex justify-between gap-2 w-full items-center px-2.5 py-3 rounded-xl border sticky top-[100px] bg-background z-20">

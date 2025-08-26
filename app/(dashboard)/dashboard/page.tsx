@@ -16,30 +16,8 @@ import { authors } from '@/constants/authors';
 import { category } from '@/constants/category';
 import { cn } from '@/utils/cn';
 
-interface PageProps {
-  searchParams: Promise<{
-    title?: string;
-    authors?: string;
-    category?: string;
-    slug?: string;
-    isActive?: string;
-  }>;
-}
-
-export default async function Page(props: PageProps) {
-  const searchParams = await props.searchParams;
-  const queryTitle = searchParams?.title ?? '';
-  const queryAuthors = searchParams?.authors ?? '';
-  const queryCategory = searchParams?.category ?? '';
-  const querySlug = searchParams?.slug ?? '';
-
-  const fetchPosts = await getPosts({
-    title: queryTitle,
-    authors: queryAuthors ? queryAuthors.split(',').map((s) => s.trim()) : [],
-    category: queryCategory,
-    slug: querySlug,
-    isAll: true,
-  });
+export default async function Page() {
+  const fetchPosts = await getPosts();
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-[250px_1fr] gap-5 my-5">

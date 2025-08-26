@@ -4,53 +4,10 @@ import connectDB from '@/lib/mongodb';
 import { PostModel } from '@/models/post';
 import { Post } from '@/types/post';
 
-interface GetPostsParams {
-  title: string;
-  authors: string[];
-  category: string;
-  slug?: string;
-  isAll?: boolean;
-}
-
-const processQueryParam = (param: string) =>
-  param
-    .split(',')
-    .filter((s) => s.trim())
-    .map((s) => s.trim());
-
-export const getPosts = async (params: GetPostsParams): Promise<Post[]> => {
+export const getPosts = async (): Promise<Post[]> => {
   await connectDB();
 
-  const authors = Array.isArray(params.authors)
-    ? params.authors
-    : processQueryParam(params.authors || '');
-  const categories = processQueryParam(params.category);
-
-  const filter: any = {};
-
-  if (params.title?.trim()) {
-    filter.title = { $regex: params.title, $options: 'i' };
-  }
-
-  if (authors.length > 0) {
-    filter.authors = { $in: authors };
-  }
-
-  if (categories.length > 0) {
-    filter.category = {
-      $in: categories.map((category) => new RegExp(category, 'i')),
-    };
-  }
-
-  if (params.slug?.trim()) {
-    filter.slug = { $regex: params.slug, $options: 'i' };
-  }
-
-  if (!params.isAll) {
-    filter.isActive = 'yes';
-  }
-
-  const posts = await PostModel.find(filter)
+  const posts = await PostModel.find({ isActive: 'yes' })
     .sort({ createdAt: -1 })
     .lean<Post[]>();
 

@@ -4,23 +4,10 @@ import { AnimatedSection } from '@/containers/routes/(root)/posts/animated-secti
 import { Filters } from '@/containers/routes/global/filters';
 import { ResultEmpty } from '@/containers/routes/global/result-empty';
 
-interface PageProps {
-  searchParams: Promise<{
-    title?: string;
-    authors?: string[];
-    category?: string;
-    slug?: string;
-  }>;
-}
+export const dynamic = 'force-static';
 
-export default async function Page(props: PageProps) {
-  const searchParams = await props.searchParams;
-  const fetchPosts = await getPosts({
-    title: searchParams.title ?? '',
-    authors: searchParams.authors ?? [],
-    category: searchParams.category ?? '',
-    isAll: false,
-  });
+export default async function Page() {
+  const fetchPosts = await getPosts();
 
   return (
     <div className="py-4 grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-4">
