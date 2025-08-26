@@ -14,7 +14,7 @@ export const AnimatedMarkdown = (props: {
     const style = document.createElement('style');
     style.textContent = `
       .prose h2 {
-        font-size: 1.25rem !important;
+        font-size: 1.10rem !important;
         font-weight: 600 !important;
         margin-bottom: 0.75rem !important;
         margin-top: 1.5rem !important;
@@ -52,7 +52,7 @@ export const AnimatedMarkdown = (props: {
         list-style-type: decimal !important;
       }
       #custom-prose h2 {
-        font-size: 1.20rem !important;
+        font-size: 1.10rem !important;
         font-weight: 600 !important;
         margin-bottom: 0.75rem !important;
         margin-top: 1.5rem !important;
