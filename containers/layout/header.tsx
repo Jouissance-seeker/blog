@@ -3,7 +3,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/uis/avatar';
 import { ThemeSwitcher } from '../../components/theme-switcher';
 import Link from 'next/link';
-import { Home } from '@/components/home';
 import { usePathname } from 'next/navigation';
 import { ModalEssay } from '../routes/dashboard/essays/modal-essay';
 import { ModalConcept } from '../routes/dashboard/concepts/modal-concept';
@@ -34,7 +33,6 @@ export const Root = () => {
         </div>
         <div className="gap-2 flex items-center">
           <ThemeSwitcher />
-          <Home />
         </div>
       </div>
     </header>
@@ -55,7 +53,6 @@ export const Dashboard = () => {
         <Tabs />
         <div className="gap-2 flex items-center">
           <ThemeSwitcher />
-          <Home />
         </div>
       </div>
     </header>
