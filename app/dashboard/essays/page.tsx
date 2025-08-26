@@ -8,7 +8,7 @@ export default async function DashboardEssaysPage() {
   const fetchEssays = await getEssays();
 
   return (
-    <div className="my-5">
+    <div>
       {fetchEssays.length === 0 ? (
         <ResultEmpty text="جستاری ای یافت نشد ..." />
       ) : (

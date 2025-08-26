@@ -8,7 +8,7 @@ export default async function DashboardConceptsPage() {
   const fetchConcepts = await getConcepts();
 
   return (
-    <div className="my-5">
+    <div>
       {fetchConcepts.length === 0 ? (
         <ResultEmpty text="مفهومی یافت نشد ..." />
       ) : (

@@ -45,7 +45,7 @@ export const Dashboard = () => {
   const pathname = usePathname();
 
   return (
-    <header className="flex flex-col gap-4 border-b py-2 mt-4 px-3 bg-background border rounded-xl z-20">
+    <header className="flex flex-col gap-4 border-b py-2 px-3 bg-background border rounded-xl z-20">
       <div className="flex justify-between items-center">
         {pathname === '/dashboard/essays' ? (
           <ModalEssay mode="add" />
