@@ -12,7 +12,7 @@ import { Tabs } from '../routes/dashboard/global/tabs';
 
 export const Header = () => {
   const pathname = usePathname();
-  return pathname === '/' ? <Root /> : <Dashboard />;
+  return pathname.includes('/dashboard') ? <Dashboard /> : <Root />;
 };
 
 export const Root = () => {

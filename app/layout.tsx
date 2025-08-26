@@ -6,6 +6,7 @@ import { Header } from '@/containers/layout/header';
 import { cn } from '@/utils/cn';
 import { ReactNode } from 'react';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 const iranYekan = localFont({
   src: [
@@ -65,6 +66,13 @@ interface RootLayoutProps {
 export default async function RootLayout(props: RootLayoutProps) {
   const headersList = await headers();
   const pathname = headersList.get('x-pathname');
+
+  if (
+    process.env.NODE_ENV === 'production' &&
+    pathname?.includes('/dashboard')
+  ) {
+    redirect('/');
+  }
 
   return (
     <html lang="fa" dir="rtl" className="min-h-dvh relative">
