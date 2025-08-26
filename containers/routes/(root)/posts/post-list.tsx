@@ -14,12 +14,16 @@ export const PostList = ({ initialPosts }: PostListProps) => {
   const [title] = useQueryState('title', { defaultValue: '' });
   const [authors] = useQueryState('authors', { defaultValue: '' });
   const [category] = useQueryState('category', { defaultValue: '' });
-  let filteredPosts = initialPosts.filter((post) => post.isActive == 'yes');
+  let filteredPosts = initialPosts
+    .filter((post) => post.isActive == 'yes')
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt || 0).getTime() -
+        new Date(a.createdAt || 0).getTime(),
+    );
   if (title.trim()) {
-    filteredPosts = filteredPosts.filter(
-      (post) =>
-        post.title?.toLowerCase().includes(title.toLowerCase()) ||
-        post.summary?.toLowerCase().includes(title.toLowerCase()),
+    filteredPosts = filteredPosts.filter((post) =>
+      post.title?.toLowerCase().includes(title.toLowerCase()),
     );
   }
   if (authors.trim()) {
@@ -34,9 +38,19 @@ export const PostList = ({ initialPosts }: PostListProps) => {
     }
   }
   if (category.trim()) {
-    filteredPosts = filteredPosts.filter((post) =>
-      post.category?.toLowerCase().includes(category.toLowerCase()),
-    );
+    const categoryList = category
+      .split(',')
+      .map((c) => c.trim())
+      .filter(Boolean);
+    if (categoryList.length > 0) {
+      filteredPosts = filteredPosts.filter(
+        (post) =>
+          post.category &&
+          categoryList.some((cat) =>
+            post.category?.toLowerCase().includes(cat.toLowerCase()),
+          ),
+      );
+    }
   }
 
   return (

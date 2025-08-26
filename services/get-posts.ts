@@ -6,10 +6,7 @@ import { Post } from '@/types/post';
 
 export const getPosts = async (): Promise<Post[]> => {
   await connectDB();
-
-  const posts = await PostModel.find({ isActive: 'yes' })
-    .sort({ createdAt: -1 })
-    .lean<Post[]>();
+  const posts = await PostModel.find().lean<Post[]>();
 
   return posts.map((post) => ({
     ...post,

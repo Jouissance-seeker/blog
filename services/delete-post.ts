@@ -10,7 +10,6 @@ interface Params {
 
 export const deletePost = async (params: Params): Promise<void> => {
   await connectDB();
-
   if (!Types.ObjectId.isValid(params.id)) {
     throw new Error('آی دی پست نامعتبر است');
   }

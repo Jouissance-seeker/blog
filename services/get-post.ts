@@ -12,9 +12,7 @@ interface Params {
 
 export const getPost = async (params: Params): Promise<Post> => {
   await connectDB();
-
   const authorNames = params.authors.split('-');
-
   const post = await PostModel.findOne({
     authors: { $all: authorNames },
     category: params.category,
