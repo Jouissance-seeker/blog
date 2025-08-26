@@ -16,7 +16,7 @@ export const Header = () => {
 
 export const Root = () => {
   return (
-    <header className="flex flex-col gap-4 border-b py-2 mt-4 px-3 sticky top-4 bg-background border rounded-xl z-20">
+    <header className="flex flex-col gap-4 border-b py-2 px-3 bg-background border rounded-xl z-20">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <div className="flex gap-2 items-center">
@@ -45,7 +45,7 @@ export const Dashboard = () => {
   const pathname = usePathname();
 
   return (
-    <header className="flex flex-col gap-4 border-b py-2 mt-4 px-3 sticky top-4 bg-background border rounded-xl z-20">
+    <header className="flex flex-col gap-4 border-b py-2 mt-4 px-3 bg-background border rounded-xl z-20">
       <div className="flex justify-between items-center">
         {pathname === '/dashboard/essays' ? (
           <ModalEssay mode="add" />

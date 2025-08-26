@@ -27,11 +27,11 @@ export default async function EssayPage({ params }: PageProps) {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex justify-between gap-2 w-fit items-center px-2.5 py-3 rounded-xl border sticky top-[97px] bg-background z-20">
+    <>
+      <div className="flex justify-between gap-2 w-fit items-center px-2.5 py-3 rounded-xl border bg-background z-20">
         <h1 className="text-xl font-bold">{fetchConcept.title}</h1>
       </div>
-      <div className="prose dark:prose-invert max-w-full w-full text-justify my-7.5 bg-background border rounded-xl px-3">
+      <div className="prose dark:prose-invert max-w-full w-full text-justify bg-background border rounded-xl px-3">
         {fetchConcept.quote && (
           <AnimatedSection>
             <blockquote>
@@ -49,6 +49,6 @@ export default async function EssayPage({ params }: PageProps) {
         </AnimatedSection>
         <AnimatedMarkdown content={fetchConcept.content} />
       </div>
-    </div>
+    </>
   );
 }
