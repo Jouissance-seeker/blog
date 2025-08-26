@@ -5,7 +5,6 @@ import { EssayModel } from '@/models/essay';
 import { Essay } from '@/types/essay';
 
 interface AddEssayParams {
-  authors: string[];
   slug: string;
   title: string;
   quote?: string;

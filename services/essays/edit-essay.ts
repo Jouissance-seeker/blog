@@ -6,7 +6,6 @@ import { Essay } from '@/types/essay';
 
 interface EditEssayParams {
   id: string;
-  authors?: string[];
   slug?: string;
   title?: string;
   quote?: string;

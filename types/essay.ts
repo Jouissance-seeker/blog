@@ -2,7 +2,6 @@ import { Types } from 'mongoose';
 
 export type Essay = {
   _id?: Types.ObjectId | string;
-  authors: string[];
   slug: string;
   title: string;
   quote?: string;

@@ -3,13 +3,6 @@ import { Schema, model, models } from 'mongoose';
 
 const essaySchema = new Schema<Essay>(
   {
-    authors: [
-      {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    ],
     slug: {
       type: String,
       required: false,
@@ -46,7 +39,6 @@ const essaySchema = new Schema<Essay>(
   },
 );
 
-essaySchema.index({ authors: 1 });
 essaySchema.index({ createdAt: -1 });
 
 export const EssayModel = models.Essay || model<Essay>('Essay', essaySchema);

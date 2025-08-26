@@ -20,7 +20,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Essay } from '@/types/essay';
 import { Pencil } from 'lucide-react';
-import MultipleSelector from '@/uis/multiple-selector';
+
 import {
   Select,
   SelectTrigger,
@@ -28,7 +28,7 @@ import {
   SelectContent,
   SelectValue,
 } from '@/uis/select';
-import { authors } from '@/constants/authors';
+
 import { editEssay } from '@/services/essays/edit-essay';
 import { addEssay } from '@/services/essays/add-essay';
 
@@ -36,7 +36,6 @@ const formSchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
   title: z.string().min(1),
-  authors: z.array(z.string()).min(1),
   quote: z.string().optional(),
   summary: z.string().min(1),
   content: z.string().min(1),
@@ -67,7 +66,6 @@ export function ModalEssay(props: ModalEssayProps) {
         quote: props.essay.quote || '',
         summary: props.essay.summary,
         content: props.essay.content,
-        authors: props.essay.authors,
         isActive: props.essay.isActive,
       });
     }
@@ -153,40 +151,7 @@ export function ModalEssay(props: ModalEssayProps) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="authors"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>اندیشمندان</FormLabel>
-                  <FormControl>
-                    <MultipleSelector
-                      defaultOptions={authors.map((author) => ({
-                        label: author.fa,
-                        value: author.en,
-                      }))}
-                      value={
-                        field.value?.map((tag) => {
-                          const author = authors.find((a) => a.en === tag);
-                          return {
-                            label: author ? author.fa : tag,
-                            value: tag,
-                          };
-                        }) || []
-                      }
-                      onChange={(options) => {
-                        field.onChange(options.map((option) => option.value));
-                      }}
-                      emptyIndicator={
-                        <p className="text-center text-sm leading-10 text-gray-600 dark:text-gray-400">
-                          همه اندیشمندان انتخاب شده
-                        </p>
-                      }
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="isActive"

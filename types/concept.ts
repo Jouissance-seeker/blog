@@ -2,7 +2,6 @@ import { Types } from 'mongoose';
 
 export type Concept = {
   _id?: Types.ObjectId | string;
-  author: string;
   slug: string;
   title: string;
   quote?: string;

@@ -3,11 +3,6 @@ import { Concept } from '@/types/concept';
 
 const conceptSchema = new Schema<Concept>(
   {
-    author: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     slug: {
       type: String,
       required: false,
@@ -44,7 +39,6 @@ const conceptSchema = new Schema<Concept>(
   },
 );
 
-conceptSchema.index({ author: 1 });
 conceptSchema.index({ createdAt: -1 });
 
 export const ConceptModel =

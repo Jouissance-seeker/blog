@@ -19,12 +19,7 @@ export const dynamic = 'force-static';
 export async function generateStaticParams() {
   const fetchEssays = await getEssays();
   return fetchEssays.map((essay) => ({
-    slug: [
-      Array.isArray(essay.authors)
-        ? essay.authors.join('-')
-        : String(essay.authors || ''),
-      String(essay.slug || ''),
-    ],
+    slug: [essay.slug],
   }));
 }
 

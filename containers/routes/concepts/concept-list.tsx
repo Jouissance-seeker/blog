@@ -1,6 +1,5 @@
 'use client';
 
-import { useQueryState } from 'nuqs';
 import { ConceptCard } from './concept-card';
 import { ResultEmpty } from '@/containers/routes/global/result-empty';
 import { Concept } from '@/types/concept';
@@ -11,27 +10,13 @@ interface ConceptListProps {
 }
 
 export const ConceptList = (props: ConceptListProps) => {
-  const [authors] = useQueryState('authors', { defaultValue: '' });
-
-  let filteredConcepts = props.initialConcepts
+  const filteredConcepts = props.initialConcepts
     .filter((concept) => concept.isActive == 'yes')
     .sort(
       (a, b) =>
         new Date(b.createdAt || 0).getTime() -
         new Date(a.createdAt || 0).getTime(),
     );
-
-  if (authors.trim()) {
-    const authorList = authors
-      .split(',')
-      .map((a) => a.trim())
-      .filter(Boolean);
-    if (authorList.length > 0) {
-      filteredConcepts = filteredConcepts.filter((concept) =>
-        authorList.includes(concept.author),
-      );
-    }
-  }
 
   return (
     <section className="flex flex-col gap-4">

@@ -28,7 +28,7 @@ import {
   SelectContent,
   SelectValue,
 } from '@/uis/select';
-import { authors } from '@/constants/authors';
+
 import { addConcept } from '@/services/concepts/add-concept';
 import { editConcept } from '@/services/concepts/edit-concept';
 
@@ -36,7 +36,6 @@ const formSchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
   title: z.string().min(1),
-  author: z.string().min(1),
   quote: z.string().optional(),
   summary: z.string().min(1),
   content: z.string().min(1),
@@ -67,7 +66,6 @@ export function ModalConcept(props: ModalConceptProps) {
         quote: props.concept.quote || '',
         summary: props.concept.summary,
         content: props.concept.content,
-        author: props.concept.author,
         isActive: props.concept.isActive,
       });
     }
@@ -153,34 +151,7 @@ export function ModalConcept(props: ModalConceptProps) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="author"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>اندیشمند</FormLabel>
-                  <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="اندیشمند را انتخاب کنید" />
-                      </SelectTrigger>
-                      <SelectContent
-                        avoidCollisions={true}
-                        position="popper"
-                        sideOffset={4}
-                        className="bg-background"
-                      >
-                        {authors.map((author) => (
-                          <SelectItem key={author.en} value={author.en}>
-                            {author.fa}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="isActive"
