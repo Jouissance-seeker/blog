@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Concept } from '@/types/concept';
-import { Tag } from './concept-tag';
 import { Card, CardContent, CardFooter, CardHeader } from '@/uis/card';
 import { ArrowUpLeft } from 'lucide-react';
 
@@ -29,8 +28,7 @@ export const ConceptCard = ({ concept, number }: ConceptCardProps) => {
           {concept.summary}
         </p>
       </CardContent>
-      <CardFooter className="border-t flex items-start justify-between p-2.5">
-        <Tag data={concept} />
+      <CardFooter className="border-t flex items-end justify-end p-2.5">
         <Link
           href={`/concepts/${concept.author}/${concept.slug}`}
           className="border group/link h-fit whitespace-nowrap flex gap-1 items-center bg-card text-card-foreground group hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"

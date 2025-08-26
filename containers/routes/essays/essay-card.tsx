@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Essay } from '@/types/essay';
-import { Tag } from '../concepts/concept-tag';
 import { Card, CardContent, CardFooter, CardHeader } from '@/uis/card';
 import { ArrowUpLeft } from 'lucide-react';
 
@@ -30,7 +29,6 @@ export const EssayCard = ({ essay, number }: EssayCardProps) => {
         </p>
       </CardContent>
       <CardFooter className="border-t flex items-start justify-between p-2.5">
-        <Tag data={essay} />
         <Link
           href={`/essays/${essay.authors.join('-')}/${essay.slug}`}
           className="border group/link h-fit whitespace-nowrap flex gap-1 items-center bg-card text-card-foreground group hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
