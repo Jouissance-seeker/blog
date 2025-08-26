@@ -10,7 +10,7 @@ export default async function Page() {
   const concepts = await getConcepts();
 
   return (
-    <div className="py-4 space-y-8">
+    <div className="space-y-4">
       <section>
         <h2 className="text-2xl font-bold mb-4">جستارها</h2>
         <EssayList initialEssays={essays} />

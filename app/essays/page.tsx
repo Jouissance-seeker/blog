@@ -6,9 +6,5 @@ export const dynamic = 'force-static';
 export default async function EssaysPage() {
   const essays = await getEssays();
 
-  return (
-    <div className="py-4">
-      <EssayList initialEssays={essays} />
-    </div>
-  );
+  return <EssayList initialEssays={essays} />;
 }

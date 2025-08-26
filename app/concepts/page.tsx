@@ -6,9 +6,5 @@ export const dynamic = 'force-static';
 export default async function ConceptsPage() {
   const fetchConcepts = await getConcepts();
 
-  return (
-    <div className="py-4">
-      <ConceptList initialConcepts={fetchConcepts} />
-    </div>
-  );
+  return <ConceptList initialConcepts={fetchConcepts} />;
 }

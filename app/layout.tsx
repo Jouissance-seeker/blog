@@ -84,12 +84,14 @@ export default async function RootLayout(props: RootLayoutProps) {
           pathname?.includes('/dashboard')
             ? 'max-w-screen-2xl'
             : 'max-w-screen-lg',
-          'px-3 sm:px-5 container mx-auto py-4 h-full',
+          'px-3 sm:px-5 container mx-auto flex flex-col my-4 h-full',
         )}
       >
         <Providers>
           <Header />
-          <main className="flex flex-col h-full gap-4">{props.children}</main>
+          <main className="flex flex-col h-full mt-4 gap-4">
+            {props.children}
+          </main>
         </Providers>
       </body>
     </html>
