@@ -2,72 +2,27 @@
 
 import { Search as SearchIcon } from 'lucide-react';
 import { Checkbox } from '@/uis/checkbox';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useState, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useQueryState } from 'nuqs';
 import { category } from '@/constants/category';
 import { authors } from '@/constants/authors';
-import { useDebounce } from '@/hooks/debounce';
 
 export const Filters = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const [titleState, setTitleState] = useState(searchParams.get('title') ?? '');
-  const [authorsState, setAuthorsState] = useState(
-    searchParams.get('authors') ?? '',
-  );
-  const [categoryState, setCategoryState] = useState(
-    searchParams.get('category') ?? '',
-  );
-
-  const debouncedTitle = useDebounce(titleState, 1000);
-
-  const updateURL = useCallback(
-    (params: Record<string, string>) => {
-      const urlParams = new URLSearchParams(searchParams);
-
-      Object.entries(params).forEach(([key, value]) => {
-        if (value && value.trim()) {
-          urlParams.set(key, value.trim());
-        } else {
-          urlParams.delete(key);
-        }
-      });
-
-      const qs = urlParams.toString();
-      const url = qs ? `${pathname}?${qs}` : pathname;
-      router.push(url, { scroll: false });
-    },
-    [searchParams, pathname, router],
-  );
-
-  useEffect(() => {
-    updateURL({
-      title: debouncedTitle,
-      authors: authorsState,
-      category: categoryState,
-    });
-  }, [debouncedTitle, authorsState, categoryState, updateURL]);
-
-  useEffect(() => {
-    const urlTitle = searchParams.get('title') ?? '';
-    const urlAuthors = searchParams.get('authors') ?? '';
-    const urlCategory = searchParams.get('category') ?? '';
-
-    if (titleState !== urlTitle) setTitleState(urlTitle);
-    if (authorsState !== urlAuthors) setAuthorsState(urlAuthors);
-    if (categoryState !== urlCategory) setCategoryState(urlCategory);
-  }, [searchParams]);
-
+  const [titleState, setTitleState] = useQueryState('title', {
+    defaultValue: '',
+  });
+  const [authorsState, setAuthorsState] = useQueryState('authors', {
+    defaultValue: '',
+  });
+  const [categoryState, setCategoryState] = useQueryState('category', {
+    defaultValue: '',
+  });
   const handleTitleChange = (value: string) => {
     setTitleState(value);
   };
-
   const handleAuthorsChange = useCallback((value: string) => {
     setAuthorsState(value);
   }, []);
-
   const handleCategoryChange = useCallback((value: string) => {
     setCategoryState(value);
   }, []);
