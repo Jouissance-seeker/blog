@@ -36,7 +36,7 @@ export const ConceptList = ({ initialConcepts }: ConceptListProps) => {
   return (
     <section className="flex flex-col gap-4">
       {filteredConcepts.length === 0 ? (
-        <ResultEmpty title="مفهومی یافت نشد ..." />
+        <ResultEmpty text="مفهومی یافت نشد ..." />
       ) : (
         filteredConcepts.map((concept, index) => (
           <AnimatedSection key={concept._id?.toString()}>

@@ -36,7 +36,7 @@ export const EssayList = ({ initialEssays }: EssayListProps) => {
   return (
     <section className="flex flex-col gap-4">
       {filteredEssays.length === 0 ? (
-        <ResultEmpty title="جستاری یافت نشد ..." />
+        <ResultEmpty text="جستاری یافت نشد ..." />
       ) : (
         filteredEssays.map((essay, index) => (
           <AnimatedSection key={essay._id?.toString()}>

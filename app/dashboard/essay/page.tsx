@@ -10,7 +10,7 @@ export default async function DashboardEssaysPage() {
     <div className="grid grid-cols-1 sm:grid-cols-[250px_1fr] gap-5 my-5">
       <Filters />
       {essays.length === 0 ? (
-        <ResultEmpty />
+        <ResultEmpty text="جستاری ای یافت نشد ..." />
       ) : (
         <EssayList initialEssays={essays} />
       )}

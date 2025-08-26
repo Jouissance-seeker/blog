@@ -50,7 +50,7 @@ export const PostList = ({ initialPosts }: PostListProps) => {
   return (
     <section className="flex flex-col gap-4">
       {filteredPosts.length === 0 ? (
-        <ResultEmpty title="مقاله ای یافت نشد ..." />
+        <ResultEmpty text="مقاله ای یافت نشد ..." />
       ) : (
         filteredPosts.map((post, index) => (
           <AnimatedSection key={post._id?.toString()}>

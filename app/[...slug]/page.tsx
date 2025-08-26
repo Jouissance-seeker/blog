@@ -9,9 +9,7 @@ import { AnimatedMarkdown } from '@/containers/routes/global/animated-markdown';
 export const dynamic = 'force-static';
 
 interface PageProps {
-  params: Promise<{
-    slug: string[];
-  }>;
+  params: Promise<{ slug: string[] }>;
 }
 
 export async function generateStaticParams() {
@@ -21,12 +19,12 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Page(props: PageProps) {
-  const params = await props.params;
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
   const fetchPost = await getPost({
-    authors: params.slug[0],
-    category: params.slug[1],
-    slug: params.slug[2],
+    authors: slug[0],
+    category: slug[1],
+    slug: slug[2],
   });
 
   if (!fetchPost) {

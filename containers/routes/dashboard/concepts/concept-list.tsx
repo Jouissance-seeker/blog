@@ -40,7 +40,7 @@ export const ConceptList = ({ initialConcepts }: ConceptListProps) => {
     }
   }
   if (filteredConcepts.length === 0) {
-    return <ResultEmpty />;
+    return <ResultEmpty text="مفهومی یافت نشد ..." />;
   }
 
   return (

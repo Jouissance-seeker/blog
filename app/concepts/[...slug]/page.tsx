@@ -19,11 +19,12 @@ export async function generateStaticParams() {
 }
 
 interface PageProps {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 }
 
 export default async function EssayPage({ params }: PageProps) {
-  const fetchConcept = await getConcept(params.slug);
+  const { slug } = await params;
+  const fetchConcept = await getConcept(slug);
 
   if (!fetchConcept) {
     notFound();

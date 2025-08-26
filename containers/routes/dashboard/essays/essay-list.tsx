@@ -40,7 +40,7 @@ export const EssayList = ({ initialEssays }: EssayListProps) => {
     }
   }
   if (filteredEssays.length === 0) {
-    return <ResultEmpty />;
+    return <ResultEmpty text="جستاری یافت نشد ..." />;
   }
 
   return (

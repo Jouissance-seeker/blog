@@ -57,7 +57,7 @@ export const PostList = ({ initialPosts }: PostListProps) => {
     }
   }
   if (filteredPosts.length === 0) {
-    return <ResultEmpty />;
+    return <ResultEmpty text="مقاله ای یافت نشد ..." />;
   }
 
   return (

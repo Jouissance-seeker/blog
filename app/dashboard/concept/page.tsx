@@ -10,7 +10,7 @@ export default async function DashboardConceptsPage() {
     <div className="grid grid-cols-1 sm:grid-cols-[250px_1fr] gap-5 my-5">
       <Filters />
       {concepts.length === 0 ? (
-        <ResultEmpty />
+        <ResultEmpty text="مفهومی یافت نشد ..." />
       ) : (
         <ConceptList initialConcepts={concepts} />
       )}
