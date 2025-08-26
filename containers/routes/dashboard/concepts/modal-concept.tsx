@@ -33,7 +33,7 @@ import { addConcept } from '@/services/concepts/add-concept';
 import { editConcept } from '@/services/concepts/edit-concept';
 
 const formSchema = z.object({
-  _id: z.string().optional(),
+  id: z.string().min(1),
   slug: z.string().min(1),
   title: z.string().min(1),
   author: z.string().min(1),
@@ -61,7 +61,7 @@ export function ModalConcept(props: ModalConceptProps) {
   useEffect(() => {
     if (open && props.concept) {
       form.reset({
-        _id: props.concept._id?.toString(),
+        id: props.concept._id?.toString(),
         slug: props.concept.slug,
         title: props.concept.title,
         quote: props.concept.quote || '',

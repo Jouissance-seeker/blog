@@ -33,7 +33,7 @@ import { editEssay } from '@/services/essays/edit-essay';
 import { addEssay } from '@/services/essays/add-essay';
 
 const formSchema = z.object({
-  _id: z.string().optional(),
+  id: z.string().min(1),
   slug: z.string().min(1),
   title: z.string().min(1),
   authors: z.array(z.string()).min(1),
@@ -61,7 +61,7 @@ export function ModalEssay(props: ModalEssayProps) {
   useEffect(() => {
     if (open && props.essay) {
       form.reset({
-        _id: props.essay._id?.toString(),
+        id: props.essay._id?.toString(),
         slug: props.essay.slug,
         title: props.essay.title,
         quote: props.essay.quote || '',

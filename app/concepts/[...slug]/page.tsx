@@ -44,7 +44,7 @@ export default async function EssayPage({ params }: PageProps) {
           </AnimatedSection>
         )}
         <AnimatedSection>
-          <h3>چکیده</h3>
+          <h2>چکیده</h2>
           <p>{fetchConcept.summary}</p>
         </AnimatedSection>
         <AnimatedMarkdown content={fetchConcept.content} />
