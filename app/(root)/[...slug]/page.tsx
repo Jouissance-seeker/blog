@@ -33,7 +33,7 @@ export default async function Page(props: PageProps) {
         <h1 className="text-xl font-bold">{fetchPost.title}</h1>
         <Tags data={fetchPost} />
       </div>
-      <div className="prose dark:prose-invert max-w-full w-full text-justify mt-7.5 mb-16 bg-background border rounded-xl p-3">
+      <div className="prose dark:prose-invert max-w-full w-full text-justify my-7.5 bg-background border rounded-xl px-3">
         {fetchPost.quote && (
           <AnimatedSection>
             <blockquote>
