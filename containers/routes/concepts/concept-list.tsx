@@ -28,7 +28,7 @@ export const ConceptList = ({ initialConcepts }: ConceptListProps) => {
       .filter(Boolean);
     if (authorList.length > 0) {
       filteredConcepts = filteredConcepts.filter((concept) =>
-        concept.authors?.some((author) => authorList.includes(author)),
+        authorList.includes(concept.author),
       );
     }
   }

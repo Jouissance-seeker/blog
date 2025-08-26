@@ -9,11 +9,11 @@ export const getConcept = async (slug: string[]): Promise<Concept | null> => {
 
   if (slug.length < 2) return null;
 
-  const authors = slug[0].split('-');
+  const author = slug[0];
   const conceptSlug = slug[1];
 
   const concept = await ConceptModel.findOne({
-    authors: { $in: authors },
+    author: author,
     slug: conceptSlug,
     isActive: 'yes',
   }).lean<Concept>();

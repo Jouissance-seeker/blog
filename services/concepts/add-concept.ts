@@ -5,7 +5,7 @@ import { ConceptModel } from '@/models/concept';
 import { Concept } from '@/types/concept';
 
 interface AddConceptParams {
-  authors: string[];
+  author: string;
   slug: string;
   title: string;
   quote?: string;

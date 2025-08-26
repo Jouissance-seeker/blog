@@ -6,7 +6,7 @@ import { Concept } from '@/types/concept';
 
 interface EditConceptParams {
   id: string;
-  authors?: string[];
+  author?: string;
   slug?: string;
   title?: string;
   quote?: string;

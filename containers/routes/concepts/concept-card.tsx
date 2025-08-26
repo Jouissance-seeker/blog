@@ -15,9 +15,7 @@ export const ConceptCard = ({ concept, number }: ConceptCardProps) => {
       <CardHeader className="flex p-2.5 justify-between gap-3 border-b">
         <div className="flex justify-between w-full items-center gap-3">
           <h2 className="font-bold">
-            <Link
-              href={`/concepts/${concept.authors.join('-')}/${concept.slug}`}
-            >
+            <Link href={`/concepts/${concept.author}/${concept.slug}`}>
               {concept.title}
             </Link>
           </h2>
@@ -34,7 +32,7 @@ export const ConceptCard = ({ concept, number }: ConceptCardProps) => {
       <CardFooter className="border-t flex items-start justify-between p-2.5">
         <Tag data={concept} />
         <Link
-          href={`/concepts/${concept.authors.join('-')}/${concept.slug}`}
+          href={`/concepts/${concept.author}/${concept.slug}`}
           className="border group/link h-fit whitespace-nowrap flex gap-1 items-center bg-card text-card-foreground group hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
         >
           <p className="text-sm text-foreground">مشاهده بیشتر</p>

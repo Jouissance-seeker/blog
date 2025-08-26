@@ -11,7 +11,6 @@ import {
 } from '@/uis/table';
 import Link from 'next/link';
 import { ModalConcept } from './modal-concept';
-import { authors } from '@/constants/authors';
 import { cn } from '@/utils/cn';
 import { ResultEmpty } from '@/containers/routes/global/result-empty';
 import { Concept } from '@/types/concept';
@@ -35,7 +34,7 @@ export const ConceptList = ({ initialConcepts }: ConceptListProps) => {
       .filter(Boolean);
     if (authorList.length > 0) {
       filteredConcepts = filteredConcepts.filter((concept) =>
-        concept.authors?.some((author) => authorList.includes(author)),
+        authorList.includes(concept.author),
       );
     }
   }
@@ -58,21 +57,12 @@ export const ConceptList = ({ initialConcepts }: ConceptListProps) => {
         {filteredConcepts.map((concept) => (
           <TableRow key={concept._id?.toString()}>
             <TableCell>
-              <Link
-                href={`/concepts/${concept.authors.join('-')}/${concept.slug}`}
-              >
+              <Link href={`/concepts/${concept.author}/${concept.slug}`}>
                 {concept.title}
               </Link>
             </TableCell>
             <TableCell>{concept.slug}</TableCell>
-            <TableCell>
-              {concept.authors
-                ?.map((author) => {
-                  const authorData = authors.find((a) => a.en === author);
-                  return authorData ? authorData.fa : author;
-                })
-                .join(' - ')}
-            </TableCell>
+            <TableCell>{concept.author}</TableCell>
             <TableCell>
               <span
                 className={cn(

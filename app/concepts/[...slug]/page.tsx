@@ -11,12 +11,7 @@ export const dynamic = 'force-static';
 export async function generateStaticParams() {
   const fetchConcepts = await getConcepts();
   return fetchConcepts.map((concept) => ({
-    slug: [
-      Array.isArray(concept.authors)
-        ? concept.authors.join('-')
-        : String(concept.authors || ''),
-      String(concept.slug || ''),
-    ],
+    slug: [String(concept.author || ''), String(concept.slug || '')],
   }));
 }
 

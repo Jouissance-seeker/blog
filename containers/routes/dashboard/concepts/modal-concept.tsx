@@ -20,7 +20,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Concept } from '@/types/concept';
 import { Pencil } from 'lucide-react';
-import MultipleSelector from '@/uis/multiple-selector';
+
 import {
   Select,
   SelectTrigger,
@@ -36,7 +36,7 @@ const formSchema = z.object({
   _id: z.string().optional(),
   slug: z.string().min(1),
   title: z.string().min(1),
-  authors: z.array(z.string()).min(1),
+  author: z.string().min(1),
   quote: z.string().optional(),
   summary: z.string().min(1),
   content: z.string().min(1),
@@ -67,7 +67,7 @@ export function ModalConcept(props: ModalConceptProps) {
         quote: props.concept.quote || '',
         summary: props.concept.summary,
         content: props.concept.content,
-        authors: props.concept.authors,
+        author: props.concept.author,
         isActive: props.concept.isActive,
       });
     }
@@ -155,34 +155,28 @@ export function ModalConcept(props: ModalConceptProps) {
             />
             <FormField
               control={form.control}
-              name="authors"
+              name="author"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>اندیشمندان</FormLabel>
+                  <FormLabel>اندیشمند</FormLabel>
                   <FormControl>
-                    <MultipleSelector
-                      defaultOptions={authors.map((author) => ({
-                        label: author.fa,
-                        value: author.en,
-                      }))}
-                      value={
-                        field.value?.map((tag) => {
-                          const author = authors.find((a) => a.en === tag);
-                          return {
-                            label: author ? author.fa : tag,
-                            value: tag,
-                          };
-                        }) || []
-                      }
-                      onChange={(options) => {
-                        field.onChange(options.map((option) => option.value));
-                      }}
-                      emptyIndicator={
-                        <p className="text-center text-sm leading-10 text-gray-600 dark:text-gray-400">
-                          همه اندیشمندان انتخاب شده
-                        </p>
-                      }
-                    />
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="اندیشمند را انتخاب کنید" />
+                      </SelectTrigger>
+                      <SelectContent
+                        avoidCollisions={true}
+                        position="popper"
+                        sideOffset={4}
+                        className="bg-background"
+                      >
+                        {authors.map((author) => (
+                          <SelectItem key={author.en} value={author.en}>
+                            {author.fa}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                 </FormItem>
               )}
