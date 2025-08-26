@@ -15,8 +15,8 @@ import {
   DialogTrigger,
 } from '@/uis/dialog';
 import { Textarea } from '@/uis/textarea';
-import { addPost } from '@/services/post/add-post';
-import { editPost } from '@/services/post/edit-post';
+import { addPost } from '@/services/posts/add-post';
+import { editPost } from '@/services/posts/edit-post';
 import { toast } from 'sonner';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';

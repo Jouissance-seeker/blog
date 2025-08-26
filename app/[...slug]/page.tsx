@@ -1,8 +1,8 @@
 import { marked } from 'marked';
 import { notFound } from 'next/navigation';
 import { Tag } from '@/containers/routes/global/tag';
-import { getPosts } from '@/services/post/get-posts';
-import { getPost } from '@/services/post/get-post';
+import { getPosts } from '@/services/posts/get-posts';
+import { getPost } from '@/services/posts/get-post';
 import { AnimatedSection } from '@/containers/routes/global/animated-section';
 import { AnimatedMarkdown } from '@/containers/routes/global/animated-markdown';
 

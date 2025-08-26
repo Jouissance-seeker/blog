@@ -5,8 +5,8 @@ export const Tabs = () => {
   const pathname = usePathname();
   const router = useRouter();
   const filterOptions = [
-    { key: '/dashboard/concept', label: 'مفاهیم' },
-    { key: '/dashboard/essay', label: 'جستار' },
+    { key: '/dashboard/concepts', label: 'مفاهیم' },
+    { key: '/dashboard/essays', label: 'جستار' },
   ];
   const handleTab = (tab: string) => {
     router.push(tab);

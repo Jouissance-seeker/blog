@@ -11,10 +11,10 @@ import {
 } from '@/uis/dialog';
 import { toast } from 'sonner';
 import { usePathname, useRouter } from 'next/navigation';
-import { deletePost } from '@/services/post/delete-post';
+import { deletePost } from '@/services/posts/delete-post';
 import { Trash2 } from 'lucide-react';
-import { deleteEssay } from '@/services/essay/delete-essay';
-import { deleteConcept } from '@/services/concept/delete-concept';
+import { deleteEssay } from '@/services/essays/delete-essay';
+import { deleteConcept } from '@/services/concepts/delete-concept';
 
 interface ModalDeleteProps {
   id: string;

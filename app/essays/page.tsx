@@ -1,6 +1,6 @@
-import { getEssays } from '@/services/essay/get-essays';
+import { getEssays } from '@/services/essays/get-essays';
 import { Filters } from '@/containers/routes/global/filters';
-import { EssayList } from '@/containers/routes/essay/essay-list';
+import { EssayList } from '@/containers/routes/essays/essay-list';
 
 export const dynamic = 'force-static';
 

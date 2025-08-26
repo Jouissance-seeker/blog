@@ -5,7 +5,7 @@ import { ThemeSwitcher } from '../../components/theme-switcher';
 import Link from 'next/link';
 import { Home } from '@/components/home';
 import { usePathname } from 'next/navigation';
-import { ModalPost } from '@/containers/routes/dashboard/post/modal-post';
+import { ModalPost } from '@/containers/routes/dashboard/posts/modal-post';
 import { ModalEssay } from '../routes/dashboard/essays/modal-essay';
 import { ModalConcept } from '../routes/dashboard/concepts/modal-concept';
 import { Tabs } from '../routes/dashboard/global/tabs';

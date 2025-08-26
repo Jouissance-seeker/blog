@@ -1,14 +1,16 @@
-import { getConcepts } from '@/services/concept/get-concepts';
-import { getConcept } from '@/services/concept/get-concept';
+import { getConcepts } from '@/services/concepts/get-concepts';
+import { getConcept } from '@/services/concepts/get-concept';
 import { notFound } from 'next/navigation';
 import { AnimatedSection } from '@/containers/routes/global/animated-section';
 import { Tag } from '@/containers/routes/global/tag';
 import { AnimatedMarkdown } from '@/containers/routes/global/animated-markdown';
 import { marked } from 'marked';
 
+export const dynamic = 'force-static';
+
 export async function generateStaticParams() {
-  const concepts = await getConcepts();
-  return concepts.map((concept) => ({
+  const fetchConcepts = await getConcepts();
+  return fetchConcepts.map((concept) => ({
     slug: [
       Array.isArray(concept.authors)
         ? concept.authors.join('-')

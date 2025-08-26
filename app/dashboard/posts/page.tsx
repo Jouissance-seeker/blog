@@ -1,7 +1,9 @@
-import { getPosts } from '@/services/post/get-posts';
+import { getPosts } from '@/services/posts/get-posts';
 
 import { Filters } from '@/containers/routes/global/filters';
-import { PostList } from '@/containers/routes/dashboard/post/post-list';
+import { PostList } from '@/containers/routes/dashboard/posts/post-list';
+
+export const dynamic = 'force-static';
 
 export default async function Page() {
   const fetchPosts = await getPosts();

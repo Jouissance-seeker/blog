@@ -29,8 +29,8 @@ import {
   SelectValue,
 } from '@/uis/select';
 import { authors } from '@/constants/authors';
-import { addConcept } from '@/services/concept/add-concept';
-import { editConcept } from '@/services/concept/edit-concept';
+import { addConcept } from '@/services/concepts/add-concept';
+import { editConcept } from '@/services/concepts/edit-concept';
 
 const formSchema = z.object({
   _id: z.string().optional(),

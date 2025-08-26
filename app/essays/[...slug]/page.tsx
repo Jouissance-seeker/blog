@@ -1,14 +1,16 @@
-import { getEssays } from '@/services/essay/get-essays';
-import { getEssay } from '@/services/essay/get-essay';
+import { getEssays } from '@/services/essays/get-essays';
+import { getEssay } from '@/services/essays/get-essay';
 import { notFound } from 'next/navigation';
 import { AnimatedSection } from '@/containers/routes/global/animated-section';
 import { Tag } from '@/containers/routes/global/tag';
 import { AnimatedMarkdown } from '@/containers/routes/global/animated-markdown';
 import { marked } from 'marked';
 
+export const dynamic = 'force-static';
+
 export async function generateStaticParams() {
-  const essays = await getEssays();
-  return essays.map((essay) => ({
+  const fetchEssays = await getEssays();
+  return fetchEssays.map((essay) => ({
     slug: [
       Array.isArray(essay.authors)
         ? essay.authors.join('-')
