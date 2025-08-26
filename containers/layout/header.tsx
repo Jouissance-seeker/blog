@@ -5,7 +5,6 @@ import { ThemeSwitcher } from '../../components/theme-switcher';
 import Link from 'next/link';
 import { Home } from '@/components/home';
 import { usePathname } from 'next/navigation';
-import { ModalPost } from '@/containers/routes/dashboard/posts/modal-post';
 import { ModalEssay } from '../routes/dashboard/essays/modal-essay';
 import { ModalConcept } from '../routes/dashboard/concepts/modal-concept';
 import { Tabs } from '../routes/dashboard/global/tabs';
@@ -48,9 +47,7 @@ export const Dashboard = () => {
   return (
     <header className="flex flex-col gap-4 border-b py-2 mt-4 px-3 sticky top-4 bg-background border rounded-xl z-20">
       <div className="flex justify-between items-center">
-        {pathname === '/dashboard/post' ? (
-          <ModalPost mode="add" />
-        ) : pathname === '/dashboard/essays' ? (
+        {pathname === '/dashboard/essays' ? (
           <ModalEssay mode="add" />
         ) : (
           <ModalConcept mode="add" />

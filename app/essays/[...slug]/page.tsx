@@ -2,7 +2,7 @@ import { getEssays } from '@/services/essays/get-essays';
 import { getEssay } from '@/services/essays/get-essay';
 import { notFound } from 'next/navigation';
 import { AnimatedSection } from '@/containers/routes/global/animated-section';
-import { Tag } from '@/containers/routes/global/tag';
+import { Tag } from '@/containers/routes/concepts/concept-tag';
 import { AnimatedMarkdown } from '@/containers/routes/global/animated-markdown';
 import { marked } from 'marked';
 

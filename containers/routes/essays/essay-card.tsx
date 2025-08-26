@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Essay } from '@/types/essay';
-import { Tag } from '../global/tag';
+import { Tag } from '../concepts/concept-tag';
 import { Card, CardContent, CardFooter, CardHeader } from '@/uis/card';
 import { ArrowUpLeft } from 'lucide-react';
 

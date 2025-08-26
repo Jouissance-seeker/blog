@@ -1,6 +1,5 @@
 'use client';
 
-import { Post } from '@/types/post';
 import { authors } from '@/constants/authors';
 import { useQueryState } from 'nuqs';
 import { useRouter, usePathname } from 'next/navigation';
@@ -8,7 +7,7 @@ import { Concept } from '@/types/concept';
 import { Essay } from '@/types/essay';
 
 interface TagProps {
-  data: Post | Essay | Concept;
+  data: Essay | Concept;
 }
 
 export const Tag = ({ data }: TagProps) => {
@@ -16,9 +15,7 @@ export const Tag = ({ data }: TagProps) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Handle different data types
   if ('authors' in data && Array.isArray(data.authors)) {
-    // For Essay type with authors array
     const authorNames = data.authors
       .map((author) => {
         const authorData = authors.find((a) => a.en === author);

@@ -11,24 +11,21 @@ import {
 } from '@/uis/dialog';
 import { toast } from 'sonner';
 import { usePathname, useRouter } from 'next/navigation';
-import { deletePost } from '@/services/posts/delete-post';
 import { Trash2 } from 'lucide-react';
 import { deleteEssay } from '@/services/essays/delete-essay';
 import { deleteConcept } from '@/services/concepts/delete-concept';
 
 interface ModalDeleteProps {
   id: string;
-  type: 'post' | 'essay' | 'concept';
+  type: 'essay' | 'concept';
 }
 
 export function ModalDelete(props: ModalDeleteProps) {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const handleDeletePost = async () => {
-    if (props.type === 'post') {
-      await deletePost({ id: props.id });
-    } else if (props.type === 'essay') {
+  const handleDelete = async () => {
+    if (props.type === 'essay') {
       await deleteEssay({ id: props.id });
     } else if (props.type === 'concept') {
       await deleteConcept({ id: props.id });
@@ -64,7 +61,7 @@ export function ModalDelete(props: ModalDeleteProps) {
           <Button
             variant={'destructive'}
             className="w-full py-5 flex-1"
-            onClick={handleDeletePost}
+            onClick={handleDelete}
           >
             بله
           </Button>

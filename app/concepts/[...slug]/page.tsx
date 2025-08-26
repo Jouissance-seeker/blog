@@ -2,7 +2,7 @@ import { getConcepts } from '@/services/concepts/get-concepts';
 import { getConcept } from '@/services/concepts/get-concept';
 import { notFound } from 'next/navigation';
 import { AnimatedSection } from '@/containers/routes/global/animated-section';
-import { Tag } from '@/containers/routes/global/tag';
+import { Tag } from '@/containers/routes/concepts/concept-tag';
 import { AnimatedMarkdown } from '@/containers/routes/global/animated-markdown';
 import { marked } from 'marked';
 

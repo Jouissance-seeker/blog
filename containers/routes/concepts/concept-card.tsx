@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Concept } from '@/types/concept';
-import { Tag } from '../global/tag';
+import { Tag } from './concept-tag';
 import { Card, CardContent, CardFooter, CardHeader } from '@/uis/card';
 import { ArrowUpLeft } from 'lucide-react';
 
