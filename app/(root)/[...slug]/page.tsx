@@ -29,11 +29,11 @@ export default async function Page(props: PageProps) {
   }
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-between gap-2 w-full items-center py-4 border-b sticky top-[85px] bg-background z-20">
+      <div className="flex justify-between gap-2 w-full items-center px-2.5 py-3 rounded-xl border sticky top-[100px] bg-background z-20">
         <h1 className="text-xl font-bold">{fetchPost.title}</h1>
         <Tags data={fetchPost} />
       </div>
-      <div className="prose dark:prose-invert max-w-full w-full text-justify mb-16">
+      <div className="prose dark:prose-invert max-w-full w-full text-justify mt-7.5 mb-16 bg-background border rounded-xl p-3">
         {fetchPost.quote && (
           <AnimatedSection>
             <blockquote>

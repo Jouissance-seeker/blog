@@ -23,7 +23,7 @@ export default async function Page(props: PageProps) {
   });
 
   return (
-    <div className="py-5 grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-4">
+    <div className="py-4 grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-4">
       <Filters />
       <section className="flex flex-col gap-4">
         {fetchPosts.length === 0 ? (

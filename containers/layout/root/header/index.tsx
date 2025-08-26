@@ -7,7 +7,7 @@ import { Home } from '@/components/home';
 
 export const Header = () => {
   return (
-    <header className="flex flex-col gap-4 border-b py-4 sticky top-0 bg-background z-20">
+    <header className="flex flex-col gap-4 border-b py-2 mt-4 px-3 sticky top-4 bg-background border rounded-xl z-20">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <div className="flex gap-2 items-center">

@@ -74,7 +74,7 @@ export const Filters = () => {
 
   return (
     <aside>
-      <div className="sticky top-24 flex flex-col gap-4">
+      <div className="sticky top-25 flex flex-col gap-4">
         <TitleFilter value={titleState} onChange={handleTitleChange} />
         <AuthorFilter value={authorsState} onChange={handleAuthorsChange} />
         <CategoryFilter value={categoryState} onChange={handleCategoryChange} />
