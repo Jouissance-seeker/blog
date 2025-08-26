@@ -41,7 +41,7 @@ export const ConceptList = (props: ConceptListProps) => {
       </TableHeader>
       <TableBody>
         {filteredConcepts.map((concept) => (
-          <TableRow key={concept._id?.toString()}>
+          <TableRow key={concept.id}>
             <TableCell>
               <Link href={`/concepts/${concept.slug}`}>{concept.title}</Link>
             </TableCell>
@@ -60,7 +60,7 @@ export const ConceptList = (props: ConceptListProps) => {
             </TableCell>
             <TableCell>
               <ModalConcept concept={concept} mode="edit" />
-              <ModalDelete id={String(concept._id)} type="concept" />
+              <ModalDelete id={String(concept.id)} type="concept" />
             </TableCell>
           </TableRow>
         ))}

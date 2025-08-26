@@ -11,6 +11,5 @@ export const getEssays = async (): Promise<Essay[]> => {
 
   return essays.map((essay) => ({
     ...essay,
-    _id: essay._id?.toString(),
   }));
 };

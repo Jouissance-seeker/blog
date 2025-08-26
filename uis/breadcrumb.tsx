@@ -8,7 +8,7 @@ function Breadcrumb({ ...props }: React.ComponentProps<'nav'>) {
   return (
     <nav
       aria-label="breadcrumb"
-      className="bg-background border text-foreground w-fit p-3.5 rounded-xl"
+      className="bg-background border text-foreground w-full p-4 rounded-xl"
       data-slot="breadcrumb"
       {...props}
     />

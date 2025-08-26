@@ -24,7 +24,7 @@ export const EssayList = (props: EssayListProps) => {
         <ResultEmpty text="جستاری یافت نشد ..." />
       ) : (
         filteredEssays.map((essay, index) => (
-          <AnimatedSection key={essay._id?.toString()}>
+          <AnimatedSection key={essay.id}>
             <EssayCard
               essay={essay}
               number={filteredEssays.length - index - 1}

@@ -14,11 +14,6 @@ const essaySchema = new Schema<Essay>(
       required: true,
       trim: true,
     },
-    quote: {
-      type: String,
-      required: false,
-      trim: true,
-    },
     summary: {
       type: String,
       required: true,

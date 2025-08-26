@@ -43,7 +43,7 @@ export const EssayList = (props: EssayListProps) => {
       </TableHeader>
       <TableBody>
         {filteredEssays.map((essay) => (
-          <TableRow key={essay._id?.toString()}>
+          <TableRow key={essay.id}>
             <TableCell>
               <Link href={`/essays/${essay.slug}`}>{essay.title}</Link>
             </TableCell>
@@ -62,7 +62,7 @@ export const EssayList = (props: EssayListProps) => {
             </TableCell>
             <TableCell>
               <ModalEssay essay={essay} mode="edit" />
-              <ModalDelete id={String(essay._id)} type="essay" />
+              <ModalDelete id={String(essay.id)} type="essay" />
             </TableCell>
           </TableRow>
         ))}

@@ -14,11 +14,6 @@ const conceptSchema = new Schema<Concept>(
       required: true,
       trim: true,
     },
-    quote: {
-      type: String,
-      required: false,
-      trim: true,
-    },
     summary: {
       type: String,
       required: true,

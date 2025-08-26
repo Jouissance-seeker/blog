@@ -13,6 +13,5 @@ export const getConcepts = async (): Promise<Concept[]> => {
 
   return concepts.map((concept) => ({
     ...concept,
-    _id: concept._id?.toString(),
   }));
 };

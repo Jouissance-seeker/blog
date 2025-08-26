@@ -36,7 +36,6 @@ const formSchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
   title: z.string().min(1),
-  quote: z.string().optional(),
   summary: z.string().min(1),
   content: z.string().min(1),
   isActive: z.enum(['yes', 'no']),
@@ -60,10 +59,9 @@ export function ModalConcept(props: ModalConceptProps) {
   useEffect(() => {
     if (open && props.concept) {
       form.reset({
-        id: props.concept._id?.toString(),
+        id: props.concept.id,
         slug: props.concept.slug,
         title: props.concept.title,
-        quote: props.concept.quote || '',
         summary: props.concept.summary,
         content: props.concept.content,
         isActive: props.concept.isActive,
@@ -74,8 +72,6 @@ export function ModalConcept(props: ModalConceptProps) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const conceptData = {
       ...values,
-      ...(values.quote &&
-        values.quote.trim() !== '' && { quote: values.quote.trim() }),
     };
     if (isEditMode) {
       await editConcept(conceptData as any);
@@ -191,18 +187,7 @@ export function ModalConcept(props: ModalConceptProps) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="quote"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>نقل قول (اختیاری)</FormLabel>
-                  <FormControl>
-                    <Textarea {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="summary"

@@ -36,7 +36,6 @@ const formSchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
   title: z.string().min(1),
-  quote: z.string().optional(),
   summary: z.string().min(1),
   content: z.string().min(1),
   isActive: z.enum(['yes', 'no']),
@@ -60,10 +59,9 @@ export function ModalEssay(props: ModalEssayProps) {
   useEffect(() => {
     if (open && props.essay) {
       form.reset({
-        id: props.essay._id?.toString(),
+        id: props.essay.id,
         slug: props.essay.slug,
         title: props.essay.title,
-        quote: props.essay.quote || '',
         summary: props.essay.summary,
         content: props.essay.content,
         isActive: props.essay.isActive,
@@ -74,8 +72,6 @@ export function ModalEssay(props: ModalEssayProps) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const essayData = {
       ...values,
-      ...(values.quote &&
-        values.quote.trim() !== '' && { quote: values.quote.trim() }),
     };
     if (isEditMode) {
       await editEssay(essayData as any);
@@ -191,18 +187,7 @@ export function ModalEssay(props: ModalEssayProps) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="quote"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>نقل قول (اختیاری)</FormLabel>
-                  <FormControl>
-                    <Textarea {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="summary"

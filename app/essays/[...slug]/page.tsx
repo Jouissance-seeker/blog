@@ -3,7 +3,6 @@ import { getEssay } from '@/services/essays/get-essay';
 import { notFound } from 'next/navigation';
 import { AnimatedSection } from '@/containers/routes/global/animated-section';
 import { AnimatedMarkdown } from '@/containers/routes/global/animated-markdown';
-import { marked } from 'marked';
 import {
   BreadcrumbItem,
   Breadcrumb,
@@ -41,7 +40,9 @@ export default async function EssayPage(props: PageProps) {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">خانه</Link>
+              <Link href="/" className="pointer-events-none">
+                خانه
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -57,19 +58,8 @@ export default async function EssayPage(props: PageProps) {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="prose dark:prose-invert max-w-full w-full text-justify bg-background border rounded-xl px-3">
-        {fetchEssay.quote && (
-          <AnimatedSection>
-            <blockquote>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: marked(fetchEssay.quote),
-                }}
-              />
-            </blockquote>
-          </AnimatedSection>
-        )}
         <AnimatedSection>
-          <h2>چکیده</h2>
+          <h2 className="pt-4">چکیده</h2>
           <p>{fetchEssay.summary}</p>
         </AnimatedSection>
         <AnimatedMarkdown content={fetchEssay.content} />

@@ -17,6 +17,5 @@ export const getEssay = async (slug: string): Promise<Essay | null> => {
 
   return {
     ...essay,
-    _id: essay._id?.toString(),
   };
 };

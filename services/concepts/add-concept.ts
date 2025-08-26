@@ -7,7 +7,6 @@ import { Concept } from '@/types/concept';
 interface AddConceptParams {
   slug: string;
   title: string;
-  quote?: string;
   summary: string;
   content: string;
   isActive: 'yes' | 'no';
@@ -26,6 +25,5 @@ export const addConcept = async (
 
   return {
     ...savedConcept.toObject(),
-    _id: savedConcept._id?.toString(),
   };
 };

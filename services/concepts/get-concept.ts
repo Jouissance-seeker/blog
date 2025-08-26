@@ -17,6 +17,5 @@ export const getConcept = async (slug: string): Promise<Concept | null> => {
 
   return {
     ...concept,
-    _id: concept._id?.toString(),
   };
 };

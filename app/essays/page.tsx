@@ -21,7 +21,9 @@ export default async function EssaysPage() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">خانه</Link>
+              <Link href="/" className="pointer-events-none">
+                خانه
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />

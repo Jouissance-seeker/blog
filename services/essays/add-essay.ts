@@ -7,7 +7,6 @@ import { Essay } from '@/types/essay';
 interface AddEssayParams {
   slug: string;
   title: string;
-  quote?: string;
   summary: string;
   content: string;
   isActive: 'yes' | 'no';
@@ -24,6 +23,5 @@ export const addEssay = async (params: AddEssayParams): Promise<Essay> => {
 
   return {
     ...savedEssay.toObject(),
-    _id: savedEssay._id?.toString(),
   };
 };

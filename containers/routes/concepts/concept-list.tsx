@@ -24,7 +24,7 @@ export const ConceptList = (props: ConceptListProps) => {
         <ResultEmpty text="مفهومی یافت نشد ..." />
       ) : (
         filteredConcepts.map((concept, index) => (
-          <AnimatedSection key={concept._id?.toString()}>
+          <AnimatedSection key={concept.id}>
             <ConceptCard
               concept={concept}
               number={filteredConcepts.length - index - 1}

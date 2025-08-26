@@ -31,9 +31,6 @@ export const AnimatedMarkdown = (props: {
         text-align: justify !important;
         color: hsl(var(--muted-foreground)) !important;
       }
-      .prose blockquote p {
-        font-size: 1rem !important;
-      }
       .prose ul,
       .prose ol {
         font-size: 1rem !important;
