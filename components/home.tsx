@@ -9,7 +9,7 @@ export const Home = () => {
   return (
     pathname !== '/' && (
       <Link href="/">
-        <Button className="size-11" size="icon">
+        <Button className="size-10.5" size="icon">
           <HomeIcon className="size-6" />
         </Button>
       </Link>

@@ -103,7 +103,7 @@ export function ModalEssay(props: ModalEssayProps) {
       <Pencil />
     </Button>
   ) : (
-    <Button size={'lg'} className="py-6 px-8">
+    <Button size={'lg'} className="py-5.5 px-8">
       افزودن
     </Button>
   );

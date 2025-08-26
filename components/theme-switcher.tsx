@@ -7,7 +7,7 @@ export const ThemeSwitcher = () => {
   return (
     <Button
       size="icon"
-      className="size-11"
+      className="size-10.5"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
       {theme === 'dark' ? (
