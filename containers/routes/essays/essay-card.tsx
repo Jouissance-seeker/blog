@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Essay } from '@/types/essay';
-import { Card, CardContent, CardFooter, CardHeader } from '@/uis/card';
-import { ArrowUpLeft } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/uis/card';
 
 interface EssayCardProps {
   essay: Essay;
@@ -30,15 +29,6 @@ export const EssayCard = (props: EssayCardProps) => {
           {props.essay.summary}
         </p>
       </CardContent>
-      <CardFooter className="border-t flex items-start justify-between p-2.5">
-        <Link
-          href={`/essays/${props.essay.authors.join('-')}/${props.essay.slug}`}
-          className="border group/link h-fit whitespace-nowrap flex gap-1 items-center bg-card text-card-foreground group hover:bg-accent hover:text-accent-foreground z-10 relative px-2.5 p-1.5 rounded-md"
-        >
-          <p className="text-sm text-foreground">مشاهده بیشتر</p>
-          <ArrowUpLeft className="size-4 text-foreground transition-transform duration-300 group-hover/link:-rotate-45" />
-        </Link>
-      </CardFooter>
     </Card>
   );
 };
