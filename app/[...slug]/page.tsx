@@ -35,7 +35,7 @@ export default async function Page(props: PageProps) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-between gap-2 w-full items-center px-2.5 py-3 rounded-xl border sticky top-[100px] bg-background z-20">
+      <div className="flex justify-between gap-2 w-full items-center px-2.5 py-3 rounded-xl border sticky top-[97px] bg-background z-20">
         <h1 className="text-xl font-bold">{fetchPost.title}</h1>
         <Tags data={fetchPost} />
       </div>

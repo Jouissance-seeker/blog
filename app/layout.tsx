@@ -5,6 +5,7 @@ import { Providers } from './providers';
 import { Header } from '@/containers/layout/header';
 import { cn } from '@/utils/cn';
 import { ReactNode } from 'react';
+import { headers } from 'next/headers';
 
 const iranYekan = localFont({
   src: [
@@ -62,6 +63,9 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout(props: RootLayoutProps) {
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname');
+
   return (
     <html lang="fa" dir="rtl" className="min-h-dvh relative">
       <div className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat filter blur-sm bg-[url('/images/bg.webp')]" />
@@ -69,6 +73,9 @@ export default async function RootLayout(props: RootLayoutProps) {
       <body
         className={cn(
           iranYekan.className,
+          pathname?.includes('/dashboard')
+            ? 'max-w-screen-2xl'
+            : 'max-w-screen-lg',
           'px-3 sm:px-5 container mx-auto h-full',
         )}
       >
