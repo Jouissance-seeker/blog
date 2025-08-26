@@ -13,20 +13,19 @@ export const Tags = ({ data }: TagsProps) => {
     return null;
   }
 
+  const categoryData = category.find((c) => c.en === data.category);
+  const authorNames = data.authors
+    .map((author) => {
+      const authorData = authors.find((a) => a.en === author);
+      return authorData!.fa;
+    })
+    .join(' - ');
+
   return (
     <div className="flex gap-2 flex-wrap">
-      {data.authors.map((author) => (
-        <div
-          key={author}
-          className="border text-sm bg-card text-card-foreground py-1.5 px-3 rounded-md transition-colors"
-        >
-          {(() => {
-            const authorData = authors.find((a) => a.en === author);
-            const categoryData = category.find((c) => c.en === data.category);
-            return `${authorData!.fa} / ${categoryData!.fa}`;
-          })()}
-        </div>
-      ))}
+      <div className="border text-sm bg-card text-card-foreground py-1.5 px-3 rounded-md transition-colors">
+        {`${authorNames} / ${categoryData!.fa}`}
+      </div>
     </div>
   );
 };

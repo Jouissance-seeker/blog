@@ -11,4 +11,8 @@ export const authors = [
     fa: 'کانت',
     en: 'kant',
   },
+  {
+    fa: 'فروید',
+    en: 'freud',
+  },
 ];
