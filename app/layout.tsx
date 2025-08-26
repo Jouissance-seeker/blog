@@ -64,17 +64,12 @@ interface RootLayoutProps {
 export default async function RootLayout(props: RootLayoutProps) {
   return (
     <html lang="fa" dir="rtl" className="min-h-dvh relative">
-      <div
-        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat filter blur-sm"
-        style={{
-          backgroundImage: "url('/images/bg.webp')",
-        }}
-      />
+      <div className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat filter blur-sm bg-[url('/images/bg.webp')]" />
       <div className="absolute inset-0 -z-10 bg-background/80 backdrop-blur-sm" />
       <body
         className={cn(
           iranYekan.className,
-          'px-3 sm:px-5 max-w-screen-lg mx-auto h-full',
+          'px-3 sm:px-5 container mx-auto h-full',
         )}
       >
         <Providers>

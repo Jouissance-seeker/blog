@@ -47,7 +47,7 @@ const TitleFilter = ({ value, onChange }: FilterProps) => (
   <div className="flex h-fit gap-1 bg-card focus-within:border-primary border p-2.5 rounded-lg">
     <SearchIcon className="size-5 text-muted-foreground" />
     <input
-      className="text-sm placeholder:text-muted-foreground text-muted-foreground focus:outline-none flex-1 bg-transparent"
+      className="text-sm placeholder:text-muted-foreground py-0.5 text-muted-foreground focus:outline-none flex-1 bg-transparent"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder="عنوان را وارد کنید ..."
