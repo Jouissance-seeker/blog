@@ -13,9 +13,7 @@ export const EssayCard = (props: EssayCardProps) => {
       <CardHeader className="flex p-2.5 justify-between gap-3 border-b">
         <div className="flex justify-between w-full items-center gap-3">
           <h2 className="font-bold">
-            <Link
-              href={`/essays/${props.essay.authors.join('-')}/${props.essay.slug}`}
-            >
+            <Link href={`/essays/${props.essay.slug}`}>
               {props.essay.title}
             </Link>
           </h2>

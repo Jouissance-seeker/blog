@@ -1,6 +1,5 @@
 'use client';
 
-import { useQueryState } from 'nuqs';
 import { EssayCard } from './essay-card';
 import { Essay } from '@/types/essay';
 import { AnimatedSection } from '../global/animated-section';
@@ -11,27 +10,13 @@ interface EssayListProps {
 }
 
 export const EssayList = (props: EssayListProps) => {
-  const [authors] = useQueryState('authors', { defaultValue: '' });
-
-  let filteredEssays = props.initialEssays
+  const filteredEssays = props.initialEssays
     .filter((essay) => essay.isActive == 'yes')
     .sort(
       (a, b) =>
         new Date(b.createdAt || 0).getTime() -
         new Date(a.createdAt || 0).getTime(),
     );
-
-  if (authors.trim()) {
-    const authorList = authors
-      .split(',')
-      .map((a) => a.trim())
-      .filter(Boolean);
-    if (authorList.length > 0) {
-      filteredEssays = filteredEssays.filter((essay) =>
-        essay.authors?.some((author) => authorList.includes(author)),
-      );
-    }
-  }
 
   return (
     <section className="flex flex-col gap-4">

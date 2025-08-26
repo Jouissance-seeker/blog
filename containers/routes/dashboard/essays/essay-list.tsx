@@ -1,6 +1,5 @@
 'use client';
 
-import { useQueryState } from 'nuqs';
 import {
   Table,
   TableBody,
@@ -11,7 +10,7 @@ import {
 } from '@/uis/table';
 import Link from 'next/link';
 import { ModalEssay } from './modal-essay';
-import { authors } from '@/constants/authors';
+
 import { cn } from '@/utils/cn';
 import { ResultEmpty } from '@/containers/routes/global/result-empty';
 import { Essay } from '@/types/essay';
@@ -22,23 +21,12 @@ interface EssayListProps {
 }
 
 export const EssayList = (props: EssayListProps) => {
-  const [authorsQuery] = useQueryState('authors', { defaultValue: '' });
-  let filteredEssays = [...props.initialEssays].sort(
+  const filteredEssays = [...props.initialEssays].sort(
     (a, b) =>
       new Date(b.createdAt || 0).getTime() -
       new Date(a.createdAt || 0).getTime(),
   );
-  if (authorsQuery.trim()) {
-    const authorList = authorsQuery
-      .split(',')
-      .map((a) => a.trim())
-      .filter(Boolean);
-    if (authorList.length > 0) {
-      filteredEssays = filteredEssays.filter((essay) =>
-        essay.authors?.some((author) => authorList.includes(author)),
-      );
-    }
-  }
+
   if (filteredEssays.length === 0) {
     return <ResultEmpty text="جستاری یافت نشد ..." />;
   }
@@ -49,7 +37,6 @@ export const EssayList = (props: EssayListProps) => {
         <TableRow>
           <TableHead>عنوان</TableHead>
           <TableHead>اسلاگ</TableHead>
-          <TableHead>اندیشمندان</TableHead>
           <TableHead>نمایش</TableHead>
           <TableHead>عملیات</TableHead>
         </TableRow>
@@ -58,19 +45,9 @@ export const EssayList = (props: EssayListProps) => {
         {filteredEssays.map((essay) => (
           <TableRow key={essay._id?.toString()}>
             <TableCell>
-              <Link href={`/essays/${essay.authors.join('-')}/${essay.slug}`}>
-                {essay.title}
-              </Link>
+              <Link href={`/essays/${essay.slug}`}>{essay.title}</Link>
             </TableCell>
             <TableCell>{essay.slug}</TableCell>
-            <TableCell>
-              {essay.authors
-                ?.map((author) => {
-                  const authorData = authors.find((a) => a.en === author);
-                  return authorData ? authorData.fa : author;
-                })
-                .join(' - ')}
-            </TableCell>
             <TableCell>
               <span
                 className={cn(

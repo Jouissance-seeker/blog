@@ -13,9 +13,7 @@ export const ConceptCard = (props: ConceptCardProps) => {
       <CardHeader className="flex p-2.5 justify-between gap-3 border-b">
         <div className="flex justify-between w-full items-center gap-3">
           <h2 className="font-bold">
-            <Link
-              href={`/concepts/${props.concept.author}/${props.concept.slug}`}
-            >
+            <Link href={`/concepts/${props.concept.slug}`}>
               {props.concept.title}
             </Link>
           </h2>

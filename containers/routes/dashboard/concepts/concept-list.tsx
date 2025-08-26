@@ -1,6 +1,5 @@
 'use client';
 
-import { useQueryState } from 'nuqs';
 import {
   Table,
   TableBody,
@@ -21,23 +20,11 @@ interface ConceptListProps {
 }
 
 export const ConceptList = (props: ConceptListProps) => {
-  const [authorsQuery] = useQueryState('authors', { defaultValue: '' });
-  let filteredConcepts = [...props.initialConcepts].sort(
+  const filteredConcepts = [...props.initialConcepts].sort(
     (a, b) =>
       new Date(b.createdAt || 0).getTime() -
       new Date(a.createdAt || 0).getTime(),
   );
-  if (authorsQuery.trim()) {
-    const authorList = authorsQuery
-      .split(',')
-      .map((a) => a.trim())
-      .filter(Boolean);
-    if (authorList.length > 0) {
-      filteredConcepts = filteredConcepts.filter((concept) =>
-        authorList.includes(concept.author),
-      );
-    }
-  }
   if (filteredConcepts.length === 0) {
     return <ResultEmpty text="مفهومی یافت نشد ..." />;
   }
@@ -48,7 +35,6 @@ export const ConceptList = (props: ConceptListProps) => {
         <TableRow>
           <TableHead>عنوان</TableHead>
           <TableHead>اسلاگ</TableHead>
-          <TableHead>اندیشمندان</TableHead>
           <TableHead>نمایش</TableHead>
           <TableHead>عملیات</TableHead>
         </TableRow>
@@ -57,12 +43,9 @@ export const ConceptList = (props: ConceptListProps) => {
         {filteredConcepts.map((concept) => (
           <TableRow key={concept._id?.toString()}>
             <TableCell>
-              <Link href={`/concepts/${concept.author}/${concept.slug}`}>
-                {concept.title}
-              </Link>
+              <Link href={`/concepts/${concept.slug}`}>{concept.title}</Link>
             </TableCell>
             <TableCell>{concept.slug}</TableCell>
-            <TableCell>{concept.author}</TableCell>
             <TableCell>
               <span
                 className={cn(
