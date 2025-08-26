@@ -27,9 +27,9 @@ interface PageProps {
   params: Promise<{ slug: string[] }>;
 }
 
-export default async function EssayPage({ params }: PageProps) {
-  const { slug } = await params;
-  const fetchEssay = await getEssay(slug);
+export default async function EssayPage(props: PageProps) {
+  const { slug } = await props.params;
+  const fetchEssay = await getEssay(slug[0]);
 
   if (!fetchEssay) {
     notFound();
