@@ -1,8 +1,8 @@
 import { marked } from 'marked';
 import { AnimatedSection } from './animated-section';
 
-export const AnimatedMarkdown = ({ content }: { content: string }) => {
-  const tokens = marked.lexer(content);
+export const AnimatedMarkdown = (props: { content: string }) => {
+  const tokens = marked.lexer(props.content);
   return (
     <>
       {tokens.map((token, index) => {

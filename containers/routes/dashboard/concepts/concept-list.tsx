@@ -20,9 +20,9 @@ interface ConceptListProps {
   initialConcepts: Concept[];
 }
 
-export const ConceptList = ({ initialConcepts }: ConceptListProps) => {
+export const ConceptList = (props: ConceptListProps) => {
   const [authorsQuery] = useQueryState('authors', { defaultValue: '' });
-  let filteredConcepts = [...initialConcepts].sort(
+  let filteredConcepts = [...props.initialConcepts].sort(
     (a, b) =>
       new Date(b.createdAt || 0).getTime() -
       new Date(a.createdAt || 0).getTime(),

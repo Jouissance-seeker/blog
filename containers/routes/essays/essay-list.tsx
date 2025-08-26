@@ -10,10 +10,10 @@ interface EssayListProps {
   initialEssays: Essay[];
 }
 
-export const EssayList = ({ initialEssays }: EssayListProps) => {
+export const EssayList = (props: EssayListProps) => {
   const [authors] = useQueryState('authors', { defaultValue: '' });
 
-  let filteredEssays = initialEssays
+  let filteredEssays = props.initialEssays
     .filter((essay) => essay.isActive == 'yes')
     .sort(
       (a, b) =>

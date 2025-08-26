@@ -21,9 +21,9 @@ interface EssayListProps {
   initialEssays: Essay[];
 }
 
-export const EssayList = ({ initialEssays }: EssayListProps) => {
+export const EssayList = (props: EssayListProps) => {
   const [authorsQuery] = useQueryState('authors', { defaultValue: '' });
-  let filteredEssays = [...initialEssays].sort(
+  let filteredEssays = [...props.initialEssays].sort(
     (a, b) =>
       new Date(b.createdAt || 0).getTime() -
       new Date(a.createdAt || 0).getTime(),

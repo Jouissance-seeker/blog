@@ -1,10 +1,10 @@
 'use client';
 
 import { Toaster } from '@/uis/sonner';
-import { Suspense } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers(props: PropsWithChildren) {
   return (
     <NuqsAdapter>
       <Toaster
@@ -13,7 +13,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           className: '!font-inherit',
         }}
       />
-      <Suspense>{children}</Suspense>
+      <Suspense>{props.children}</Suspense>
     </NuqsAdapter>
   );
 }

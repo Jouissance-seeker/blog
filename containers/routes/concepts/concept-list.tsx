@@ -10,10 +10,10 @@ interface ConceptListProps {
   initialConcepts: Concept[];
 }
 
-export const ConceptList = ({ initialConcepts }: ConceptListProps) => {
+export const ConceptList = (props: ConceptListProps) => {
   const [authors] = useQueryState('authors', { defaultValue: '' });
 
-  let filteredConcepts = initialConcepts
+  let filteredConcepts = props.initialConcepts
     .filter((concept) => concept.isActive == 'yes')
     .sort(
       (a, b) =>
