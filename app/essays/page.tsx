@@ -9,6 +9,7 @@ import {
   BreadcrumbList,
 } from '@/uis/breadcrumb';
 import Link from 'next/link';
+import { AnimatedSection } from '@/containers/global/animated-section';
 
 export const dynamic = 'force-static';
 
@@ -17,21 +18,23 @@ export default async function EssaysPage() {
 
   return (
     <>
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/" className="pointer-events-none">
-                خانه
-              </Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>جستار ها</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <AnimatedSection>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/" className="pointer-events-none">
+                  خانه
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>جستار ها</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </AnimatedSection>
       <EssayList initialEssays={essays} />
     </>
   );

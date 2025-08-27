@@ -1,7 +1,7 @@
 'use client';
 
 import { marked } from 'marked';
-import { AnimatedSection } from './animated-section';
+import { AnimatedSection } from '../../global/animated-section';
 import { cn } from '@/utils/cn';
 import { useEffect } from 'react';
 

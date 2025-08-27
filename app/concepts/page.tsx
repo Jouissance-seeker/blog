@@ -1,4 +1,5 @@
 import { ConceptList } from '@/containers/routes/concepts/concept-list';
+import { AnimatedSection } from '@/containers/global/animated-section';
 import { getConcepts } from '@/services/concepts/get-concepts';
 import {
   Breadcrumb,
@@ -17,21 +18,23 @@ export default async function ConceptsPage() {
 
   return (
     <>
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/" className="pointer-events-none">
-                خانه
-              </Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>مفاهیم</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <AnimatedSection>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/" className="pointer-events-none">
+                  خانه
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>مفاهیم</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </AnimatedSection>
       <ConceptList initialConcepts={fetchConcepts} />
     </>
   );

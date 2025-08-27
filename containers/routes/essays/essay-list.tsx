@@ -2,7 +2,7 @@
 
 import { EssayCard } from './essay-card';
 import { Essay } from '@/types/essay';
-import { AnimatedSection } from '../global/animated-section';
+import { AnimatedSection } from '../../global/animated-section';
 import { ResultEmpty } from '../global/result-empty';
 
 interface EssayListProps {

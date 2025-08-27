@@ -3,7 +3,7 @@
 import { ConceptCard } from './concept-card';
 import { ResultEmpty } from '@/containers/routes/global/result-empty';
 import { Concept } from '@/types/concept';
-import { AnimatedSection } from '../global/animated-section';
+import { AnimatedSection } from '../../global/animated-section';
 
 interface ConceptListProps {
   initialConcepts: Concept[];
