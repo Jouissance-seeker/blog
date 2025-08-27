@@ -4,31 +4,13 @@ import connectDB from '@/lib/mongodb';
 import { ConceptModel } from '@/models/concept';
 import { Concept } from '@/types/concept';
 
-interface EditConceptParams {
-  id: string;
-  slug?: string;
-  title?: string;
-  summary?: string;
-  content?: string;
-  isActive?: 'yes' | 'no';
-}
-
-export const editConcept = async (
-  params: EditConceptParams,
-): Promise<Concept | null> => {
+export const editConcept = async (params: Concept): Promise<Concept | null> => {
   await connectDB();
-
-  const { id, ...updateData } = params;
-
-  const updatedConcept = await ConceptModel.findByIdAndUpdate(
-    id,
-    { ...updateData },
-    { new: true, runValidators: true },
-  ).lean<Concept>();
-
+  const updatedConcept = await ConceptModel.findByIdAndUpdate(params.id, {
+    ...params,
+  });
   if (!updatedConcept) {
     return null;
   }
-
-  return updatedConcept;
+  return updatedConcept.toObject();
 };

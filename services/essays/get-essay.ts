@@ -6,14 +6,9 @@ import { Essay } from '@/types/essay';
 
 export const getEssay = async (slug: string): Promise<Essay | null> => {
   await connectDB();
-
-  const essaySlug = slug;
-
   const essay = await EssayModel.findOne({
-    slug: essaySlug,
+    slug,
   });
-
   if (!essay) return null;
-
   return essay.toObject();
 };

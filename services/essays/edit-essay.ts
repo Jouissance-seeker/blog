@@ -6,18 +6,11 @@ import { Essay } from '@/types/essay';
 
 export const editEssay = async (params: Essay): Promise<Essay | null> => {
   await connectDB();
-
-  const { id, ...updateData } = params;
-
-  const updatedEssay = await EssayModel.findByIdAndUpdate(
-    id,
-    { ...updateData },
-    { new: true, runValidators: true },
-  ).lean<Essay>();
-
+  const updatedEssay = await EssayModel.findByIdAndUpdate(params.id, {
+    ...params,
+  });
   if (!updatedEssay) {
     return null;
   }
-
-  return updatedEssay;
+  return updatedEssay.toObject();
 };

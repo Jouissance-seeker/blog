@@ -11,10 +11,6 @@ export const deleteConcept = async (
   params: DeleteConceptParams,
 ): Promise<boolean> => {
   await connectDB();
-
-  const { id } = params;
-
-  const deletedConcept = await ConceptModel.findByIdAndDelete(id);
-
+  const deletedConcept = await ConceptModel.findByIdAndDelete(params.id);
   return !!deletedConcept;
 };

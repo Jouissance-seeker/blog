@@ -11,10 +11,6 @@ export const deleteEssay = async (
   params: DeleteEssayParams,
 ): Promise<boolean> => {
   await connectDB();
-
-  const { id } = params;
-
-  const deletedEssay = await EssayModel.findByIdAndDelete(id);
-
+  const deletedEssay = await EssayModel.findByIdAndDelete(params.id);
   return !!deletedEssay;
 };

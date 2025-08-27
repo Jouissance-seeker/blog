@@ -6,8 +6,6 @@ import { Concept } from '@/types/concept';
 
 export const getConcepts = async (): Promise<Concept[]> => {
   await connectDB();
-
-  const concepts = await ConceptModel.find({ isActive: 'yes' });
-
+  const concepts = await ConceptModel.find();
   return concepts.map((concept) => concept.toObject());
 };
