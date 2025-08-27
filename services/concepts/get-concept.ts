@@ -11,11 +11,9 @@ export const getConcept = async (slug: string): Promise<Concept | null> => {
 
   const concept = await ConceptModel.findOne({
     slug: conceptSlug,
-  }).lean<Concept>();
+  });
 
   if (!concept) return null;
 
-  return {
-    ...concept,
-  };
+  return concept.toObject();
 };

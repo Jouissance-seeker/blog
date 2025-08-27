@@ -11,11 +11,9 @@ export const getEssay = async (slug: string): Promise<Essay | null> => {
 
   const essay = await EssayModel.findOne({
     slug: essaySlug,
-  }).lean<Essay>();
+  });
 
   if (!essay) return null;
 
-  return {
-    ...essay,
-  };
+  return essay.toObject();
 };

@@ -21,7 +21,5 @@ export const addEssay = async (params: AddEssayParams): Promise<Essay> => {
 
   const savedEssay = await newEssay.save();
 
-  return {
-    ...savedEssay.toObject(),
-  };
+  return savedEssay;
 };

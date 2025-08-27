@@ -19,7 +19,5 @@ export const editEssay = async (params: Essay): Promise<Essay | null> => {
     return null;
   }
 
-  return {
-    ...updatedEssay,
-  };
+  return updatedEssay;
 };

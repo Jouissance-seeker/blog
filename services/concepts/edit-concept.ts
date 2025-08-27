@@ -30,7 +30,5 @@ export const editConcept = async (
     return null;
   }
 
-  return {
-    ...updatedConcept,
-  };
+  return updatedConcept;
 };

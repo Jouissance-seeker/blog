@@ -23,7 +23,5 @@ export const addConcept = async (
 
   const savedConcept = await newConcept.save();
 
-  return {
-    ...savedConcept.toObject(),
-  };
+  return savedConcept;
 };
