@@ -1,18 +1,4 @@
-export const authors = [
-  {
-    fa: 'لکان',
-    en: 'lacan',
-  },
-  {
-    fa: 'یونگ',
-    en: 'jung',
-  },
-  {
-    fa: 'کانت',
-    en: 'kant',
-  },
-  {
-    fa: 'فروید',
-    en: 'freud',
-  },
-];
+export const authorsToFa = {
+  'jacques-lacan': 'ژک لکان',
+  'immanuel-kant': 'ایمانوئل کانت',
+};

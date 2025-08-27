@@ -12,6 +12,7 @@ import {
   BreadcrumbLink,
 } from '@/uis/breadcrumb';
 import Link from 'next/link';
+import { authorsToFa } from '@/constants/authors';
 
 export const dynamic = 'force-static';
 
@@ -49,6 +50,28 @@ export default async function ConceptPage(props: PageProps) {
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
               <Link href="/concepts">مفاهیم</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link
+                href={{
+                  pathname: '/concepts',
+                  query: {
+                    'filter-concept-authors':
+                      fetchConcept.slug.match(/^[^-]+-[^-]+/)?.[0],
+                  },
+                }}
+              >
+                {
+                  authorsToFa[
+                    fetchConcept.slug.match(
+                      /^[^-]+-[^-]+/,
+                    )?.[0] as keyof typeof authorsToFa
+                  ]
+                }
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
